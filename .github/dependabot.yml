@@ -8,6 +8,8 @@ updates:
       day: monday
       timezone: America/Monterrey
     open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
     groups:
       next-react:
         patterns: ["next", "react", "react-dom", "eslint-config-next", "@types/react", "@types/react-dom"]
@@ -24,5 +26,7 @@ updates:
       interval: weekly
       day: monday
       timezone: America/Monterrey
+    cooldown:
+      default-days: 7
     commit-message:
       prefix: ci
