@@ -3,7 +3,8 @@
  *
  * Todo valor de diseño viene de tokens.css. Las utilidades de aquí son las que
  * usan varias secciones a la vez: contenedor, texto solo para lectores de
- * pantalla, enlace para saltar al contenido y la esquina biselada de la marca.
+ * pantalla, enlace para saltar al contenido y la esquina biselada de la marca,
+ * sola o con su borde completo (chamfer-frame) para tarjetas.
  */
 
 *,
@@ -152,6 +153,31 @@ button {
     0 100%,
     0 var(--chamfer-sm)
   );
+}
+
+.chamfer-frame {
+  --frame-color: var(--color-line);
+  --frame-cut: var(--chamfer-lg);
+  --frame-corner: linear-gradient(
+    to bottom right,
+    transparent calc(50% - var(--border-width)),
+    var(--frame-color) calc(50% - var(--border-width)),
+    var(--frame-color) calc(50% + var(--border-width) / 2),
+    transparent calc(50% + var(--border-width) / 2)
+  );
+  clip-path: polygon(
+    var(--frame-cut) 0,
+    100% 0,
+    100% calc(100% - var(--frame-cut)),
+    calc(100% - var(--frame-cut)) 100%,
+    0 100%,
+    0 var(--frame-cut)
+  );
+  background-image: var(--frame-corner), var(--frame-corner);
+  background-position: top left, bottom right;
+  background-size: var(--frame-cut) var(--frame-cut);
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 var(--border-width) var(--frame-color);
 }
 
 @media (prefers-reduced-motion: reduce) {
