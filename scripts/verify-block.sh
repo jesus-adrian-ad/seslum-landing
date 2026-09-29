@@ -154,8 +154,7 @@ gate_axe() {
     echo "axe-core necesita una URL. Pasa --url http://localhost:PUERTO"
     return 1
   fi
-  npx --yes @axe-core/cli "$URL" --exit \
-    --tags wcag2a,wcag2aa,wcag21a,wcag21aa
+  node scripts/axe-check.mjs --url "$URL"
 }
 
 # --- Gate 7: responsive ------------------------------------------------------

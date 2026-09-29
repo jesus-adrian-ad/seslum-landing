@@ -168,10 +168,7 @@ jobs:
         run: node scripts/console-smoke.mjs --url http://localhost:8788
 
       - name: axe-core
-        run: |
-          npx --yes @axe-core/cli http://localhost:8788 \
-            --exit \
-            --tags wcag2a,wcag2aa,wcag21a,wcag21aa
+        run: node scripts/axe-check.mjs --url http://localhost:8788
 
       - name: QA responsive (7 anchos)
         run: node scripts/responsive-shots.mjs --url http://localhost:8788 --ci
