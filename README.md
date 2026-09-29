@@ -17,8 +17,8 @@ y sistemas para tu negocio.
 |---|---|---|---|---|
 | 0 | Fundaciones | `feature/foundations` | ✅ Publicado | #1 |
 | 1 | Navbar | `feature/navbar` | ✅ Publicado | #2 |
-| 2 | Encabezado | `feature/hero` | 🔨 En PR | — |
-| 3 | Servicios | `feature/services` | ⏳ Pendiente | — |
+| 2 | Encabezado | `feature/hero` | ✅ Publicado | — |
+| 3 | Servicios | `feature/services` | 🔨 En PR | — |
 | 4 | Sectores | `feature/sectors` | ⏳ Pendiente | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ⏳ Pendiente | — |
 | 6 | Proyectos | `feature/projects` | ⏳ Pendiente | — |
@@ -29,7 +29,7 @@ y sistemas para tu negocio.
 | 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 3 · Servicios
+**Siguiente bloque:** 4 · Sectores
 
 ---
 
@@ -92,10 +92,10 @@ en este repo.
 ```
 src/
 ├── app/                    # rutas de Next: layout, página, 404, robots, sitemap, ícono
-├── components/             # piezas reutilizables (ButtonLink, TagManager, StructuredData)
+├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, ServiceIcon, TagManager, StructuredData)
 ├── content/site.json       # datos del cliente: nombre, contacto, horario, SEO
 ├── fonts/                  # Source Sans 3 variable (OFL)
-├── lib/                    # lógica pura y probada: medición, consentimiento, GTM, SEO, JSON-LD
+├── lib/                    # lógica pura y probada: medición, consentimiento, GTM, SEO, JSON-LD, entrada al scroll, validación de contenido
 ├── sections/               # una por bloque, con su CSS Module al lado
 ├── styles/
 │   ├── tokens.css          # único lugar con valores de diseño literales
@@ -126,6 +126,16 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - CSP estricta con hashes calculados en cada build y página 404 propia.
 - Workflow de CI con los gates y despliegue por Direct Upload.
 - Marcador temporal en la página principal, que se retira con el primer bloque visible.
+- **Pendiente: vista previa al compartir el link (Open Graph).** Hoy WhatsApp,
+  LinkedIn y demás muestran solo título y descripción. Se resuelve cuando llegue
+  el logo SVG, en su propia rama (`fix/open-graph`):
+  1. Imagen 1200×630 en JPG (< 300 KB) generada por script desde una plantilla,
+     con `og:image`, dimensiones, `alt` y tarjeta `summary_large_image`.
+  2. `metadataBase` por entorno: producción `seslum.com.mx`, staging la URL de su
+     rama en `pages.dev` (hoy todo apunta al sitio de GoDaddy).
+  3. `robots.txt` de staging que deje pasar a los lectores de vista previa;
+     Google sigue fuera por el `noindex`.
+  4. `Cross-Origin-Resource-Policy: cross-origin` solo para la imagen de vista previa.
 
 ### 1 · Navbar
 
@@ -134,8 +144,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Logo placeholder con `srcset` (124/142 px y sus versiones 2x), respetando el
   ancho mínimo de 120 px del manual de marca. Enlaza a `#inicio`.
 - Desde 1180 px: los 5 enlaces a las secciones y un indicador que se desliza bajo
-  la sección visible (`aria-current="location"`). El indicador se activa solo
-  cuando las secciones existen en la página; se valida con el bloque de Servicios.
+  la sección visible (`aria-current="location"`). Verificado con Servicios: al
+  llegar a `#servicios` el indicador se coloca bajo su enlace.
 - Por debajo de 1180 px: menú a pantalla completa en un `<dialog>` modal. Foco
   atrapado, cierre con Esc y regreso del foco al botón. Se revela con un recorte
   hexagonal que nace del botón, con los enlaces entrando uno por uno.
@@ -169,6 +179,28 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   en móvil vertical se ve suave; con una foto profesional de ≥ 2400 px de ancho
   se regeneran las variantes con el mismo comando, sin tocar código.
 
+### 3 · Servicios
+
+- `#servicios`: encabezado "Qué hacemos", tres tarjetas por especialidad
+  (seguridad electrónica, protección contra incendios, infraestructura) y una
+  franja con los dos servicios que aplican a todas las líneas: diez en total.
+- Una columna en móvil y tres desde 900 px; la franja pasa a dos columnas desde
+  768 px. Tarjetas con la esquina biselada y su borde completo (`.chamfer-frame`).
+- Entrada al hacer scroll (`ScrollReveal`, reutilizable por las siguientes
+  secciones): el encabezado y las tarjetas entran en cascada y el trazo de cada
+  ícono se dibuja fila por fila. Es mejora progresiva: el HTML sale visible y solo
+  se oculta para animarse lo que aún no está en pantalla cuando GSAP carga. Sin
+  JavaScript o con movimiento reducido, la sección se ve completa.
+- Al pasar el cursor por un servicio, su ícono se aclara y aparece una línea de
+  acento en el borde de la tarjeta. Solo con puntero (`hover: hover`); las filas
+  no son interactivas, así que no reciben foco.
+- Encabezado de sección reutilizable (`SectionHeading`) e íconos de línea como
+  componente (`ServiceIcon`), tomados del prototipo.
+- Contenido en `src/content/sections/services.json`. Los íconos se validan en el
+  build (`src/lib/services-content.ts`): un nombre mal capturado detiene la
+  publicación con la ruta exacta del error.
+- Textos del prototipo, pendientes de aprobación de marketing.
+
 ---
 
 ## Design system
@@ -188,7 +220,8 @@ Tokens en `src/styles/tokens.css`.
 **Tipografía:** Source Sans 3 variable, pesos 300 a 900. Tamaño mínimo de texto
 14 px (`--fs-small`, `--fs-eyebrow`), por regla del método: el prototipo usaba
 10.5–12.5 px en etiquetas y enlaces.
-**Firma visual:** esquinas biseladas (`.chamfer-lg`, `.chamfer-md`, `.chamfer-sm`).
+**Firma visual:** esquinas biseladas (`.chamfer-lg`, `.chamfer-md`, `.chamfer-sm`) y,
+para tarjetas con borde, `.chamfer-frame` (dibuja también la línea del bisel).
 **Breakpoints:** 375 · 768 · 1024 · 1180 (navbar) · 1440 (mobile-first, `min-width`).
 **QA responsive:** 320 · 375 · 425 · 768 · 1024 · 1440 · 2560.
 
@@ -318,6 +351,14 @@ anterior desde el panel de Pages.
   y sin ampliar nunca. Solo WebP: AVIF pesaba lo mismo en estas fotos.
 - **29/sep/2026** — axe y el QA responsive auditan con movimiento reducido: miden
   el estado final, no un fotograma a mitad de una animación de entrada.
+- **29/sep/2026** — Entrada al scroll como mejora progresiva (`ScrollReveal`).
+  El contenido nunca depende de JavaScript para verse: GSAP solo oculta y anima lo
+  que todavía está fuera de pantalla cuando termina de cargar, así nada parpadea.
+  Oculta con `opacity` y no con `visibility`, para que un lector de pantalla siga
+  encontrando ese contenido antes del scroll.
+- **29/sep/2026** — Las filas de servicios no reciben foco de teclado. No son
+  enlaces ni controles; hacerlas enfocables solo agregaría paradas vacías al
+  recorrido con Tab. El efecto al pasar el cursor es decorativo.
 - **28/sep/2026** — Imágenes sin metadatos (`scripts/strip-image-metadata.mjs`,
   gate `images:check` en CI). El puente de archivos del entorno de desarrollo
   añade un manifiesto C2PA de ~6 KB a cada imagen, y las fotos de obra pueden
