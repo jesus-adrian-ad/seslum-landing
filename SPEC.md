@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 0 (Fundaciones) · Última actualización: 28/sep/2026
+> Estado: Bloque 1 (Navbar) · Última actualización: 28/sep/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -36,8 +36,8 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 
 | # | Sección | Slug (rama) | Qué contiene | Estado |
 |---|---|---|---|---|
-| 0 | Fundaciones | `foundations` | Next.js estático, tokens, layout, SEO, GTM + Consent Mode, CSP, CI, deploy | En PR |
-| 1 | Navbar | `navbar` | Barra fija, logo, 5 enlaces (≥ 1180 px), CTA, menú hamburguesa animado (< 1180 px) | Pendiente |
+| 0 | Fundaciones | `foundations` | Next.js estático, tokens, layout, SEO, GTM + Consent Mode, CSP, CI, deploy | Publicado |
+| 1 | Navbar | `navbar` | Barra fija, logo, 5 enlaces (≥ 1180 px), CTA, menú hamburguesa animado (< 1180 px) | En PR |
 | 2 | Encabezado | `hero` | Foto de obra a pantalla completa, título, 2 CTA, panel "Líneas integradas" | Pendiente |
 | 3 | Servicios | `services` | 3 especialidades + 2 servicios transversales (10 capacidades) | Pendiente |
 | 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles, sin desplazar la página | Pendiente |
@@ -162,6 +162,6 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [ ] Primer bloque de textos (Danna).
 - [ ] Aviso de privacidad (cliente) — bloquea `contact-form`.
 - [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.
-- [ ] Tamaños de texto: el prototipo usa 10.5–12.5 px en etiquetas y descripciones; el QA del método pide ≥ 14 px. Se resuelve con Adrián antes del bloque `hero`.
+- [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.
 - [ ] Mensaje precargado de WhatsApp (Danna).
 - [ ] Perfil de LinkedIn.

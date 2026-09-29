@@ -15,8 +15,8 @@ y sistemas para tu negocio.
 
 | # | Sección | Rama | Estado | PR |
 |---|---|---|---|---|
-| 0 | Fundaciones | `feature/foundations` | 🔨 En PR | — |
-| 1 | Navbar | `feature/navbar` | ⏳ Pendiente | — |
+| 0 | Fundaciones | `feature/foundations` | ✅ Publicado | #1 |
+| 1 | Navbar | `feature/navbar` | 🔨 En PR | — |
 | 2 | Encabezado | `feature/hero` | ⏳ Pendiente | — |
 | 3 | Servicios | `feature/services` | ⏳ Pendiente | — |
 | 4 | Sectores | `feature/sectors` | ⏳ Pendiente | — |
@@ -29,7 +29,7 @@ y sistemas para tu negocio.
 | 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 1 · Navbar
+**Siguiente bloque:** 2 · Encabezado
 
 ---
 
@@ -40,7 +40,7 @@ y sistemas para tu negocio.
 | Framework | Next.js 16 (App Router), exportación estática (`output: "export"`) |
 | Lenguaje | TypeScript estricto |
 | Estilos | CSS plano con design tokens |
-| Animación | GSAP (a partir del bloque 2) |
+| Animación | GSAP + ScrollTrigger (`src/lib/motion.ts`) |
 | Formularios | Cloudflare Pages Function (bloque 10) |
 | Medición | Google Tag Manager → GA4, con Consent Mode v2 |
 | Pruebas | Vitest (`src/lib`) |
@@ -62,6 +62,7 @@ npm run preview      # http://localhost:8788 — sirve out/ con las cabeceras re
 npm run lint         # ESLint, cero advertencias
 npm run typecheck
 npm test
+npm run images:strip # quita EXIF, XMP y C2PA de las imágenes (images:check solo verifica)
 ```
 
 `npm run preview` es la forma correcta de revisar el sitio antes de un PR: aplica
@@ -90,11 +91,11 @@ en este repo.
 ```
 src/
 ├── app/                    # rutas de Next: layout, página, 404, robots, sitemap, ícono
-├── components/             # piezas reutilizables (TagManager, StructuredData)
+├── components/             # piezas reutilizables (ButtonLink, TagManager, StructuredData)
 ├── content/site.json       # datos del cliente: nombre, contacto, horario, SEO
 ├── fonts/                  # Source Sans 3 variable (OFL)
 ├── lib/                    # lógica pura y probada: medición, consentimiento, GTM, SEO, JSON-LD
-├── sections/               # una por bloque (a partir del bloque 1)
+├── sections/               # una por bloque, con su CSS Module al lado
 ├── styles/
 │   ├── tokens.css          # único lugar con valores de diseño literales
 │   ├── base.css            # reset y utilidades globales
@@ -125,6 +126,25 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Workflow de CI con los gates y despliegue por Direct Upload.
 - Marcador temporal en la página principal, que se retira con el primer bloque visible.
 
+### 1 · Navbar
+
+- Barra fija con desenfoque. Al pasar 48 px de scroll se compacta (68 → 56 px) y
+  una línea de 2 px en el color de acento marca el avance de lectura.
+- Logo placeholder con `srcset` (124/142 px y sus versiones 2x), respetando el
+  ancho mínimo de 120 px del manual de marca. Enlaza a `#inicio`.
+- Desde 1180 px: los 5 enlaces a las secciones y un indicador que se desliza bajo
+  la sección visible (`aria-current="location"`). El indicador se activa solo
+  cuando las secciones existen en la página; se valida con el bloque de Servicios.
+- Por debajo de 1180 px: menú a pantalla completa en un `<dialog>` modal. Foco
+  atrapado, cierre con Esc y regreso del foco al botón. Se revela con un recorte
+  hexagonal que nace del botón, con los enlaces entrando uno por uno.
+- CTA "Solicitar cotización" con alto mínimo de 44 px; por debajo de 480 px dice
+  "Cotizar" para caber en 320 px sin desbordar.
+- Contenido en `src/content/sections/navbar.json`; componente reutilizable nuevo:
+  `ButtonLink` (variantes `primary` y `outline`, texto corto opcional).
+- Con `prefers-reduced-motion` no hay animaciones de entrada ni de menú; la línea
+  de avance sigue al scroll porque la controla el visitante.
+
 ---
 
 ## Design system
@@ -141,7 +161,9 @@ Tokens en `src/styles/tokens.css`.
 | `--color-signal` | `#23B5E9` | Acento y CTA sobre oscuro; no usar sobre blanco |
 | `--color-paper` | `#F0F1FA` | Texto principal |
 
-**Tipografía:** Source Sans 3 variable, pesos 300 a 900.
+**Tipografía:** Source Sans 3 variable, pesos 300 a 900. Tamaño mínimo de texto
+14 px (`--fs-small`, `--fs-eyebrow`), por regla del método: el prototipo usaba
+10.5–12.5 px en etiquetas y enlaces.
 **Firma visual:** esquinas biseladas (`.chamfer-lg`, `.chamfer-md`, `.chamfer-sm`).
 **Breakpoints:** 375 · 768 · 1024 · 1180 (navbar) · 1440 (mobile-first, `min-width`).
 **QA responsive:** 320 · 375 · 425 · 768 · 1024 · 1440 · 2560.
@@ -173,7 +195,7 @@ Gates en cada PR (`.github/workflows/quality-gates.yml`):
 |---|---|---|
 | Secretos | Gitleaks | 0 hallazgos |
 | Dependencias | npm audit + OSV-Scanner | 0 high/critical |
-| Código | Semgrep (`p/default`, `p/secrets` y reglas propias) + ESLint + tsc + Vitest | 0 hallazgos, 0 advertencias |
+| Código | Semgrep (`p/default`, `p/secrets` y reglas propias) + ESLint + tsc + Vitest + `images:check` | 0 hallazgos, 0 advertencias, imágenes sin metadatos |
 | Cabeceras | Verificación de `public/_headers` | CSP sin `unsafe-*` |
 | Web | Lighthouse CI (build de producción) | ≥ 90 en las 4 categorías (móvil) |
 | Consola | `scripts/console-smoke.mjs` sobre `wrangler pages dev` | 0 errores, advertencias o violaciones de CSP |
@@ -196,6 +218,7 @@ node scripts/responsive-shots.mjs --url http://localhost:8788 --section <slug>
 | `prefer-rest-params` apagado solo en `TagManager.tsx` | Consent Mode de GTM solo reconoce comandos publicados como objeto `arguments`; con un arreglo, los ignora sin avisar | 28/sep/2026 | Que Google acepte arreglos en el `dataLayer` para comandos de consentimiento |
 | `network-dependency-tree-insight` como advertencia en Lighthouse | Es un *insight* informativo de Lighthouse 12.6 que no afecta la calificación; el preset lo evalúa como error | 28/sep/2026 | Que el preset de LHCI lo excluya |
 | `legacy-javascript-insight` como advertencia en Lighthouse | Next.js mete siempre en su bundle principal un módulo de polyfills (`Array.prototype.at`, `flat`, `Object.fromEntries`, ~13 KB) que no se puede quitar por configuración. Es parte del costo de haber elegido Next; no afecta la calificación de Performance | 28/sep/2026 | Que Next permita desactivar `polyfill-module` para navegadores modernos |
+| `@next/next/no-img-element` apagado | Con exportación estática, `next/image` no optimiza y además escribe `style="color:transparent"`, que la CSP bloquea. Las imágenes se entregan ya optimizadas (WebP, `srcset`, `width`/`height`) | 28/sep/2026 | Un loader de imágenes que no escriba estilos en línea |
 | ESLint 9 en lugar de 10 | `eslint-plugin-react` (incluido en `eslint-config-next`) todavía no es compatible con ESLint 10 | 28/sep/2026 | Soporte de ESLint 10 en `eslint-plugin-react` |
 
 ---
@@ -255,6 +278,18 @@ anterior desde el panel de Pages.
 - **28/sep/2026** — axe-core con Playwright en lugar de `@axe-core/cli`. La CLI
   necesita que ChromeDriver y Chrome tengan la misma versión, y en CI se rompió en
   cuanto el runner actualizó uno sin el otro. Playwright trae su propio navegador.
+- **28/sep/2026** — GSAP 3 + `@gsap/react` como motor de animación. El chunk
+  con GSAP, ScrollTrigger y el navbar pesa ≈ 46 KB gz, medido en el build. Da control fino de timelines y scroll que CSS no cubre, y
+  su licencia es gratuita para uso comercial. Todo movimiento pasa por
+  `gsap.matchMedia` o por `prefers-reduced-motion`.
+- **28/sep/2026** — Imágenes sin metadatos (`scripts/strip-image-metadata.mjs`,
+  gate `images:check` en CI). El puente de archivos del entorno de desarrollo
+  añade un manifiesto C2PA de ~6 KB a cada imagen, y las fotos de obra pueden
+  traer la ubicación GPS en su EXIF. Ninguna de las dos cosas debe publicarse.
+- **28/sep/2026** — Menú móvil con `<dialog>` nativo: el navegador resuelve foco
+  atrapado, Esc y fondo inerte, sin librería.
+- **28/sep/2026** — Tamaño mínimo de texto de 14 px y alto táctil de 44 px, por
+  encima del prototipo. Lo dicta el método; visualmente casi no cambia.
 - **28/sep/2026** — Dependabot con `cooldown` de 7 días. Una versión recién
   publicada puede venir comprometida; esperar una semana deja que la comunidad la
   detecte antes de que llegue a este repo.

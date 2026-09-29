@@ -19,14 +19,18 @@
   --color-bg: var(--color-navy);
   --color-bg-alt: var(--color-void);
   --color-surface: var(--color-raised);
+  --color-surface-hover: #223452;
   --color-text: var(--color-paper);
   --color-text-muted: rgb(240 241 250 / 0.74);
   --color-text-subtle: rgb(240 241 250 / 0.62);
   --color-accent: var(--color-signal);
+  --color-accent-hover: #4cc6f0;
   --color-on-accent: var(--color-void);
   --color-line: rgb(255 255 255 / 0.13);
   --color-line-strong: rgb(255 255 255 / 0.3);
   --color-overlay: rgb(11 17 32 / 0.93);
+  --color-overlay-strong: rgb(11 17 32 / 0.98);
+  --color-glow: rgb(17 78 129 / 0.45);
   --color-error: #ff8a80;
   --color-success: #7ee2a8;
 
@@ -38,7 +42,8 @@
   --fs-lead: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
   --fs-body: 1rem;
   --fs-small: 0.875rem;
-  --fs-eyebrow: 0.75rem;
+  --fs-eyebrow: 0.875rem;
+  --fs-menu: clamp(1.75rem, 1.35rem + 2vw, 2.5rem);
 
   --fw-light: 300;
   --fw-regular: 400;
@@ -52,7 +57,7 @@
 
   --ls-display: -0.035em;
   --ls-heading: -0.03em;
-  --ls-eyebrow: 0.16em;
+  --ls-eyebrow: 0.14em;
 
   --measure: 62ch;
 
@@ -71,12 +76,24 @@
   --container-max: 1160px;
   --container-padding: clamp(1rem, 0.75rem + 1.25vw, 1.375rem);
   --header-height: 4.25rem;
+  --header-height-compact: 3.5rem;
+  --logo-height: 1.75rem;
+  --logo-height-lg: 2rem;
 
   --chamfer-lg: 14px;
   --chamfer-md: 12px;
   --chamfer-sm: 10px;
 
   --border-width: 1px;
+  --line-thick: 2px;
+  --line-medium: 1.5px;
+  --press-offset: 1px;
+  --icon-sm: 1.25rem;
+  --burger-gap: 0.375rem;
+  --burger-gap-hover: 0.4375rem;
+
+  --shadow-header: 0 8px 24px rgb(0 0 0 / 0.35);
+  --blur-header: 10px;
 
   --tap-target-min: 44px;
   --focus-ring: 2px solid var(--color-accent);
@@ -84,6 +101,10 @@
 
   --duration-fast: 200ms;
   --duration-base: 300ms;
+  --duration-enter: 700ms;
+  --delay-enter: 120ms;
+  --stagger-step: 50ms;
+  --enter-offset: 0.375rem;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   --z-header: 50;

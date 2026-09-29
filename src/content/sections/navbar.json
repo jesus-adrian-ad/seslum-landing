@@ -1,0 +1,49 @@
+{
+  "logo": {
+    "src": "/images/brand/logo-seslum-placeholder-124.webp",
+    "srcSet": "/images/brand/logo-seslum-placeholder-124.webp 124w, /images/brand/logo-seslum-placeholder-142.webp 142w, /images/brand/logo-seslum-placeholder-248.webp 248w, /images/brand/logo-seslum-placeholder-284.webp 284w",
+    "sizes": "(min-width: 1180px) 142px, 124px",
+    "alt": "Grupo SESLUM — ir al inicio",
+    "width": 124,
+    "height": 28
+  },
+  "homeHref": "#inicio",
+  "ariaLabel": "Navegación principal",
+  "links": [
+    {
+      "id": "servicios",
+      "label": "Servicios",
+      "href": "#servicios"
+    },
+    {
+      "id": "sectores",
+      "label": "Sectores",
+      "href": "#sectores"
+    },
+    {
+      "id": "nosotros",
+      "label": "Por qué SESLUM",
+      "href": "#nosotros"
+    },
+    {
+      "id": "proyectos",
+      "label": "Proyectos",
+      "href": "#proyectos"
+    },
+    {
+      "id": "contacto",
+      "label": "Contacto",
+      "href": "#contacto"
+    }
+  ],
+  "cta": {
+    "label": "Solicitar cotización",
+    "shortLabel": "Cotizar",
+    "href": "#contacto"
+  },
+  "menu": {
+    "openLabel": "Abrir menú",
+    "closeLabel": "Cerrar menú",
+    "title": "Menú"
+  }
+}

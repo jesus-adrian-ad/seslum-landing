@@ -8,6 +8,7 @@ export default defineConfig([
   {
     rules: {
       "no-console": "error",
+      "@next/next/no-img-element": "off",
       "no-warning-comments": ["error", { terms: ["todo", "fixme", "xxx"], location: "start" }],
     },
   },
