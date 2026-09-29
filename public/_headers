@@ -1,0 +1,36 @@
+# Cabeceras de seguridad y caché. Cloudflare Pages las aplica automáticamente.
+#
+# La CSP no permite scripts en línea. Next.js genera algunos en el HTML para
+# hidratar; scripts/csp-hashes.mjs calcula su SHA-256 en cada build y sustituye
+# __INLINE_SCRIPT_HASHES__ en out/_headers. Si el marcador no se sustituye, el
+# build falla: nunca se publica una CSP incompleta.
+#
+# Terceros permitidos (anotados en SPEC.md, sección 8):
+#   - Google Tag Manager y Google Analytics 4: medición.
+#   - Google Ads (googleadservices, doubleclick, google.com): conversiones de la
+#     campaña, que marketing configura desde GTM sin tocar código.
+#
+# Antes del release, verificar en https://securityheaders.com (objetivo: A o A+).
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' __INLINE_SCRIPT_HASHES__ https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com; style-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://www.google.com.mx; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://www.google.com.mx; frame-src https://www.googletagmanager.com https://td.doubleclick.net; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  X-DNS-Prefetch-Control: off
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=2592000
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate

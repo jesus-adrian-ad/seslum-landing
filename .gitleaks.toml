@@ -1,0 +1,60 @@
+# Copiar a la raíz del repo como .gitleaks.toml
+#
+# Extiende las reglas por defecto de Gitleaks (que ya cubren AWS, Google, Stripe,
+# GitHub, etc.) y agrega las que importan en una landing: claves de Turnstile,
+# de servicios de formularios y de proveedores de correo.
+#
+# Regla de uso: cuando algo dé falso positivo, agrégalo al allowlist CON un
+# comentario que explique por qué. Un allowlist sin comentarios se convierte en
+# un lugar donde los secretos reales se esconden a la vista.
+
+title = "YiSoft — Landing Pages"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "turnstile-secret-key"
+description = "Cloudflare Turnstile secret key"
+regex = '''0x[A-Za-z0-9_-]{30,}'''
+tags = ["cloudflare", "turnstile"]
+
+[[rules]]
+id = "resend-api-key"
+description = "Resend API key"
+regex = '''re_[A-Za-z0-9_-]{20,}'''
+tags = ["email"]
+
+[[rules]]
+id = "sendgrid-api-key"
+description = "SendGrid API key"
+regex = '''SG\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}'''
+tags = ["email"]
+
+[[rules]]
+id = "generic-env-assignment"
+description = "Asignación sospechosa de secreto en código"
+regex = '''(?i)(api[_-]?key|secret[_-]?key|access[_-]?token|auth[_-]?token|private[_-]?key|password)\s*[:=]\s*["'][^"'\s]{12,}["']'''
+tags = ["generic"]
+[rules.allowlist]
+regexes = [
+  # Placeholders evidentes en documentación y ejemplos
+  '''(?i)(your|my|example|placeholder|changeme|xxx+|<[^>]+>|\.\.\.)''',
+  # Variables de entorno referenciadas, no valores
+  '''process\.env\.''',
+  '''import\.meta\.env\.''',
+]
+
+[allowlist]
+description = "Rutas y archivos que no contienen secretos reales"
+paths = [
+  '''(^|/)\.env\.example$''',
+  '''(^|/)package-lock\.json$''',
+  '''(^|/)pnpm-lock\.yaml$''',
+  '''(^|/)yarn\.lock$''',
+  '''(^|/)node_modules/''',
+  '''(^|/)\.previews/''',
+  # La documentación del proyecto usa nombres de variables, no valores
+  '''(^|/)README\.md$''',
+  '''(^|/)SPEC\.md$''',
+]

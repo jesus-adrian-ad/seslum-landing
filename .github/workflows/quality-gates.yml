@@ -1,0 +1,237 @@
+# Gates de calidad y despliegue a Cloudflare Pages (Direct Upload).
+#
+# Los mismos gates que scripts/verify-block.sh, para que lo que pasa en local
+# pase en CI. El despliegue solo corre si todos los gates están en verde.
+#
+# Build de auditoría: se compila en modo producción para que Lighthouse mida lo
+# que se publicará en el dominio (en staging el sitio es no indexable y SEO
+# siempre saldría en rojo). El build que se despliega se compila en su propio
+# job con el entorno que le toca a la rama.
+#
+# Secrets del repo:  CLOUDFLARE_API_TOKEN (permiso: Cloudflare Pages · Edit)
+#                    CLOUDFLARE_ACCOUNT_ID
+# Variables del repo: CF_PAGES_PROJECT (nombre del proyecto de Pages)
+#                     GTM_ID (contenedor de GTM; vacío mientras no exista)
+
+name: Quality Gates
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 22
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  secrets:
+    name: "Secretos: Gitleaks"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+
+  dependencies:
+    name: "Dependencias: npm audit + OSV"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: npm audit
+        run: npm audit --audit-level=high
+      - name: OSV-Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@a345acffa64b0eaede81a3d9aae6141214d9c8fc # v2.6.0
+        with:
+          scan-args: |-
+            --lockfile=package-lock.json
+
+  sast:
+    name: "Código: Semgrep"
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Semgrep
+        run: |
+          semgrep scan \
+            --config=p/default \
+            --config=p/secrets \
+            --config=.semgrep.yml \
+            --error \
+            --metrics=off
+
+  code:
+    name: "Código: lint, tipos y pruebas"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+
+  headers:
+    name: Cabeceras de seguridad
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Verificar _headers
+        run: |
+          set -euo pipefail
+          f=public/_headers
+          test -f "$f" || { echo "Falta $f"; exit 1; }
+          active="$(grep -vE '^\s*#' "$f" || true)"
+          for h in Content-Security-Policy Strict-Transport-Security \
+                   X-Content-Type-Options X-Frame-Options \
+                   Referrer-Policy Permissions-Policy; do
+            grep -q "$h" <<<"$active" || { echo "Falta la cabecera $h en $f"; exit 1; }
+          done
+          if grep -Eq "unsafe-inline|unsafe-eval" <<<"$active"; then
+            echo "La CSP activa contiene unsafe-inline o unsafe-eval."
+            exit 1
+          fi
+          echo "Cabeceras OK"
+
+  build-audit:
+    name: Build de auditoría
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_ENV: production
+          NEXT_PUBLIC_GTM_ID: ${{ vars.GTM_ID }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: out-audit
+          path: out/
+          include-hidden-files: true
+          retention-days: 1
+
+  web-quality:
+    name: "Web: Lighthouse, axe, consola y responsive"
+    runs-on: ubuntu-latest
+    needs: build-audit
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: out-audit
+          path: out
+
+      - name: Lighthouse CI
+        run: npx --yes @lhci/cli@0.15.x autorun --config=./lighthouserc.json
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Servir con cabeceras reales
+        run: |
+          npx wrangler pages dev out --port 8788 > wrangler.log 2>&1 &
+          npx --yes wait-on http://localhost:8788 --timeout 60000
+
+      - name: Consola y CSP
+        run: node scripts/console-smoke.mjs --url http://localhost:8788
+
+      - name: axe-core
+        run: |
+          npx --yes @axe-core/cli http://localhost:8788 \
+            --exit \
+            --tags wcag2a,wcag2aa,wcag21a,wcag21aa
+
+      - name: QA responsive (7 anchos)
+        run: node scripts/responsive-shots.mjs --url http://localhost:8788 --ci
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: responsive-screenshots
+          path: .previews/qa/
+          include-hidden-files: true
+          retention-days: 14
+
+  deploy:
+    name: Despliegue a Cloudflare Pages
+    runs-on: ubuntu-latest
+    needs: [secrets, dependencies, sast, code, headers, web-quality]
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      DEPLOY_BRANCH: ${{ github.head_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_ENV: ${{ (github.event_name == 'push' && github.ref_name == 'main') && 'production' || 'staging' }}
+          NEXT_PUBLIC_GTM_ID: ${{ vars.GTM_ID }}
+
+      - name: Publicar en Pages
+        id: pages
+        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3.15.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy out --project-name=${{ vars.CF_PAGES_PROJECT }} --branch=${{ env.DEPLOY_BRANCH }} --commit-hash=${{ github.sha }} --commit-dirty=true
+
+      - name: Comentar el preview en el PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        env:
+          DEPLOYMENT_URL: ${{ steps.pages.outputs.deployment-url }}
+          ALIAS_URL: ${{ steps.pages.outputs.pages-deployment-alias-url }}
+        with:
+          script: |
+            const body = [
+              "### Preview en Cloudflare Pages",
+              "",
+              `- Deployment: ${process.env.DEPLOYMENT_URL}`,
+              `- Alias de la rama: ${process.env.ALIAS_URL || "—"}`,
+              `- Commit: ${context.sha.slice(0, 7)}`,
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });

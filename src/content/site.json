@@ -1,0 +1,49 @@
+{
+  "name": "Grupo SESLUM",
+  "brandName": "SESLUM",
+  "url": "https://seslum.com.mx",
+  "locale": "es_MX",
+  "description": "Sistemas electrónicos de seguridad y extinción de incendios para empresas e instituciones.",
+  "brand": {
+    "themeColor": "#0B1120"
+  },
+  "seo": {
+    "title": "Integrador de seguridad en Monterrey | Grupo SESLUM",
+    "description": "Diseñamos, instalamos y mantenemos videovigilancia, control de acceso y sistemas contra incendios para industria, banca, salud y hotelería en Monterrey."
+  },
+  "contact": {
+    "phone": {
+      "display": "811 764 7400",
+      "e164": "+528117647400"
+    },
+    "whatsapp": {
+      "display": "811 764 7400",
+      "number": "528117647400"
+    },
+    "email": "ventas@seslum.com.mx",
+    "emailResponseTime": "Respuesta en 24 h hábiles",
+    "hours": {
+      "label": "Lunes a viernes, 8:00 a 18:00 h",
+      "days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "08:00",
+      "closes": "18:00"
+    }
+  },
+  "location": {
+    "locality": "Monterrey",
+    "region": "Nuevo León",
+    "regionCode": "NL",
+    "country": "MX",
+    "serviceArea": "Proyectos en el norte, noreste y centro del país",
+    "areaServed": "Norte, noreste y centro de México"
+  },
+  "social": {
+    "linkedin": null
+  }
+}

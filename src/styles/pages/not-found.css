@@ -1,0 +1,39 @@
+/**
+ * Estilos de la página 404. Se importan desde el layout para que viajen en la
+ * hoja principal: importados desde not-found.tsx, Next los precarga en todas las
+ * páginas sin usarlos y el navegador lo reporta como advertencia en consola.
+ */
+
+.not-found {
+  display: grid;
+  place-content: center;
+  justify-items: start;
+  gap: var(--space-4);
+  min-height: 100dvh;
+}
+
+.not-found__code {
+  color: var(--color-accent);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.not-found__title {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+}
+
+.not-found__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: var(--fw-bold);
+  text-decoration: none;
+}
