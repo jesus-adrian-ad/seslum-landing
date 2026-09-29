@@ -195,6 +195,7 @@ node scripts/responsive-shots.mjs --url http://localhost:8788 --section <slug>
 |---|---|---|---|
 | `prefer-rest-params` apagado solo en `TagManager.tsx` | Consent Mode de GTM solo reconoce comandos publicados como objeto `arguments`; con un arreglo, los ignora sin avisar | 28/sep/2026 | Que Google acepte arreglos en el `dataLayer` para comandos de consentimiento |
 | `network-dependency-tree-insight` como advertencia en Lighthouse | Es un *insight* informativo de Lighthouse 12.6 que no afecta la calificación; el preset lo evalúa como error | 28/sep/2026 | Que el preset de LHCI lo excluya |
+| `legacy-javascript-insight` como advertencia en Lighthouse | Next.js mete siempre en su bundle principal un módulo de polyfills (`Array.prototype.at`, `flat`, `Object.fromEntries`, ~13 KB) que no se puede quitar por configuración. Es parte del costo de haber elegido Next; no afecta la calificación de Performance | 28/sep/2026 | Que Next permita desactivar `polyfill-module` para navegadores modernos |
 | ESLint 9 en lugar de 10 | `eslint-plugin-react` (incluido en `eslint-config-next`) todavía no es compatible con ESLint 10 | 28/sep/2026 | Soporte de ESLint 10 en `eslint-plugin-react` |
 
 ---
@@ -251,6 +252,9 @@ anterior desde el panel de Pages.
   en `robots`.
 - **28/sep/2026** — Acciones de GitHub fijadas por SHA. Evita que una etiqueta
   movida ejecute código distinto en el pipeline; Dependabot las actualiza.
+- **28/sep/2026** — Dependabot con `cooldown` de 7 días. Una versión recién
+  publicada puede venir comprometida; esperar una semana deja que la comunidad la
+  detecte antes de que llegue a este repo.
 - **28/sep/2026** — `undici` forzado a ≥ 7.30 con `overrides`. Cierra un aviso
   moderado heredado de `wrangler`, que es una herramienta de desarrollo.
 

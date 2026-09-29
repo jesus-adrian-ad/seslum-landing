@@ -118,7 +118,8 @@
         "no-vulnerable-libraries": "off",
         "deprecations": "error",
         "canonical": "off",
-        "network-dependency-tree-insight": "warn"
+        "network-dependency-tree-insight": "warn",
+        "legacy-javascript-insight": "warn"
       }
     },
     "upload": {
