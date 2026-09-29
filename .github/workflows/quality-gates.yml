@@ -12,6 +12,10 @@
 #                    CLOUDFLARE_ACCOUNT_ID
 # Variables del repo: CF_PAGES_PROJECT (nombre del proyecto de Pages)
 #                     GTM_ID (contenedor de GTM; vacío mientras no exista)
+#
+# Los PRs de Dependabot corren todos los gates pero no despliegan: GitHub no les
+# entrega los secrets del repo ni permiso de escritura. La actualización se
+# despliega a staging cuando se mergea a develop.
 
 name: Quality Gates
 
@@ -186,7 +190,10 @@ jobs:
     name: Despliegue a Cloudflare Pages
     runs-on: ubuntu-latest
     needs: [secrets, dependencies, sast, code, headers, web-quality]
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    if: >-
+      github.event_name == 'push' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.user.login != 'dependabot[bot]')
     permissions:
       contents: read
       pull-requests: write
