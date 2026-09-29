@@ -1,0 +1,245 @@
+/**
+ * Sectores: fondo alterno, tira de pestañas deslizable en móvil y, desde 900 px,
+ * lista vertical junto al panel de detalle. El panel activo entra con un leve
+ * desplazamiento y su ícono se vuelve a dibujar cada vez que cambia el sector.
+ */
+
+.sectors {
+  padding-block: var(--space-section);
+  background-color: var(--color-bg-alt);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.listWrap {
+  min-width: 0;
+  margin-inline: calc(-1 * var(--container-padding));
+}
+
+.list {
+  position: relative;
+  display: flex;
+  gap: var(--space-2);
+  padding: 0 var(--container-padding) var(--space-3);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--container-padding);
+  scrollbar-width: none;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--tap-target-min);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-line);
+  color: var(--color-text);
+  text-align: left;
+  scroll-snap-align: center;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.tab[aria-selected="true"] {
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-accent);
+}
+
+.tab:focus-visible {
+  outline-offset: calc(-1 * var(--focus-offset));
+}
+
+.tabIcon {
+  flex: none;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  color: var(--color-accent);
+}
+
+.tabText {
+  display: grid;
+}
+
+.tabName {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  white-space: nowrap;
+}
+
+.tabSummary {
+  display: none;
+}
+
+.indicator {
+  position: absolute;
+  bottom: var(--space-3);
+  left: 0;
+  width: var(--indicator-width, 0);
+  height: var(--line-thick);
+  background-color: var(--color-accent);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(var(--indicator-x, 0));
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    width var(--duration-base) var(--ease-out),
+    height var(--duration-base) var(--ease-out);
+}
+
+.indicator[data-ready="true"] {
+  opacity: 1;
+}
+
+.panelFrame {
+  min-width: 0;
+  padding: var(--card-padding);
+  background-color: var(--color-surface);
+}
+
+.panel:not([hidden]) {
+  animation: panel-in var(--duration-reveal) var(--ease-out) both;
+}
+
+.panel:focus-visible {
+  outline-offset: calc(-1 * var(--space-2));
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.panelIcon {
+  flex: none;
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+  color: var(--color-accent);
+}
+
+.panel:not([hidden]) .panelIcon [pathLength] {
+  stroke-dasharray: 1;
+  animation: draw calc(var(--duration-reveal) * 1.2) var(--ease-out) both;
+  animation-delay: var(--delay-enter);
+}
+
+.panel:not([hidden]) .panelIcon [data-dot] {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: dot-in var(--duration-base) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 5);
+}
+
+.panelName {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  letter-spacing: -0.012em;
+}
+
+.panelSummary {
+  margin-top: var(--space-1);
+  color: var(--color-accent);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+
+.panelDescription {
+  max-width: var(--measure);
+  margin-top: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+}
+
+@media (hover: hover) {
+  .tab:hover {
+    border-color: var(--color-accent-muted);
+  }
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    align-items: stretch;
+  }
+
+  .listWrap {
+    margin-inline: 0;
+  }
+
+  .list {
+    flex-direction: column;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .tab {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .tabIcon {
+    width: var(--icon-md);
+    height: var(--icon-md);
+  }
+
+  .tabName {
+    font-size: var(--fs-body);
+  }
+
+  .tabSummary {
+    display: block;
+    margin-top: var(--space-1);
+    color: var(--color-text-subtle);
+    font-size: var(--fs-small);
+    line-height: var(--lh-heading);
+  }
+
+  .indicator {
+    top: 0;
+    bottom: auto;
+    width: var(--line-thick);
+    height: var(--indicator-height, 0);
+    transform: translateY(var(--indicator-y, 0));
+  }
+
+  .panelFrame {
+    padding: var(--space-8);
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--enter-offset));
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dot-in {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+}

@@ -150,3 +150,32 @@ export interface ServicesContent<Icon extends string = ServiceIconName> {
     readonly items: readonly ServiceItem<Icon>[];
   };
 }
+
+export const SECTOR_ICON_NAMES = [
+  "industrial",
+  "corporate",
+  "banking",
+  "hospitality",
+  "health",
+  "retail",
+  "residential",
+] as const;
+
+export type SectorIconName = (typeof SECTOR_ICON_NAMES)[number];
+
+export interface SectorItem<Icon extends string = SectorIconName> {
+  readonly id: string;
+  readonly icon: Icon;
+  readonly name: string;
+  readonly summary: string;
+  readonly description: string;
+}
+
+export interface SectorsContent<Icon extends string = SectorIconName> {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly tabsLabel: string;
+  readonly sectors: readonly SectorItem<Icon>[];
+}
