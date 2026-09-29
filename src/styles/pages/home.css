@@ -6,7 +6,7 @@
   display: grid;
   place-content: center;
   gap: var(--space-4);
-  min-height: 100dvh;
+  min-height: calc(100dvh - var(--header-height));
 }
 
 .home-placeholder__title {

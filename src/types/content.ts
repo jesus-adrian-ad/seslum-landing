@@ -56,3 +56,37 @@ export interface SiteContent {
   readonly location: SiteLocation;
   readonly social: { readonly linkedin: string | null };
 }
+
+export interface ImageAsset {
+  readonly src: string;
+  readonly srcSet?: string;
+  readonly sizes?: string;
+  readonly alt: string;
+  readonly width: number;
+  readonly height: number;
+}
+
+export interface NavLink {
+  readonly id: string;
+  readonly label: string;
+  readonly href: string;
+}
+
+export interface CallToAction {
+  readonly label: string;
+  readonly shortLabel: string;
+  readonly href: string;
+}
+
+export interface NavbarContent {
+  readonly logo: ImageAsset;
+  readonly homeHref: string;
+  readonly ariaLabel: string;
+  readonly links: readonly NavLink[];
+  readonly cta: CallToAction;
+  readonly menu: {
+    readonly openLabel: string;
+    readonly closeLabel: string;
+    readonly title: string;
+  };
+}
