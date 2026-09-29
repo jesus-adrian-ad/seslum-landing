@@ -1,0 +1,277 @@
+/**
+ * Encabezado: foto a sangre con tinte y velo de marca, copia a la izquierda y
+ * panel de líneas integradas a la derecha desde 1024 px. La entrada es CSS puro
+ * (sin esperar hidratación); el parallax lo aplica HeroScrollEffects.
+ */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: clamp(var(--hero-min-height), calc(100svh - var(--header-height)), var(--hero-max-height));
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+.media {
+  position: absolute;
+  overflow: hidden;
+  inset: calc(-1 * var(--hero-media-overscan)) 0 0;
+  z-index: -1;
+  will-change: transform;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: hero-zoom var(--duration-zoom) var(--ease-out) both;
+}
+
+.tint,
+.veil {
+  position: absolute;
+  inset: 0;
+}
+
+.tint {
+  background-color: var(--color-tint);
+}
+
+.veil {
+  background-image: var(--veil-vertical);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-10);
+  padding-block: var(--space-12);
+}
+
+.copy {
+  max-width: var(--measure-hero);
+}
+
+.eyebrow {
+  color: var(--color-accent);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  animation: rise var(--duration-reveal) var(--ease-out) both;
+  animation-delay: var(--delay-enter);
+}
+
+.title {
+  margin-top: var(--space-3);
+  font-size: var(--fs-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+}
+
+.word {
+  display: inline-block;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.wordInner {
+  display: inline-block;
+  animation: word-up var(--duration-reveal) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 2 + var(--word-index, 0) * var(--stagger-step) * 1.6);
+}
+
+.word:nth-child(1) .wordInner { --word-index: 0; }
+.word:nth-child(2) .wordInner { --word-index: 1; }
+.word:nth-child(3) .wordInner { --word-index: 2; }
+.word:nth-child(4) .wordInner { --word-index: 3; }
+.word:nth-child(5) .wordInner { --word-index: 4; }
+.word:nth-child(6) .wordInner { --word-index: 5; }
+.word:nth-child(7) .wordInner { --word-index: 6; }
+.word:nth-child(8) .wordInner { --word-index: 7; }
+
+.lead {
+  max-width: var(--measure);
+  margin-top: var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+  animation: rise var(--duration-reveal) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 5);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  animation: rise var(--duration-reveal) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 6);
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-6);
+  background-color: var(--color-panel);
+  border: var(--border-width) solid var(--color-line);
+  animation: slide-in var(--duration-reveal) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 7);
+}
+
+.scan {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 40%;
+  background-image: linear-gradient(180deg, transparent, var(--color-scan), transparent);
+  transform: translateY(-100%);
+  pointer-events: none;
+  animation: scan calc(var(--duration-reveal) * 2) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 9);
+}
+
+.panelTitle {
+  margin-bottom: var(--space-3);
+  color: var(--color-accent);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-line);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+
+.line:nth-child(1) { --line-index: 0; }
+.line:nth-child(2) { --line-index: 1; }
+.line:nth-child(3) { --line-index: 2; }
+.line:nth-child(4) { --line-index: 3; }
+.line:nth-child(5) { --line-index: 4; }
+.line:nth-child(6) { --line-index: 5; }
+
+.status {
+  position: relative;
+  flex: none;
+  width: var(--status-size);
+  height: var(--status-size);
+  background-color: var(--color-line-strong);
+  border-radius: 50%;
+}
+
+.status::before,
+.status::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.status::before {
+  background-color: var(--color-accent);
+  animation: status-on var(--duration-fast) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 10 + var(--line-index, 0) * var(--delay-enter) * 1.5);
+}
+
+.status::after {
+  background-color: var(--color-status-glow);
+  animation: status-pulse var(--duration-pulse) var(--ease-out) infinite;
+  animation-delay: calc(var(--delay-enter) * 12 + var(--line-index, 0) * var(--delay-enter) * 1.5);
+}
+
+.more {
+  margin-top: var(--space-3);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    padding-block: var(--space-16);
+  }
+}
+
+@media (min-width: 1024px) {
+  .veil {
+    background-image: var(--veil-horizontal);
+  }
+
+  .grid {
+    grid-template-columns: 1.06fr 0.94fr;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .panel {
+    justify-self: end;
+    width: min(100%, var(--panel-width));
+  }
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(var(--hero-zoom-from));
+  }
+}
+
+@keyframes word-up {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--enter-distance));
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--enter-distance));
+  }
+}
+
+@keyframes scan {
+  to {
+    transform: translateY(250%);
+  }
+}
+
+@keyframes status-on {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes status-pulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}

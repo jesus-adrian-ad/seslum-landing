@@ -90,3 +90,23 @@ export interface NavbarContent {
     readonly title: string;
   };
 }
+
+export interface LinkAction {
+  readonly label: string;
+  readonly href: string;
+}
+
+export interface HeroContent {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly primaryCta: LinkAction;
+  readonly secondaryCta: LinkAction;
+  readonly image: ImageAsset;
+  readonly panel: {
+    readonly title: string;
+    readonly lines: readonly string[];
+    readonly more: string;
+  };
+}

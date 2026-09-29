@@ -31,6 +31,13 @@
   --color-overlay: rgb(11 17 32 / 0.93);
   --color-overlay-strong: rgb(11 17 32 / 0.98);
   --color-glow: rgb(17 78 129 / 0.45);
+  --color-panel: rgb(26 41 66 / 0.9);
+  --color-tint: rgb(17 78 129 / 0.42);
+  --color-status-glow: rgb(35 181 233 / 0.55);
+  --color-scan: rgb(35 181 233 / 0.14);
+
+  --veil-horizontal: linear-gradient(90deg, rgb(11 17 32 / 0.93) 0%, rgb(11 17 32 / 0.74) 46%, rgb(11 17 32 / 0.4) 100%);
+  --veil-vertical: linear-gradient(180deg, rgb(11 17 32 / 0.6) 0%, rgb(11 17 32 / 0.82) 45%, rgb(11 17 32 / 0.94) 100%);
   --color-error: #ff8a80;
   --color-success: #7ee2a8;
 
@@ -60,6 +67,8 @@
   --ls-eyebrow: 0.14em;
 
   --measure: 62ch;
+  --measure-hero: 40rem;
+  --panel-width: 26rem;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -93,7 +102,11 @@
   --burger-gap-hover: 0.4375rem;
 
   --shadow-header: 0 8px 24px rgb(0 0 0 / 0.35);
-  --blur-header: 10px;
+  --status-size: 0.5rem;
+  --hero-zoom-from: 1.08;
+  --hero-media-overscan: 12%;
+  --hero-min-height: 36rem;
+  --hero-max-height: 64rem;
 
   --tap-target-min: 44px;
   --focus-ring: 2px solid var(--color-accent);
@@ -105,6 +118,10 @@
   --delay-enter: 120ms;
   --stagger-step: 50ms;
   --enter-offset: 0.375rem;
+  --enter-distance: 1.5rem;
+  --duration-reveal: 900ms;
+  --duration-zoom: 2200ms;
+  --duration-pulse: 2400ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   --z-header: 50;
