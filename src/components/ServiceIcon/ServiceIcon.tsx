@@ -1,27 +1,12 @@
 /**
- * Íconos de línea de los servicios, trazados sobre una rejilla de 32 × 32.
- *
- * Cada trazo lleva pathLength="1" para que ScrollReveal pueda dibujarlo con
- * stroke-dashoffset sin medir su longitud real; los puntos rellenos se marcan
- * con data-dot y entran con escala. Un trazo por elemento: el patrón de guiones
- * no se reparte de forma consistente entre subtrazos de un mismo path.
+ * Catálogo de íconos de los servicios, tomados del prototipo. Se dibujan al
+ * entrar en pantalla (ver LineIcon y ScrollReveal).
  */
 
+import { LineIcon, type LineShape } from "@/components/LineIcon/LineIcon";
 import type { ServiceIconName } from "@/types/content";
 
-type Shape =
-  | { readonly kind: "path"; readonly d: string }
-  | { readonly kind: "circle"; readonly cx: number; readonly cy: number; readonly r: number; readonly dot?: true }
-  | {
-      readonly kind: "rect";
-      readonly x: number;
-      readonly y: number;
-      readonly width: number;
-      readonly height: number;
-      readonly rx: number;
-    };
-
-const ICONS: Readonly<Record<ServiceIconName, readonly Shape[]>> = {
+const ICONS: Readonly<Record<ServiceIconName, readonly LineShape[]>> = {
   cctv: [
     { kind: "path", d: "M4 9l19-4 2 7-19 4z" },
     { kind: "path", d: "M8 16v4a3 3 0 006 0v-2" },
@@ -80,43 +65,11 @@ const ICONS: Readonly<Record<ServiceIconName, readonly Shape[]>> = {
   ],
 };
 
-function renderShape(shape: Shape, key: number) {
-  switch (shape.kind) {
-    case "path":
-      return <path key={key} d={shape.d} pathLength={1} />;
-    case "rect":
-      return (
-        <rect key={key} x={shape.x} y={shape.y} width={shape.width} height={shape.height} rx={shape.rx} pathLength={1} />
-      );
-    case "circle":
-      return shape.dot ? (
-        <circle key={key} cx={shape.cx} cy={shape.cy} r={shape.r} fill="currentColor" stroke="none" data-dot="" />
-      ) : (
-        <circle key={key} cx={shape.cx} cy={shape.cy} r={shape.r} pathLength={1} />
-      );
-  }
-}
-
 export interface ServiceIconProps {
   readonly name: ServiceIconName;
   readonly className?: string | undefined;
 }
 
 export function ServiceIcon({ name, className }: ServiceIconProps) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 32 32"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      focusable="false"
-      data-draw=""
-    >
-      {ICONS[name].map(renderShape)}
-    </svg>
-  );
+  return <LineIcon shapes={ICONS[name]} className={className} draw />;
 }

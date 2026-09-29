@@ -1,11 +1,9 @@
 /**
- * Validación del contenido de Servicios.
- *
- * El JSON llega con los íconos como texto libre; aquí se comprueba que cada uno
- * exista en el catálogo de íconos. Corre durante el build estático, así un
- * nombre mal capturado detiene la publicación en vez de dejar un hueco en la página.
+ * Validación del contenido de Servicios: cada ícono debe existir en su catálogo.
+ * Corre durante el build estático (ver icon-catalog.ts).
  */
 
+import { assertIconName, isInCatalog } from "@/lib/icon-catalog";
 import {
   SERVICE_ICON_NAMES,
   type ServiceIconName,
@@ -13,17 +11,12 @@ import {
   type ServicesContent,
 } from "@/types/content";
 
-const KNOWN_ICONS: ReadonlySet<string> = new Set(SERVICE_ICON_NAMES);
-
 export function isServiceIconName(value: string): value is ServiceIconName {
-  return KNOWN_ICONS.has(value);
+  return isInCatalog(SERVICE_ICON_NAMES, value);
 }
 
 function toServiceItem(item: ServiceItem<string>, path: string): ServiceItem {
-  if (!isServiceIconName(item.icon)) {
-    throw new Error(`Ícono desconocido "${item.icon}" en ${path}. Disponibles: ${SERVICE_ICON_NAMES.join(", ")}.`);
-  }
-  return { ...item, icon: item.icon };
+  return { ...item, icon: assertIconName(SERVICE_ICON_NAMES, item.icon, path) };
 }
 
 export function parseServicesContent(raw: ServicesContent<string>): ServicesContent {
@@ -39,4 +32,3 @@ export function parseServicesContent(raw: ServicesContent<string>): ServicesCont
     },
   };
 }
-
