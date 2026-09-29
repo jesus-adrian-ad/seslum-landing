@@ -16,8 +16,8 @@ y sistemas para tu negocio.
 | # | Sección | Rama | Estado | PR |
 |---|---|---|---|---|
 | 0 | Fundaciones | `feature/foundations` | ✅ Publicado | #1 |
-| 1 | Navbar | `feature/navbar` | 🔨 En PR | — |
-| 2 | Encabezado | `feature/hero` | ⏳ Pendiente | — |
+| 1 | Navbar | `feature/navbar` | ✅ Publicado | #2 |
+| 2 | Encabezado | `feature/hero` | 🔨 En PR | — |
 | 3 | Servicios | `feature/services` | ⏳ Pendiente | — |
 | 4 | Sectores | `feature/sectors` | ⏳ Pendiente | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ⏳ Pendiente | — |
@@ -29,7 +29,7 @@ y sistemas para tu negocio.
 | 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 2 · Encabezado
+**Siguiente bloque:** 3 · Servicios
 
 ---
 
@@ -40,7 +40,7 @@ y sistemas para tu negocio.
 | Framework | Next.js 16 (App Router), exportación estática (`output: "export"`) |
 | Lenguaje | TypeScript estricto |
 | Estilos | CSS plano con design tokens |
-| Animación | GSAP + ScrollTrigger (`src/lib/motion.ts`) |
+| Animación | Entradas en CSS; GSAP + ScrollTrigger con carga diferida para el scroll (`src/lib/motion.ts`, `src/lib/use-motion.ts`) |
 | Formularios | Cloudflare Pages Function (bloque 10) |
 | Medición | Google Tag Manager → GA4, con Consent Mode v2 |
 | Pruebas | Vitest (`src/lib`) |
@@ -63,6 +63,7 @@ npm run lint         # ESLint, cero advertencias
 npm run typecheck
 npm test
 npm run images:strip # quita EXIF, XMP y C2PA de las imágenes (images:check solo verifica)
+node scripts/optimize-image.mjs <original> <salida> <anchos> [--brand]  # variantes WebP de una foto
 ```
 
 `npm run preview` es la forma correcta de revisar el sitio antes de un PR: aplica
@@ -128,7 +129,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 
 ### 1 · Navbar
 
-- Barra fija con desenfoque. Al pasar 48 px de scroll se compacta (68 → 56 px) y
+- Barra fija casi opaca (sin `backdrop-filter`: ver Decisiones). Al pasar 48 px de scroll se compacta (68 → 56 px) y
   una línea de 2 px en el color de acento marca el avance de lectura.
 - Logo placeholder con `srcset` (124/142 px y sus versiones 2x), respetando el
   ancho mínimo de 120 px del manual de marca. Enlaza a `#inicio`.
@@ -144,6 +145,29 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   `ButtonLink` (variantes `primary` y `outline`, texto corto opcional).
 - Con `prefers-reduced-motion` no hay animaciones de entrada ni de menú; la línea
   de avance sigue al scroll porque la controla el visitante.
+
+### 2 · Encabezado
+
+- Foto de obra a sangre (`#inicio`) con el tratamiento del manual de marca: la
+  desaturación (0.34) va horneada en la imagen y el tinte azul `#114E81` al 42 %
+  es una capa plana en CSS; encima, un velo vertical en móvil y horizontal desde
+  1024 px para que el texto siempre tenga contraste.
+- Título "Proyectos que no admiten falla" con entrada palabra por palabra bajo
+  máscara, subtítulo, CTA "Solicitar cotización" y "Ver proyectos" (variante
+  `outline`, con las esquinas biseladas dibujadas completas).
+- Panel "Líneas integradas": las luces de estado se encienden en secuencia, con
+  un pulso suave y un barrido de escaneo al entrar.
+- La entrada es CSS puro: se ve animada desde el primer pintado, sin esperar a
+  JavaScript. El parallax al hacer scroll (la foto baja más lento y el contenido
+  se desvanece) es GSAP con carga diferida.
+- La foto es el LCP: se precarga con `fetchpriority="high"` y `srcset`
+  (480/768/1000 px, WebP). Altura del bloque acotada entre 36 y 64 rem.
+- Contenido en `src/content/sections/hero.json`. Original de la foto en
+  `assets-src/foto-hero.jpg`; variantes con `node scripts/optimize-image.mjs
+  assets-src/foto-hero.jpg public/images/hero/obra-contra-incendio 480,768,1000 --brand`.
+- **Pendiente de insumo:** la foto de banco mide 1000×520. En pantallas grandes y
+  en móvil vertical se ve suave; con una foto profesional de ≥ 2400 px de ancho
+  se regeneran las variantes con el mismo comando, sin tocar código.
 
 ---
 
@@ -278,10 +302,22 @@ anterior desde el panel de Pages.
 - **28/sep/2026** — axe-core con Playwright en lugar de `@axe-core/cli`. La CLI
   necesita que ChromeDriver y Chrome tengan la misma versión, y en CI se rompió en
   cuanto el runner actualizó uno sin el otro. Playwright trae su propio navegador.
-- **28/sep/2026** — GSAP 3 + `@gsap/react` como motor de animación. El chunk
-  con GSAP, ScrollTrigger y el navbar pesa ≈ 46 KB gz, medido en el build. Da control fino de timelines y scroll que CSS no cubre, y
+- **28/sep/2026** — GSAP 3 + ScrollTrigger como motor de animación (≈ 44 KB gz). Da control fino de timelines y scroll que CSS no cubre, y
   su licencia es gratuita para uso comercial. Todo movimiento pasa por
   `gsap.matchMedia` o por `prefers-reduced-motion`.
+- **29/sep/2026** — GSAP con carga diferida (`src/lib/use-motion.ts`): se descarga
+  después de `load` y en tiempo ocioso. En el JavaScript inicial competía con el
+  primer pintado y subía el LCP simulado de 1.4 a 2.8 s. Las entradas de sección
+  son CSS para no depender de él; se quitó `@gsap/react` (ya no hace falta).
+- **29/sep/2026** — Sin `filter: saturate()` ni `backdrop-filter` en tiempo de
+  ejecución. Rasterizar la foto completa con filtro retrasaba el primer pintado
+  ~1 s en móvil; la desaturación se hornea en la imagen (`optimize-image.mjs
+  --brand`) y el header y el panel usan fondos casi opacos.
+- **29/sep/2026** — `sharp` como dependencia de desarrollo para el pipeline de
+  imágenes (`scripts/optimize-image.mjs`): WebP en varios anchos, sin metadatos
+  y sin ampliar nunca. Solo WebP: AVIF pesaba lo mismo en estas fotos.
+- **29/sep/2026** — axe y el QA responsive auditan con movimiento reducido: miden
+  el estado final, no un fotograma a mitad de una animación de entrada.
 - **28/sep/2026** — Imágenes sin metadatos (`scripts/strip-image-metadata.mjs`,
   gate `images:check` en CI). El puente de archivos del entorno de desarrollo
   añade un manifiesto C2PA de ~6 KB a cada imagen, y las fotos de obra pueden
