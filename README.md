@@ -177,7 +177,7 @@ Gates en cada PR (`.github/workflows/quality-gates.yml`):
 | Cabeceras | Verificación de `public/_headers` | CSP sin `unsafe-*` |
 | Web | Lighthouse CI (build de producción) | ≥ 90 en las 4 categorías (móvil) |
 | Consola | `scripts/console-smoke.mjs` sobre `wrangler pages dev` | 0 errores, advertencias o violaciones de CSP |
-| Accesibilidad | axe-core | 0 serious/critical |
+| Accesibilidad | axe-core con Playwright (`scripts/axe-check.mjs`), 375 y 1440 px | 0 serious/critical |
 | Responsive | `scripts/responsive-shots.mjs` | Sin errores en los 7 anchos |
 
 En local, con `npm run preview` corriendo en otra terminal:
@@ -252,6 +252,9 @@ anterior desde el panel de Pages.
   en `robots`.
 - **28/sep/2026** — Acciones de GitHub fijadas por SHA. Evita que una etiqueta
   movida ejecute código distinto en el pipeline; Dependabot las actualiza.
+- **28/sep/2026** — axe-core con Playwright en lugar de `@axe-core/cli`. La CLI
+  necesita que ChromeDriver y Chrome tengan la misma versión, y en CI se rompió en
+  cuanto el runner actualizó uno sin el otro. Playwright trae su propio navegador.
 - **28/sep/2026** — Dependabot con `cooldown` de 7 días. Una versión recién
   publicada puede venir comprometida; esperar una semana deja que la comunidad la
   detecte antes de que llegue a este repo.
