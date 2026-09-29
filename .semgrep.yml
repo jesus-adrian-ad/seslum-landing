@@ -1,0 +1,124 @@
+# Copiar a la raíz del repo como .semgrep.yml
+#
+# Reglas propias para landing pages, complementarias a p/default y p/secrets.
+# Cubren lo que realmente aparece en este tipo de proyecto: inyección por
+# innerHTML, enlaces externos inseguros, contenido mixto y validación que solo
+# existe del lado del cliente.
+
+rules:
+  - id: innerhtml-with-dynamic-content
+    message: >-
+      Asignar contenido dinámico a innerHTML permite inyección de HTML y script.
+      Usa textContent, o sanitiza explícitamente si de verdad necesitas HTML.
+    severity: ERROR
+    languages: [javascript, typescript]
+    patterns:
+      - pattern-either:
+          - pattern: $EL.innerHTML = $X
+          - pattern: $EL.outerHTML = $X
+          - pattern: $EL.insertAdjacentHTML($POS, $X)
+      - pattern-not: $EL.innerHTML = ""
+      - pattern-not: $EL.innerHTML = "..."
+
+  - id: dangerously-set-inner-html
+    message: >-
+      dangerouslySetInnerHTML inyecta HTML sin escapar. En una landing casi nunca
+      hace falta; si viene de contenido del cliente, sanitízalo antes.
+    severity: ERROR
+    languages: [javascript, typescript]
+    pattern: dangerouslySetInnerHTML={...}
+
+  - id: eval-or-function-constructor
+    message: >-
+      eval y el constructor Function ejecutan cadenas como código, y obligan a
+      abrir la CSP con unsafe-eval. No hay caso legítimo en una landing.
+    severity: ERROR
+    languages: [javascript, typescript]
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: new Function(...)
+      - pattern: setTimeout("...", ...)
+      - pattern: setInterval("...", ...)
+
+  - id: target-blank-without-noopener
+    message: >-
+      Un enlace con target="_blank" sin rel="noopener" le da a la página destino
+      acceso a window.opener. Agrega rel="noopener noreferrer".
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include:
+        - "*.html"
+        - "*.astro"
+        - "*.jsx"
+        - "*.tsx"
+        - "*.vue"
+        - "*.svelte"
+    patterns:
+      - pattern-regex: '<a\s[^>]*target\s*=\s*["'']?_blank["'']?[^>]*>'
+      - pattern-not-regex: '<a\s[^>]*rel\s*=\s*["''][^"'']*noopener[^"'']*["''][^>]*>'
+
+  - id: insecure-http-resource
+    message: >-
+      Recurso cargado por http:// — genera contenido mixto y el navegador lo
+      bloquea. Usa https://, o autoaloja el recurso.
+    severity: ERROR
+    languages: [generic]
+    paths:
+      include:
+        - "*.html"
+        - "*.astro"
+        - "*.jsx"
+        - "*.tsx"
+        - "*.vue"
+        - "*.svelte"
+        - "*.css"
+    pattern-regex: '(src|href)\s*=\s*["'']http://(?!localhost|127\.0\.0\.1)'
+
+  - id: document-write
+    message: >-
+      document.write bloquea el parseo y rompe el rendimiento. Sustitúyelo por
+      manipulación del DOM.
+    severity: ERROR
+    languages: [javascript, typescript]
+    pattern-either:
+      - pattern: document.write(...)
+      - pattern: document.writeln(...)
+
+  - id: console-log-left-behind
+    message: >-
+      console.log olvidado en producción. Quítalo antes de cerrar el bloque.
+    severity: WARNING
+    languages: [javascript, typescript]
+    paths:
+      exclude:
+        - "/scripts/**"
+    pattern-either:
+      - pattern: console.log(...)
+      - pattern: console.debug(...)
+
+  - id: form-without-server-validation-hint
+    message: >-
+      Este handler de formulario no parece validar del lado servidor. La
+      validación del cliente es experiencia de usuario, no un control de
+      seguridad: cualquiera puede llamar al endpoint directamente.
+    severity: WARNING
+    languages: [javascript, typescript]
+    patterns:
+      - pattern-inside: |
+          export async function POST(...) { ... }
+      - pattern-not-regex: '(zod|yup|valibot|joi|validate|schema|safeParse)'
+
+  - id: hardcoded-client-contact-data
+    message: >-
+      Dato de contacto escrito literal en el código. Muévelo a
+      src/content/site.json para que se pueda corregir sin tocar código.
+    severity: WARNING
+    languages: [generic]
+    paths:
+      include:
+        - "/src/components/**"
+        - "/src/sections/**"
+      exclude:
+        - "/src/content/**"
+    pattern-regex: '(?:\+52\s?)?(?:\d{2,3}[\s-]?){2,3}\d{4}'
