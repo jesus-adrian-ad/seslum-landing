@@ -92,7 +92,7 @@ rules:
     languages: [javascript, typescript]
     paths:
       exclude:
-        - "scripts/**"
+        - "/scripts/**"
     pattern-either:
       - pattern: console.log(...)
       - pattern: console.debug(...)
@@ -117,8 +117,8 @@ rules:
     languages: [generic]
     paths:
       include:
-        - "src/components/**"
-        - "src/sections/**"
+        - "/src/components/**"
+        - "/src/sections/**"
       exclude:
-        - "src/content/**"
+        - "/src/content/**"
     pattern-regex: '(?:\+52\s?)?(?:\d{2,3}[\s-]?){2,3}\d{4}'
