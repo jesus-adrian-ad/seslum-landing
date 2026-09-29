@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 3 (Servicios) · Última actualización: 29/sep/2026
+> Estado: Bloque 4 (Sectores) · Última actualización: 29/sep/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -39,8 +39,8 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 0 | Fundaciones | `foundations` | Next.js estático, tokens, layout, SEO, GTM + Consent Mode, CSP, CI, deploy | Publicado |
 | 1 | Navbar | `navbar` | Barra fija, logo, 5 enlaces (≥ 1180 px), CTA, menú hamburguesa animado (< 1180 px) | Publicado |
 | 2 | Encabezado | `hero` | Foto de obra a pantalla completa, título, 2 CTA, panel "Líneas integradas" | Publicado |
-| 3 | Servicios | `services` | 3 especialidades + 2 servicios transversales (10 capacidades) | En PR |
-| 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles, sin desplazar la página | Pendiente |
+| 3 | Servicios | `services` | 3 especialidades + 2 servicios transversales (10 capacidades) | Publicado |
+| 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable | En PR |
 | 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados | Pendiente |
 | 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | Pendiente |
 | 7 | Marcas y aliados | `brands` | Rejilla de logotipos autorizados | Pendiente |
@@ -60,7 +60,7 @@ de cada bloque.
 
 | Elemento | Origen | ¿Recibido? |
 |---|---|---|
-| Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado aprobado tal cual · ⏳ resto con los del prototipo |
+| Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado y Servicios aprobados · ⏳ resto con los del prototipo |
 | Logo SVG | Equipo de diseño de SESLUM | ⏳ Placeholder PNG mientras tanto |
 | Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada por el cliente (mide 1000×520; conviene una de ≥ 2400 px) |
 | Logotipos de marcas autorizadas | Cliente | ✅ |

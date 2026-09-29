@@ -18,8 +18,8 @@ y sistemas para tu negocio.
 | 0 | Fundaciones | `feature/foundations` | ✅ Publicado | #1 |
 | 1 | Navbar | `feature/navbar` | ✅ Publicado | #2 |
 | 2 | Encabezado | `feature/hero` | ✅ Publicado | — |
-| 3 | Servicios | `feature/services` | 🔨 En PR | — |
-| 4 | Sectores | `feature/sectors` | ⏳ Pendiente | — |
+| 3 | Servicios | `feature/services` | ✅ Publicado | #10 |
+| 4 | Sectores | `feature/sectors` | 🔨 En PR | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ⏳ Pendiente | — |
 | 6 | Proyectos | `feature/projects` | ⏳ Pendiente | — |
 | 7 | Marcas y aliados | `feature/brands` | ⏳ Pendiente | — |
@@ -29,7 +29,7 @@ y sistemas para tu negocio.
 | 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 4 · Sectores
+**Siguiente bloque:** 5 · Por qué SESLUM
 
 ---
 
@@ -92,10 +92,10 @@ en este repo.
 ```
 src/
 ├── app/                    # rutas de Next: layout, página, 404, robots, sitemap, ícono
-├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, ServiceIcon, TagManager, StructuredData)
+├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, LineIcon y sus catálogos ServiceIcon/SectorIcon, TagManager, StructuredData)
 ├── content/site.json       # datos del cliente: nombre, contacto, horario, SEO
 ├── fonts/                  # Source Sans 3 variable (OFL)
-├── lib/                    # lógica pura y probada: medición, consentimiento, GTM, SEO, JSON-LD, entrada al scroll, validación de contenido
+├── lib/                    # lógica pura y probada: medición, consentimiento, GTM, SEO, JSON-LD, entrada al scroll, teclado de pestañas, media queries, validación de contenido
 ├── sections/               # una por bloque, con su CSS Module al lado
 ├── styles/
 │   ├── tokens.css          # único lugar con valores de diseño literales
@@ -199,6 +199,29 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Contenido en `src/content/sections/services.json`. Los íconos se validan en el
   build (`src/lib/services-content.ts`): un nombre mal capturado detiene la
   publicación con la ruta exacta del error.
+- Textos aprobados por el cliente el 29/sep; la entrada se ajustó a su redacción.
+
+### 4 · Sectores
+
+- `#sectores` sobre el fondo alterno: encabezado "A quién servimos" y siete
+  pestañas (Industrial, Corporativo, Bancario, Hotelero, Salud, Comercial,
+  Residencial Plus) con su panel de detalle.
+- Patrón WAI-ARIA Tabs: una sola parada de Tab en la lista, flechas en ambos
+  ejes, Inicio y Fin, activación automática y `aria-orientation` según el ancho.
+  Las pestañas no rotan solas.
+- Los siete paneles están en el HTML estático (los buscadores leen todos); solo
+  se muestra el activo.
+- Móvil: tira horizontal deslizable con el panel justo debajo; la pestaña elegida
+  se centra sola. Desde 900 px: lista vertical a la izquierda y panel a la derecha.
+- Animación: el encabezado, la lista y el panel entran con `ScrollReveal` y los
+  íconos de las pestañas se dibujan al entrar. Un indicador de acento se desliza
+  hacia la pestaña activa, y al cambiar de sector el panel entra con un leve
+  desplazamiento y su ícono se vuelve a dibujar. Todo con transiciones y
+  animaciones CSS; con movimiento reducido el cambio es instantáneo.
+- Íconos de línea unificados en `LineIcon`; cada sección conserva solo su
+  catálogo (`ServiceIcon`, `SectorIcon`).
+- Contenido en `src/content/sections/sectors.json`, validado en el build
+  (`src/lib/sectors-content.ts`): íconos del catálogo, ids únicos y al menos un sector.
 - Textos del prototipo, pendientes de aprobación de marketing.
 
 ---
@@ -360,6 +383,16 @@ anterior desde el panel de Pages.
 - **29/sep/2026** — Las filas de servicios no reciben foco de teclado. No son
   enlaces ni controles; hacerlas enfocables solo agregaría paradas vacías al
   recorrido con Tab. El efecto al pasar el cursor es decorativo.
+- **29/sep/2026** — Sectores en móvil como tira horizontal deslizable (decisión
+  de Adrián). Con las pestañas apiladas, el panel quedaba fuera de pantalla y el
+  cambio de sector no se veía; la tira deja el panel justo debajo.
+- **29/sep/2026** — El indicador de pestañas y el cambio de panel usan CSS, no
+  GSAP. JavaScript solo escribe la posición del indicador como propiedades CSS
+  (permitido por la CSP); así la interacción funciona aunque GSAP aún no cargue.
+- **29/sep/2026** — El QA responsive ignora los desbordes dentro de cualquier
+  contenedor con scroll o recorte propio, no solo en el padre directo. La tira de
+  sectores se desliza a propósito; el scroll horizontal de la página se sigue
+  verificando con `scrollWidth`.
 - **28/sep/2026** — Imágenes sin metadatos (`scripts/strip-image-metadata.mjs`,
   gate `images:check` en CI). El puente de archivos del entorno de desarrollo
   añade un manifiesto C2PA de ~6 KB a cada imagen, y las fotos de obra pueden
