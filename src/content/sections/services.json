@@ -1,0 +1,84 @@
+{
+  "id": "servicios",
+  "eyebrow": "Qué hacemos",
+  "title": "Diez capacidades, un solo responsable",
+  "lead": "Diseñamos, suministramos, instalamos y mantenemos. Cada línea se integra con las demás porque las ejecuta el mismo equipo.",
+  "groups": [
+    {
+      "id": "seguridad-electronica",
+      "title": "Seguridad electrónica",
+      "summary": "Protección de accesos, activos y perímetro",
+      "items": [
+        {
+          "icon": "cctv",
+          "name": "Videovigilancia",
+          "description": "Sistemas CCTV con cobertura perimetral e interior, centros de monitoreo y video-wall."
+        },
+        {
+          "icon": "access-control",
+          "name": "Control de acceso",
+          "description": "Accesos vehiculares y peatonales, torniquetes, rayos X y detección de metales."
+        },
+        {
+          "icon": "intrusion",
+          "name": "Detección de intrusión",
+          "description": "Alarmas, sensores perimetrales y sistemas de aviso temprano."
+        }
+      ]
+    },
+    {
+      "id": "proteccion-contra-incendios",
+      "title": "Protección contra incendios",
+      "summary": "Detección temprana y supresión",
+      "items": [
+        {
+          "icon": "fire-detection",
+          "name": "Detección de incendios",
+          "description": "Detectores, paneles de alarma, megafonía de evacuación y detección por aspiración."
+        },
+        {
+          "icon": "fire-suppression",
+          "name": "Extinción de incendios",
+          "description": "Supresión por agentes limpios, redes de agua, bombas contra incendio e hidrantes."
+        }
+      ]
+    },
+    {
+      "id": "infraestructura",
+      "title": "Infraestructura",
+      "summary": "La base que sostiene los sistemas",
+      "items": [
+        {
+          "icon": "structured-cabling",
+          "name": "Voz y datos",
+          "description": "Cableado estructurado, racks y canalización."
+        },
+        {
+          "icon": "electrical",
+          "name": "Instalaciones eléctricas",
+          "description": "Acometidas, tableros, canalización y alimentación de los sistemas instalados."
+        },
+        {
+          "icon": "precision-cooling",
+          "name": "Clima de precisión",
+          "description": "Climatización para site y centros de datos, con control continuo."
+        }
+      ]
+    }
+  ],
+  "transversal": {
+    "title": "Servicios en todas las líneas",
+    "items": [
+      {
+        "icon": "engineering",
+        "name": "Diseño e ingeniería de proyecto",
+        "description": "El análisis previo que define qué se instala y por qué."
+      },
+      {
+        "icon": "maintenance",
+        "name": "Mantenimiento preventivo y correctivo",
+        "description": "Sobre cualquiera de las líneas anteriores."
+      }
+    ]
+  }
+}

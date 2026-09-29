@@ -1,0 +1,130 @@
+/**
+ * Servicios: tres tarjetas en una columna hasta 900 px y en fila desde ahí, más
+ * la franja de servicios transversales. Cada servicio muestra, al pasar el
+ * cursor, una línea de acento sobre el borde de su tarjeta.
+ */
+
+.services {
+  padding-block: var(--space-section);
+}
+
+.groups {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.card {
+  --line-offset: var(--card-padding);
+  padding: var(--card-padding);
+  background-color: var(--color-surface);
+}
+
+.groupTitle {
+  color: var(--color-accent);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.groupSummary {
+  margin-top: var(--space-2);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+}
+
+.list,
+.stripList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list {
+  margin-top: var(--space-3);
+}
+
+.list .item {
+  padding-block: var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-line);
+}
+
+.list .item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  gap: var(--space-3);
+}
+
+.item::before {
+  position: absolute;
+  inset-block: var(--space-3);
+  left: calc(-1 * var(--line-offset));
+  width: var(--line-thick);
+  content: "";
+  background-color: var(--color-accent);
+  transform: scaleY(0);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.icon {
+  flex: none;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  color: var(--color-accent);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
+}
+
+.name {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  letter-spacing: -0.012em;
+}
+
+.description {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+}
+
+.strip {
+  margin-top: var(--space-4);
+}
+
+.stripList {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (hover: hover) {
+  .item:hover::before {
+    transform: scaleY(1);
+  }
+
+  .item:hover .icon {
+    color: var(--color-accent-hover);
+    transform: translateY(calc(-1 * var(--press-offset) * 2));
+  }
+}
+
+@media (min-width: 768px) {
+  .stripList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: calc(var(--card-padding) * 2);
+  }
+}
+
+@media (min-width: 900px) {
+  .groups {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

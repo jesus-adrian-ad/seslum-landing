@@ -98,6 +98,8 @@
   --line-medium: 1.5px;
   --press-offset: 1px;
   --icon-sm: 1.25rem;
+  --icon-md: 1.625rem;
+  --card-padding: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem);
   --burger-gap: 0.375rem;
   --burger-gap-hover: 0.4375rem;
 

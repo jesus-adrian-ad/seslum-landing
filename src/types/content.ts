@@ -110,3 +110,43 @@ export interface HeroContent {
     readonly more: string;
   };
 }
+
+export const SERVICE_ICON_NAMES = [
+  "cctv",
+  "access-control",
+  "intrusion",
+  "fire-detection",
+  "fire-suppression",
+  "structured-cabling",
+  "electrical",
+  "precision-cooling",
+  "engineering",
+  "maintenance",
+] as const;
+
+export type ServiceIconName = (typeof SERVICE_ICON_NAMES)[number];
+
+export interface ServiceItem<Icon extends string = ServiceIconName> {
+  readonly icon: Icon;
+  readonly name: string;
+  readonly description: string;
+}
+
+export interface ServiceGroup<Icon extends string = ServiceIconName> {
+  readonly id: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly items: readonly ServiceItem<Icon>[];
+}
+
+export interface ServicesContent<Icon extends string = ServiceIconName> {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly groups: readonly ServiceGroup<Icon>[];
+  readonly transversal: {
+    readonly title: string;
+    readonly items: readonly ServiceItem<Icon>[];
+  };
+}
