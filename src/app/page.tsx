@@ -2,9 +2,10 @@
  * Página principal: compone las secciones en el orden del mapa del SPEC.
  */
 
-import { hero, navbar } from "@/lib/content";
+import { hero, navbar, services } from "@/lib/content";
 import { Hero } from "@/sections/Hero/Hero";
 import { Navbar } from "@/sections/Navbar/Navbar";
+import { Services } from "@/sections/Services/Services";
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <Navbar content={navbar} />
       <main id="main">
         <Hero content={hero} />
+        <Services content={services} />
       </main>
     </>
   );
