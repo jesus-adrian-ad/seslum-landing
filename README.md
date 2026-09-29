@@ -277,6 +277,7 @@ node scripts/responsive-shots.mjs --url http://localhost:8788 --section <slug>
 | `legacy-javascript-insight` como advertencia en Lighthouse | Next.js mete siempre en su bundle principal un módulo de polyfills (`Array.prototype.at`, `flat`, `Object.fromEntries`, ~13 KB) que no se puede quitar por configuración. Es parte del costo de haber elegido Next; no afecta la calificación de Performance | 28/sep/2026 | Que Next permita desactivar `polyfill-module` para navegadores modernos |
 | `@next/next/no-img-element` apagado | Con exportación estática, `next/image` no optimiza y además escribe `style="color:transparent"`, que la CSP bloquea. Las imágenes se entregan ya optimizadas (WebP, `srcset`, `width`/`height`) | 28/sep/2026 | Un loader de imágenes que no escriba estilos en línea |
 | ESLint 9 en lugar de 10 | `eslint-plugin-react` (incluido en `eslint-config-next`) todavía no es compatible con ESLint 10 | 28/sep/2026 | Soporte de ESLint 10 en `eslint-plugin-react` |
+| TypeScript 6 en lugar de 7 (Dependabot ignora sus versiones mayores) | `typescript-eslint` todavía no soporta TypeScript 7: el lint del CI falla con "does not support TS 7.0" | 29/sep/2026 | Soporte de TypeScript 7 en `typescript-eslint`; entonces se quita el `ignore` de `.github/dependabot.yml` |
 
 ---
 

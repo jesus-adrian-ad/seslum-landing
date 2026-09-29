@@ -15,6 +15,9 @@ updates:
         patterns: ["next", "react", "react-dom", "eslint-config-next", "@types/react", "@types/react-dom"]
       tooling:
         patterns: ["eslint", "typescript", "vitest", "playwright", "wrangler", "@types/node"]
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: chore
       include: scope
