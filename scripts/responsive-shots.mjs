@@ -10,6 +10,9 @@
  * Lo que el script NO puede juzgar es si se ve bien. Eso lo miras tú en los
  * PNG antes de dar el bloque por cerrado.
  *
+ * Corre con movimiento reducido: audita el layout final, no un fotograma a
+ * mitad de una animación de entrada (un translateX en curso parece desborde).
+ *
  *   node scripts/responsive-shots.mjs --url http://localhost:4321
  *   node scripts/responsive-shots.mjs --url http://localhost:4321 --section hero
  *   node scripts/responsive-shots.mjs --url http://localhost:4321 --ci
@@ -159,6 +162,7 @@ const run = async () => {
       deviceScaleFactor: 1,
       isMobile: width < 768,
       hasTouch: width < 768,
+      reducedMotion: "reduce",
     });
     const page = await context.newPage();
 

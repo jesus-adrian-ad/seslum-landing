@@ -5,10 +5,13 @@
  * compilador verifique que el contenido cumple su contrato.
  */
 
+import heroJson from "@/content/sections/hero.json";
 import navbarJson from "@/content/sections/navbar.json";
 import siteJson from "@/content/site.json";
-import type { NavbarContent, SiteContent } from "@/types/content";
+import type { HeroContent, NavbarContent, SiteContent } from "@/types/content";
 
 export const site: SiteContent = siteJson;
 
 export const navbar: NavbarContent = navbarJson;
+
+export const hero: HeroContent = heroJson;

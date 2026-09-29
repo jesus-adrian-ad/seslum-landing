@@ -5,6 +5,8 @@
  * Sustituye a @axe-core/cli, que depende de que ChromeDriver y Chrome tengan la
  * misma versión y se rompe cada vez que el runner actualiza uno sin el otro.
  * Falla con violaciones serious o critical; las demás se reportan como aviso.
+ * Se audita con movimiento reducido para medir el estado final de la página y no
+ * un fotograma a mitad de una animación de entrada (el contraste saldría falso).
  *
  *   node scripts/axe-check.mjs --url http://localhost:8788
  */
@@ -32,7 +34,7 @@ const browser = await chromium.launch();
 let blocking = 0;
 
 for (const viewport of VIEWPORTS) {
-  const context = await browser.newContext({ viewport });
+  const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.goto(url, { waitUntil: "networkidle" });
   const { violations } = await new AxeBuilder({ page }).withTags(TAGS).analyze();

@@ -1,0 +1,21 @@
+{
+  "id": "inicio",
+  "eyebrow": "Integrador de seguridad · Monterrey",
+  "title": "Proyectos que no admiten falla",
+  "lead": "Instalaciones críticas en industria, banca, salud y hotelería. Ingeniería propia y acompañamiento durante todo el proyecto.",
+  "primaryCta": { "label": "Solicitar cotización", "href": "#contacto" },
+  "secondaryCta": { "label": "Ver proyectos", "href": "#proyectos" },
+  "image": {
+    "src": "/images/hero/obra-contra-incendio-1000.webp",
+    "srcSet": "/images/hero/obra-contra-incendio-480.webp 480w, /images/hero/obra-contra-incendio-768.webp 768w, /images/hero/obra-contra-incendio-1000.webp 1000w",
+    "sizes": "100vw",
+    "alt": "Instalación de sistema de protección contra incendios",
+    "width": 1000,
+    "height": 520
+  },
+  "panel": {
+    "title": "Líneas integradas",
+    "lines": ["Videovigilancia", "Control de acceso", "Detección de incendios", "Voz y datos"],
+    "more": "+ 6 líneas adicionales"
+  }
+}

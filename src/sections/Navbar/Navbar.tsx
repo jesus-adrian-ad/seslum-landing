@@ -7,13 +7,14 @@
  * la sección visible. Por debajo, un botón abre el menú a pantalla completa en un
  * dialog modal (foco atrapado, cierre con Esc) que se revela con un recorte
  * hexagonal desde el propio botón. Al hacer scroll la barra se compacta y una
- * línea marca el avance de lectura.
+ * línea marca el avance de lectura. GSAP llega con carga diferida: antes de que
+ * cargue, todo funciona igual pero sin animación.
  */
 
-import { type SyntheticEvent, useCallback, useRef, useState } from "react";
+import { type SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
 import { ButtonLink } from "@/components/ButtonLink/ButtonLink";
 import { coveringRadius, hexagonClipPath } from "@/lib/clip-path";
-import { gsap, MOTION, MOTION_CONDITIONS, ScrollTrigger, useGSAP } from "@/lib/motion";
+import { type MotionModule, useMotionModule } from "@/lib/use-motion";
 import type { NavbarContent } from "@/types/content";
 import styles from "./Navbar.module.css";
 
@@ -21,6 +22,8 @@ const COMPACT_AFTER_PX = 48;
 const DESKTOP_QUERY = "(min-width: 1180px)";
 const SPY_LINE = "top 45%";
 const SPY_END = "bottom 45%";
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+const CLOSE_SPEEDUP = 1.6;
 
 export interface NavbarProps {
   readonly content: NavbarContent;
@@ -40,8 +43,10 @@ function originOf(element: HTMLElement | null): RevealOrigin {
 }
 
 function prefersReducedMotion(): boolean {
-  return window.matchMedia(MOTION_CONDITIONS.reducedMotion).matches;
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
 }
+
+type MenuTimeline = ReturnType<MotionModule["gsap"]["timeline"]>;
 
 export function Navbar({ content }: NavbarProps) {
   const headerRef = useRef<HTMLElement>(null);
@@ -51,32 +56,36 @@ export function Navbar({ content }: NavbarProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const openButtonRef = useRef<HTMLButtonElement>(null);
-  const menuTimelineRef = useRef<gsap.core.Timeline | null>(null);
+  const menuTimelineRef = useRef<MenuTimeline | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const motion = useMotionModule();
 
-  const finishClose = useCallback((restoreFocus: boolean): void => {
-    const dialog = dialogRef.current;
-    const panel = panelRef.current;
-    menuTimelineRef.current?.kill();
-    menuTimelineRef.current = null;
-    if (panel) {
-      gsap.set(panel, { clearProps: "clipPath" });
-      gsap.set(panel.querySelectorAll("[data-menu-item], [data-menu-footer]"), { clearProps: "all" });
-    }
-    dialog?.close();
-    if (restoreFocus) {
-      openButtonRef.current?.focus();
-    }
-  }, []);
-
-  useGSAP(
-    () => {
-      const header = headerRef.current;
-      const progress = progressRef.current;
-      if (!header || !progress) {
-        return;
+  const finishClose = useCallback(
+    (restoreFocus: boolean): void => {
+      const dialog = dialogRef.current;
+      const panel = panelRef.current;
+      menuTimelineRef.current?.kill();
+      menuTimelineRef.current = null;
+      if (panel && motion) {
+        motion.gsap.set(panel, { clearProps: "clipPath" });
+        motion.gsap.set(panel.querySelectorAll("[data-menu-item], [data-menu-footer]"), { clearProps: "all" });
       }
+      dialog?.close();
+      if (restoreFocus) {
+        openButtonRef.current?.focus();
+      }
+    },
+    [motion],
+  );
 
+  useEffect(() => {
+    const header = headerRef.current;
+    const progress = progressRef.current;
+    if (!motion || !header || !progress) {
+      return undefined;
+    }
+    const { gsap, ScrollTrigger } = motion;
+    const context = gsap.context(() => {
       ScrollTrigger.create({
         start: COMPACT_AFTER_PX,
         end: "max",
@@ -111,39 +120,38 @@ export function Navbar({ content }: NavbarProps) {
           },
         });
       }
-    },
-    { scope: headerRef, dependencies: [content.links, finishClose] },
-  );
+    }, header);
+    return () => context.revert();
+  }, [motion, content.links, finishClose]);
 
-  useGSAP(
-    () => {
-      const indicator = indicatorRef.current;
-      const list = linksRef.current;
-      if (!indicator || !list) {
-        return;
-      }
-      const target = activeId ? list.querySelector<HTMLAnchorElement>(`a[data-section="${activeId}"]`) : null;
-      const duration = prefersReducedMotion() ? 0 : MOTION.durationBase;
-      if (!target) {
-        gsap.to(indicator, { autoAlpha: 0, duration });
-        return;
-      }
-      gsap.to(indicator, {
-        x: target.offsetLeft,
-        width: target.offsetWidth,
-        autoAlpha: 1,
-        duration,
-        ease: MOTION.easeOut,
-      });
-    },
-    { scope: headerRef, dependencies: [activeId] },
-  );
+  useEffect(() => {
+    const indicator = indicatorRef.current;
+    const list = linksRef.current;
+    if (!motion || !indicator || !list) {
+      return;
+    }
+    const { gsap, MOTION } = motion;
+    const target = activeId ? list.querySelector<HTMLAnchorElement>(`a[data-section="${activeId}"]`) : null;
+    const duration = prefersReducedMotion() ? 0 : MOTION.durationBase;
+    if (!target) {
+      gsap.to(indicator, { autoAlpha: 0, duration });
+      return;
+    }
+    gsap.to(indicator, {
+      x: target.offsetLeft,
+      width: target.offsetWidth,
+      autoAlpha: 1,
+      duration,
+      ease: MOTION.easeOut,
+    });
+  }, [motion, activeId]);
 
-  const buildMenuTimeline = useCallback((origin: RevealOrigin): gsap.core.Timeline | null => {
+  const buildMenuTimeline = useCallback((loaded: MotionModule, origin: RevealOrigin): MenuTimeline | null => {
     const panel = panelRef.current;
     if (!panel) {
       return null;
     }
+    const { gsap, MOTION } = loaded;
     const reveal = { radius: 0 };
     const finalRadius = coveringRadius(origin.x, origin.y, window.innerWidth, window.innerHeight);
     const applyClip = (): void => {
@@ -177,13 +185,13 @@ export function Navbar({ content }: NavbarProps) {
       return;
     }
     dialog.showModal();
-    if (prefersReducedMotion()) {
+    if (!motion || prefersReducedMotion()) {
       return;
     }
-    const timeline = buildMenuTimeline(originOf(openButtonRef.current));
+    const timeline = buildMenuTimeline(motion, originOf(openButtonRef.current));
     menuTimelineRef.current = timeline;
     timeline?.play(0);
-  }, [buildMenuTimeline]);
+  }, [motion, buildMenuTimeline]);
 
   const closeMenu = useCallback((): void => {
     const timeline = menuTimelineRef.current;
@@ -192,7 +200,7 @@ export function Navbar({ content }: NavbarProps) {
       return;
     }
     timeline.eventCallback("onReverseComplete", () => finishClose(true));
-    timeline.timeScale(1.6).reverse();
+    timeline.timeScale(CLOSE_SPEEDUP).reverse();
   }, [finishClose]);
 
   const handleCancel = useCallback(

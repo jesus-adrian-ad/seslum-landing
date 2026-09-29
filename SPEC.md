@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 1 (Navbar) · Última actualización: 28/sep/2026
+> Estado: Bloque 2 (Encabezado) · Última actualización: 29/sep/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -37,8 +37,8 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | # | Sección | Slug (rama) | Qué contiene | Estado |
 |---|---|---|---|---|
 | 0 | Fundaciones | `foundations` | Next.js estático, tokens, layout, SEO, GTM + Consent Mode, CSP, CI, deploy | Publicado |
-| 1 | Navbar | `navbar` | Barra fija, logo, 5 enlaces (≥ 1180 px), CTA, menú hamburguesa animado (< 1180 px) | En PR |
-| 2 | Encabezado | `hero` | Foto de obra a pantalla completa, título, 2 CTA, panel "Líneas integradas" | Pendiente |
+| 1 | Navbar | `navbar` | Barra fija, logo, 5 enlaces (≥ 1180 px), CTA, menú hamburguesa animado (< 1180 px) | Publicado |
+| 2 | Encabezado | `hero` | Foto de obra a pantalla completa, título, 2 CTA, panel "Líneas integradas" | En PR |
 | 3 | Servicios | `services` | 3 especialidades + 2 servicios transversales (10 capacidades) | Pendiente |
 | 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles, sin desplazar la página | Pendiente |
 | 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados | Pendiente |
@@ -62,7 +62,7 @@ de cada bloque.
 |---|---|---|
 | Textos definitivos | Danna, a partir del guion de YiSoft | ⏳ Se usan los del prototipo como referencia |
 | Logo SVG | Equipo de diseño de SESLUM | ⏳ Placeholder PNG mientras tanto |
-| Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ |
+| Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ (la del hero mide 1000×520; conviene una de ≥ 2400 px) |
 | Logotipos de marcas autorizadas | Cliente | ✅ |
 | Datos de contacto y horario | Cliente | ✅ (`src/content/site.json`) |
 | Aviso de privacidad | Cliente | ⏳ **Bloquea el bloque `contact-form`** |
@@ -93,7 +93,7 @@ de cada bloque.
 | Framework | Next.js 16 (App Router) con `output: "export"` | Decisión de Adrián; HTML estático completo para SEO |
 | Lenguaje | TypeScript estricto | Contratos de contenido verificados en compilación |
 | Estilos | CSS plano con tokens + una hoja por sección | Sin runtime de estilos; compatible con CSP estricta |
-| Animación | GSAP + ScrollTrigger (desde el bloque `hero`) | Animaciones de primer nivel con control fino |
+| Animación | Entradas en CSS; GSAP + ScrollTrigger con carga diferida para scroll e interacción | Animaciones de primer nivel sin castigar el LCP |
 | Formularios | Cloudflare Pages Function | El export estático no admite rutas de API |
 | Analítica | GTM → GA4 (y Google Ads desde GTM) | GTM es la única etiqueta en el código |
 | Pruebas | Vitest para `src/lib` | La lógica pura es lo que vale la pena probar |
@@ -165,3 +165,4 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.
 - [ ] Mensaje precargado de WhatsApp (Danna).
 - [ ] Perfil de LinkedIn.
+- [ ] Foto del encabezado en alta resolución (≥ 2400 px de ancho). Se regenera con `scripts/optimize-image.mjs … --brand`.
