@@ -2,15 +2,15 @@
  * Sistema de movimiento del sitio: registro único de GSAP y sus plugins, y los
  * valores de animación compartidos por todas las secciones.
  *
- * Toda animación se declara dentro de una condición de gsap.matchMedia, así el
- * movimiento se apaga solo cuando el visitante pide reducirlo en su sistema.
+ * Este módulo se carga de forma diferida (ver use-motion.ts). Toda animación se
+ * declara dentro de gsap.context para limpiarse al desmontar, y respeta
+ * prefers-reduced-motion mediante gsap.matchMedia o MOTION_CONDITIONS.
  */
 
-import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(ScrollTrigger);
 
 export const MOTION_CONDITIONS = {
   motionOk: "(prefers-reduced-motion: no-preference)",
@@ -27,4 +27,4 @@ export const MOTION = {
   stagger: 0.06,
 } as const;
 
-export { gsap, ScrollTrigger, useGSAP };
+export { gsap, ScrollTrigger };
