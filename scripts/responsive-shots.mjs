@@ -72,12 +72,20 @@ const audit = ({ minTap, minFont }) => {
     const r = el.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) continue;
 
-    // Desbordes: se ignora lo que desborda a propósito dentro de su propio
-    // contenedor con overflow (tablas, bloques de código).
+    // Desbordes: se ignora lo que desborda a propósito dentro de un contenedor
+    // con overflow propio, a cualquier profundidad (tablas, bloques de código,
+    // tiras de pestañas deslizables). El scroll horizontal de la página se
+    // sigue detectando arriba con scrollWidth.
     if (r.right > vw + 1 || r.left < -1) {
-      const parent = el.parentElement;
-      const parentOverflow = parent ? getComputedStyle(parent).overflowX : "visible";
-      if (parentOverflow !== "auto" && parentOverflow !== "scroll" && parentOverflow !== "hidden") {
+      let clipped = false;
+      for (let node = el.parentElement; node && node !== document.body; node = node.parentElement) {
+        const overflowX = getComputedStyle(node).overflowX;
+        if (overflowX === "auto" || overflowX === "scroll" || overflowX === "hidden" || overflowX === "clip") {
+          clipped = true;
+          break;
+        }
+      }
+      if (!clipped) {
         issues.push({
           type: "overflow",
           severity: "error",
