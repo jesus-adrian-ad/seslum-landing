@@ -1,11 +1,9 @@
 {
   "logo": {
-    "src": "/images/brand/logo-seslum-placeholder-124.webp",
-    "srcSet": "/images/brand/logo-seslum-placeholder-124.webp 124w, /images/brand/logo-seslum-placeholder-142.webp 142w, /images/brand/logo-seslum-placeholder-248.webp 248w, /images/brand/logo-seslum-placeholder-284.webp 284w",
-    "sizes": "(min-width: 1180px) 142px, 124px",
+    "src": "/images/brand/logo-seslum.svg",
     "alt": "Grupo SESLUM — ir al inicio",
-    "width": 124,
-    "height": 28
+    "width": 123,
+    "height": 34
   },
   "homeHref": "#inicio",
   "ariaLabel": "Navegación principal",

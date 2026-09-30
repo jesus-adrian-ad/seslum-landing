@@ -61,13 +61,13 @@ de cada bloque.
 | Elemento | Origen | ¿Recibido? |
 |---|---|---|
 | Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado y Servicios aprobados · ⏳ resto con los del prototipo |
-| Logo SVG | Equipo de diseño de SESLUM | ⏳ Placeholder PNG mientras tanto |
+| Logo SVG | Equipo de diseño de SESLUM | ✅ Tablero de marca recibido el 29/sep; horizontal claro e isotipo extraídos (`public/images/brand/`) |
 | Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada por el cliente (mide 1000×520; conviene una de ≥ 2400 px) |
 | Logotipos de marcas autorizadas | Cliente | ✅ |
 | Datos de contacto y horario | Cliente | ✅ (`src/content/site.json`) |
 | Aviso de privacidad | Cliente | ⏳ **Bloquea el bloque `contact-form`** |
 | Perfil de LinkedIn | Cliente | ⏳ Se enlaza cuando exista |
-| Imagen Open Graph (1200×630) | Se arma con el logo definitivo | ⏳ Bloqueada por el logo SVG (ver sección 11) |
+| Imagen Open Graph (1200×630) | Se genera con `npm run og:image` | ✅ |
 
 ## 5. Sistema visual
 
@@ -158,17 +158,12 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 ## 11. PENDIENTE
 
 - [ ] ID del contenedor de GTM y acceso para YiSoft (marketing de SESLUM).
-- [ ] Logo en SVG (equipo de diseño).
+- [x] Logo en SVG (equipo de diseño). Recibido el 29/sep como tablero; si diseño exporta los archivos sueltos, se sustituyen.
 - [ ] Primer bloque de textos (Danna).
 - [ ] Aviso de privacidad (cliente) — bloquea `contact-form`.
 - [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.
 - [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.
 - [ ] Mensaje precargado de WhatsApp (Danna).
 - [ ] Perfil de LinkedIn.
-- [ ] Vista previa al compartir (Open Graph) — espera el logo SVG. Rama propia
-      `fix/open-graph`: imagen 1200×630 JPG < 300 KB por script, `og:image` con
-      dimensiones y `alt`, tarjeta `summary_large_image`, `metadataBase` por
-      entorno (staging hoy apunta a GoDaddy), `robots.txt` de staging abierto a
-      los lectores de vista previa y `Cross-Origin-Resource-Policy: cross-origin`
-      solo para esa imagen. Detectado el 29/sep al compartir el link.
+- [x] Vista previa al compartir (Open Graph), resuelta en `feat/brand-logo`.
 - [ ] Foto del encabezado en alta resolución (≥ 2400 px de ancho). Se regenera con `scripts/optimize-image.mjs … --brand`.

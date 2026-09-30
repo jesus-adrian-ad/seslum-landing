@@ -62,7 +62,8 @@ npm run preview      # http://localhost:8788 — sirve out/ con las cabeceras re
 npm run lint         # ESLint, cero advertencias
 npm run typecheck
 npm test
-npm run images:strip # quita EXIF, XMP y C2PA de las imágenes (images:check solo verifica)
+npm run images:strip # quita EXIF, XMP y C2PA de las imágenes, JPEG incluido (images:check solo verifica)
+npm run og:image     # regenera la imagen de vista previa al compartir (Playwright + sharp)
 node scripts/optimize-image.mjs <original> <salida> <anchos> [--brand]  # variantes WebP de una foto
 ```
 
@@ -83,6 +84,7 @@ en este repo.
 |---|---|
 | `NEXT_PUBLIC_SITE_ENV` | `production` solo en `main`. Cualquier otro valor marca el sitio como no indexable. |
 | `NEXT_PUBLIC_GTM_ID` | Contenedor de GTM. Vacío = no se carga GTM. |
+| `NEXT_PUBLIC_SITE_URL` | Solo staging: URL del alias de la rama en Pages, base de canonical y `og:image`. La calcula el workflow; en local puede ir vacía. |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` · `TURNSTILE_SECRET_KEY` · `CONTACT_FORM_TO` | Formulario (bloque 10). |
 
 ---
@@ -126,22 +128,31 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - CSP estricta con hashes calculados en cada build y página 404 propia.
 - Workflow de CI con los gates y despliegue por Direct Upload.
 - Marcador temporal en la página principal, que se retira con el primer bloque visible.
-- **Pendiente: vista previa al compartir el link (Open Graph).** Hoy WhatsApp,
-  LinkedIn y demás muestran solo título y descripción. Se resuelve cuando llegue
-  el logo SVG, en su propia rama (`fix/open-graph`):
-  1. Imagen 1200×630 en JPG (< 300 KB) generada por script desde una plantilla,
-     con `og:image`, dimensiones, `alt` y tarjeta `summary_large_image`.
-  2. `metadataBase` por entorno: producción `seslum.com.mx`, staging la URL de su
-     rama en `pages.dev` (hoy todo apunta al sitio de GoDaddy).
-  3. `robots.txt` de staging que deje pasar a los lectores de vista previa;
-     Google sigue fuera por el `noindex`.
-  4. `Cross-Origin-Resource-Policy: cross-origin` solo para la imagen de vista previa.
+- **Logo e identidad** (rama `feat/brand-logo`):
+  - Logo horizontal claro en SVG (`public/images/brand/logo-seslum.svg`, 3 KB),
+    extraído del tablero de marca que entregó diseño (`assets-src/logo-seslum.svg`).
+  - Favicon SVG (isotipo claro sobre azul marino), ícono de Apple 180 px y el
+    logo cuadrado de 512 px que declara el JSON-LD.
+- **Vista previa al compartir (Open Graph):**
+  - Imagen 1200×630 en JPG (`public/images/og/seslum-og.jpg`, ~30 KB) generada
+    con `npm run og:image` a partir de la foto, el logo y el título del encabezado.
+    Composición centrada: WhatsApp recorta a cuadrado desde el centro.
+  - `og:image` con dimensiones y `alt`, tarjeta `summary_large_image`.
+  - Las direcciones absolutas salen de la URL pública de cada despliegue: en
+    producción `seslum.com.mx` y en staging el alias de la rama en `pages.dev`
+    (`NEXT_PUBLIC_SITE_URL`, que calcula el workflow). Así un link de prueba
+    compartido carga su propia imagen.
+  - `robots.txt` de staging deja pasar solo a los lectores de vista previa
+    (WhatsApp, Facebook, LinkedIn, X, Slack, Telegram, Discord); Google sigue
+    fuera por el `noindex`.
+  - `Cross-Origin-Resource-Policy: cross-origin` solo en `/images/og/*`, para
+    las apps que muestran la imagen directo desde el sitio.
 
 ### 1 · Navbar
 
 - Barra fija casi opaca (sin `backdrop-filter`: ver Decisiones). Al pasar 48 px de scroll se compacta (68 → 56 px) y
   una línea de 2 px en el color de acento marca el avance de lectura.
-- Logo placeholder con `srcset` (124/142 px y sus versiones 2x), respetando el
+- Logo SVG a 34 px de alto (123 px de ancho; 36 px desde 1180 px), respetando el
   ancho mínimo de 120 px del manual de marca. Enlaza a `#inicio`.
 - Desde 1180 px: los 5 enlaces a las secciones y un indicador que se desliza bajo
   la sección visible (`aria-current="location"`). Verificado con Servicios: al
@@ -375,6 +386,15 @@ anterior desde el panel de Pages.
   y sin ampliar nunca. Solo WebP: AVIF pesaba lo mismo en estas fotos.
 - **29/sep/2026** — axe y el QA responsive auditan con movimiento reducido: miden
   el estado final, no un fotograma a mitad de una animación de entrada.
+- **29/sep/2026** — Logo extraído del tablero de marca, aprobado por Adrián. Diseño
+  entregó el tablero completo de Illustrator (1.9 MB, con paleta, variantes y
+  PNG incrustados) y el horizontal solo venía en colores oscuros. Se armó el
+  horizontal claro con las proporciones exactas del oscuro y el isotipo claro del
+  propio tablero, sin el eslogan (ilegible a 34 px). Si diseño exporta los
+  archivos por separado, se sustituyen en `public/images/brand/` sin tocar código.
+- **29/sep/2026** — La URL de staging se calcula en el workflow con la misma regla
+  que usa Cloudflare para el alias de rama; un paso posterior al despliegue avisa
+  si no coincide con el alias real.
 - **29/sep/2026** — Entrada al scroll como mejora progresiva (`ScrollReveal`).
   El contenido nunca depende de JavaScript para verse: GSAP solo oculta y anima lo
   que todavía está fuera de pantalla cuando termina de cargar, así nada parpadea.

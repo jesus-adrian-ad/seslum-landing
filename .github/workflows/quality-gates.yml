@@ -13,6 +13,10 @@
 # Variables del repo: CF_PAGES_PROJECT (nombre del proyecto de Pages)
 #                     GTM_ID (contenedor de GTM; vacío mientras no exista)
 #
+# NEXT_PUBLIC_SITE_URL: en staging, la URL del alias de la rama en Pages. Los
+# metadatos (canonical, og:image) la usan como base para que la vista previa al
+# compartir un link de prueba cargue su propia imagen. En main no se usa.
+#
 # Los PRs de Dependabot corren todos los gates pero no despliegan: GitHub no les
 # entrega los secrets del repo ni permiso de escritura. La actualización se
 # despliega a staging cuando se mergea a develop.
@@ -206,10 +210,19 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - run: npm ci
+      - name: URL pública del despliegue
+        id: public-url
+        env:
+          CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
+        run: |
+          set -euo pipefail
+          alias="$(printf '%s' "$DEPLOY_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g' | cut -c1-28 | sed -E 's/^-+//; s/-+$//')"
+          echo "url=https://${alias}.${CF_PAGES_PROJECT}.pages.dev" >> "$GITHUB_OUTPUT"
       - run: npm run build
         env:
           NEXT_PUBLIC_SITE_ENV: ${{ (github.event_name == 'push' && github.ref_name == 'main') && 'production' || 'staging' }}
           NEXT_PUBLIC_GTM_ID: ${{ vars.GTM_ID }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.public-url.outputs.url }}
 
       - name: Publicar en Pages
         id: pages
@@ -218,6 +231,15 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy out --project-name=${{ vars.CF_PAGES_PROJECT }} --branch=${{ env.DEPLOY_BRANCH }} --commit-hash=${{ github.sha }} --commit-dirty=true
+
+      - name: Verificar la URL pública
+        env:
+          EXPECTED_URL: ${{ steps.public-url.outputs.url }}
+          ALIAS_URL: ${{ steps.pages.outputs.pages-deployment-alias-url }}
+        run: |
+          if [ -n "$ALIAS_URL" ] && [ "${ALIAS_URL%/}" != "$EXPECTED_URL" ]; then
+            echo "::warning::El alias de Pages ($ALIAS_URL) no coincide con la URL usada en los metadatos ($EXPECTED_URL). La vista previa al compartir apuntará a otra dirección."
+          fi
 
       - name: Comentar el preview en el PR
         if: github.event_name == 'pull_request'

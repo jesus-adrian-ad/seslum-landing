@@ -11,6 +11,11 @@ describe("buildLocalBusinessSchema", () => {
     expect(schema.email).toBe(site.contact.email);
   });
 
+  it("points logo and image at the canonical domain", () => {
+    expect(schema.logo).toBe(`${site.url}${site.brand.logo}`);
+    expect(schema.image).toBe(`${site.url}${site.seo.image.src}`);
+  });
+
   it("omits sameAs while there is no LinkedIn profile", () => {
     expect(site.social.linkedin).toBeNull();
     expect(schema).not.toHaveProperty("sameAs");
