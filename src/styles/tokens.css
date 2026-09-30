@@ -27,6 +27,7 @@
   --color-accent-hover: #4cc6f0;
   --color-accent-soft: rgb(35 181 233 / 0.09);
   --color-accent-muted: rgb(35 181 233 / 0.45);
+  --color-accent-faint: rgb(35 181 233 / 0.07);
   --color-on-accent: var(--color-void);
   --color-line: rgb(255 255 255 / 0.13);
   --color-line-strong: rgb(255 255 255 / 0.3);
@@ -100,6 +101,7 @@
   --line-thick: 2px;
   --line-medium: 1.5px;
   --press-offset: 1px;
+  --icon-xs: 1rem;
   --icon-sm: 1.25rem;
   --icon-md: 1.625rem;
   --icon-lg: 2.125rem;
