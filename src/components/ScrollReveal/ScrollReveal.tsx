@@ -12,6 +12,10 @@
  * Se oculta con opacity y no con visibility: así el contenido pendiente sigue en
  * el árbol de accesibilidad y un lector de pantalla puede recorrerlo antes de
  * que el visitante haga scroll.
+ *
+ * Cada elemento animado lleva data-reveal-state ("pending" mientras espera,
+ * "revealed" al entrar), para que las secciones encadenen efectos propios en CSS
+ * sin tocar este componente. Sin ese atributo, el CSS debe mostrar el estado final.
  */
 
 import { useEffect } from "react";
@@ -20,6 +24,7 @@ import {
   ICON_SELECTOR,
   REVEAL_SELECTOR,
   REVEAL_START,
+  REVEAL_STATE_ATTRIBUTE,
   STROKE_SELECTOR,
   pendingReveals,
 } from "@/lib/reveal";
@@ -88,6 +93,7 @@ export function ScrollReveal({ rootId }: ScrollRevealProps): null {
         }
         gsap.set(pending, { opacity: 0, y: ENTER_DISTANCE_PX });
         for (const element of pending) {
+          element.setAttribute(REVEAL_STATE_ATTRIBUTE, "pending");
           hideIcons(motion, element);
         }
         ScrollTrigger.batch(pending, {
@@ -95,12 +101,18 @@ export function ScrollReveal({ rootId }: ScrollRevealProps): null {
           once: true,
           onEnter: (batch) => {
             batch.forEach((element, index) => {
+              element.setAttribute(REVEAL_STATE_ATTRIBUTE, "revealed");
               const timeline = gsap.timeline({ delay: index * BATCH_STEP_S });
               timeline.to(element, { opacity: 1, y: 0, duration: MOTION.durationSlow, ease: MOTION.easeOut }, 0);
               drawIcons(motion, element, timeline);
             });
           },
         });
+        return () => {
+          for (const element of pending) {
+            element.removeAttribute(REVEAL_STATE_ATTRIBUTE);
+          }
+        };
       });
     }, root);
     return () => context.revert();

@@ -42,16 +42,19 @@ export interface LineIconProps {
   readonly shapes: readonly LineShape[];
   readonly className?: string | undefined;
   readonly draw?: boolean;
+  readonly strokeWidth?: number;
 }
 
-export function LineIcon({ shapes, className, draw = false }: LineIconProps) {
+const DEFAULT_STROKE_WIDTH = 1.5;
+
+export function LineIcon({ shapes, className, draw = false, strokeWidth = DEFAULT_STROKE_WIDTH }: LineIconProps) {
   return (
     <svg
       className={className}
       viewBox="0 0 32 32"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"

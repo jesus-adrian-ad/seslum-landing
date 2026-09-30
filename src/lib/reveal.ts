@@ -11,6 +11,7 @@ export const ICON_SELECTOR = "[data-draw]";
 export const STROKE_SELECTOR = "[pathLength]";
 export const DOT_SELECTOR = "[data-dot]";
 export const REVEAL_START = "top 90%";
+export const REVEAL_STATE_ATTRIBUTE = "data-reveal-state";
 
 export function isBelowViewport(elementTop: number, viewportHeight: number): boolean {
   return elementTop >= viewportHeight;

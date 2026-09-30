@@ -1,0 +1,39 @@
+{
+  "id": "nosotros",
+  "eyebrow": "Por qué SESLUM",
+  "title": "La propuesta más barata rara vez es la más económica",
+  "lead": "Un sistema mal diseñado se paga dos veces: primero al instalarlo y después al corregirlo. Esto es lo que incluye trabajar con un integrador.",
+  "table": {
+    "caption": "Comparación entre trabajar con un integrador y con proveedores separados",
+    "criterionLabel": "Criterio",
+    "integratorLabel": "Con un integrador",
+    "separateLabel": "Con proveedores separados",
+    "rows": [
+      {
+        "criterion": "Diseño de la solución",
+        "integrator": "Ingeniería propia según el riesgo de su operación",
+        "separate": "Se arma con lo que hay en catálogo"
+      },
+      {
+        "criterion": "Responsable del proyecto",
+        "integrator": "Uno solo, de principio a fin",
+        "separate": "Uno por cada sistema contratado"
+      },
+      {
+        "criterion": "Integración entre sistemas",
+        "integrator": "Resuelta desde el diseño",
+        "separate": "Queda del lado del cliente"
+      },
+      {
+        "criterion": "Ante una falla",
+        "integrator": "Un interlocutor técnico responde",
+        "separate": "Cada proveedor señala al otro"
+      },
+      {
+        "criterion": "Mantenimiento",
+        "integrator": "Programado sobre todo lo instalado",
+        "separate": "Depende de cada contrato por separado"
+      }
+    ]
+  }
+}

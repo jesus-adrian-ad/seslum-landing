@@ -1,0 +1,244 @@
+/**
+ * Por qué SESLUM: en móvil, una tarjeta por criterio con la opción del
+ * integrador arriba y la de proveedores separados abajo; desde 768 px, tabla de
+ * tres columnas dentro de un marco biselado, con la columna del integrador
+ * resaltada. Marco y tarjetas dejan 1 px de padding para que el fondo de las
+ * celdas no tape la línea del borde, que se pinta por dentro.
+ *
+ * Al entrar en pantalla (data-reveal-state, ver ScrollReveal), un brillo recorre
+ * la columna del integrador fila por fila mientras se dibujan las palomitas, y
+ * las tachas aparecen al final. Sin ese atributo todo se ve en su estado final.
+ */
+
+.whySeslum {
+  padding-block: var(--space-section);
+}
+
+.whySeslum .frame {
+  --frame-color: transparent;
+  --frame-cut: 0px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.head {
+  display: none;
+}
+
+.body {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.table .row {
+  --frame-cut: var(--chamfer-md);
+  display: grid;
+  padding: var(--border-width);
+  background-color: var(--color-surface);
+}
+
+.criterion {
+  padding: var(--space-4) var(--space-5) var(--space-2);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  text-align: left;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  overflow: hidden;
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.cellLabel {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+}
+
+.integrator {
+  background-color: var(--color-accent-faint);
+  color: var(--color-text);
+}
+
+.integrator .cellLabel {
+  color: var(--color-accent);
+}
+
+.separate {
+  padding-bottom: var(--space-4);
+  color: var(--color-text-subtle);
+}
+
+.checkIcon,
+.crossIcon {
+  flex: none;
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  margin-top: 0.1875rem;
+}
+
+.checkIcon {
+  color: var(--color-accent);
+}
+
+.crossIcon {
+  color: var(--color-line-strong);
+}
+
+.integrator::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background-image: linear-gradient(180deg, transparent, var(--color-scan), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.row:nth-child(1) { --row-index: 0; }
+.row:nth-child(2) { --row-index: 1; }
+.row:nth-child(3) { --row-index: 2; }
+.row:nth-child(4) { --row-index: 3; }
+.row:nth-child(5) { --row-index: 4; }
+.row:nth-child(6) { --row-index: 5; }
+.row:nth-child(7) { --row-index: 6; }
+.row:nth-child(8) { --row-index: 7; }
+
+.frame[data-reveal-state="pending"] .crossIcon {
+  opacity: 0;
+}
+
+.frame[data-reveal-state="revealed"] .integrator::after {
+  animation: sweep var(--duration-reveal) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 2 + var(--row-index, 0) * var(--delay-enter));
+}
+
+.frame[data-reveal-state="revealed"] .crossIcon {
+  animation: appear var(--duration-base) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 9 + var(--row-index, 0) * var(--stagger-step));
+}
+
+@media (hover: hover) {
+  .row:hover .criterion,
+  .row:hover .separate {
+    background-color: var(--color-surface-hover);
+  }
+}
+
+@media (min-width: 768px) {
+  .whySeslum .frame {
+    --frame-color: var(--color-line);
+    --frame-cut: var(--chamfer-lg);
+    padding: var(--border-width);
+    background-color: var(--color-surface);
+  }
+
+  .table {
+    display: table;
+    table-layout: fixed;
+  }
+
+  .criterionColumn {
+    width: 28%;
+  }
+
+  .head {
+    display: table-header-group;
+    background-color: var(--color-bg);
+  }
+
+  .head th {
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--ls-eyebrow);
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .integratorHead {
+    color: var(--color-accent);
+    border-inline: var(--border-width) solid var(--color-line);
+  }
+
+  .separateHead {
+    color: var(--color-text-subtle);
+  }
+
+  .body {
+    display: table-row-group;
+  }
+
+  .table .row {
+    --frame-color: transparent;
+    --frame-cut: 0px;
+    display: table-row;
+    padding: 0;
+    background-color: transparent;
+    border-top: var(--border-width) solid var(--color-line);
+  }
+
+  .criterion,
+  .cell {
+    padding: var(--space-4) var(--space-5);
+    vertical-align: top;
+  }
+
+  .cell {
+    display: table-cell;
+  }
+
+  .cell > span {
+    display: block;
+    margin-left: calc(var(--icon-xs) + var(--space-3));
+  }
+
+  .checkIcon,
+  .crossIcon {
+    position: absolute;
+    top: calc(var(--space-4) + 0.1875rem);
+    left: var(--space-5);
+    margin-top: 0;
+  }
+
+  .cellLabel {
+    display: none;
+  }
+
+  .integrator {
+    border-inline: var(--border-width) solid var(--color-line);
+  }
+
+  .separate {
+    padding-bottom: var(--space-4);
+  }
+}
+
+@keyframes sweep {
+  0% {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}

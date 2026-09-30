@@ -180,3 +180,23 @@ export interface SectorsContent<Icon extends string = SectorIconName> {
   readonly tabsLabel: string;
   readonly sectors: readonly SectorItem<Icon>[];
 }
+
+export interface ComparisonRow {
+  readonly criterion: string;
+  readonly integrator: string;
+  readonly separate: string;
+}
+
+export interface WhySeslumContent {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly table: {
+    readonly caption: string;
+    readonly criterionLabel: string;
+    readonly integratorLabel: string;
+    readonly separateLabel: string;
+    readonly rows: readonly ComparisonRow[];
+  };
+}
