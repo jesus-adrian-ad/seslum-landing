@@ -19,8 +19,8 @@ y sistemas para tu negocio.
 | 1 | Navbar | `feature/navbar` | ✅ Publicado | #2 |
 | 2 | Encabezado | `feature/hero` | ✅ Publicado | — |
 | 3 | Servicios | `feature/services` | ✅ Publicado | #10 |
-| 4 | Sectores | `feature/sectors` | 🔨 En PR | — |
-| 5 | Por qué SESLUM | `feature/why-seslum` | ⏳ Pendiente | — |
+| 4 | Sectores | `feature/sectors` | ✅ Publicado (textos en revisión) | — |
+| 5 | Por qué SESLUM | `feature/why-seslum` | 🔨 En PR | — |
 | 6 | Proyectos | `feature/projects` | ⏳ Pendiente | — |
 | 7 | Marcas y aliados | `feature/brands` | ⏳ Pendiente | — |
 | 8 | Preguntas frecuentes | `feature/faq` | ⏳ Pendiente | — |
@@ -29,7 +29,7 @@ y sistemas para tu negocio.
 | 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 5 · Por qué SESLUM
+**Siguiente bloque:** 6 · Proyectos
 
 ---
 
@@ -94,7 +94,7 @@ en este repo.
 ```
 src/
 ├── app/                    # rutas de Next: layout, página, 404, robots, sitemap, ícono
-├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, LineIcon y sus catálogos ServiceIcon/SectorIcon, TagManager, StructuredData)
+├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, LineIcon y sus catálogos ServiceIcon/SectorIcon/ComparisonIcon, TagManager, StructuredData)
 ├── content/site.json       # datos del cliente: nombre, contacto, horario, SEO
 ├── fonts/                  # Source Sans 3 variable (OFL)
 ├── lib/                    # lógica pura y probada: medición, consentimiento, GTM, SEO, JSON-LD, entrada al scroll, teclado de pestañas, media queries, validación de contenido
@@ -186,9 +186,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Contenido en `src/content/sections/hero.json`. Original de la foto en
   `assets-src/foto-hero.jpg`; variantes con `node scripts/optimize-image.mjs
   assets-src/foto-hero.jpg public/images/hero/obra-contra-incendio 480,768,1000 --brand`.
-- **Pendiente de insumo:** la foto de banco mide 1000×520. En pantallas grandes y
-  en móvil vertical se ve suave; con una foto profesional de ≥ 2400 px de ancho
-  se regeneran las variantes con el mismo comando, sin tocar código.
+- La foto de banco (1000×520) queda como definitiva por decisión del cliente. Si
+  algún día se cambia, se regeneran las variantes con el mismo comando, sin tocar código.
 
 ### 3 · Servicios
 
@@ -234,6 +233,27 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Contenido en `src/content/sections/sectors.json`, validado en el build
   (`src/lib/sectors-content.ts`): íconos del catálogo, ids únicos y al menos un sector.
 - Textos del prototipo, pendientes de aprobación de marketing.
+
+### 5 · Por qué SESLUM
+
+- `#nosotros` (destino del enlace "Por qué SESLUM" del navbar): encabezado y tabla
+  comparativa de 5 criterios entre trabajar con un integrador y con proveedores
+  separados.
+- Tabla real con encabezados de fila y de columna, y roles ARIA explícitos para
+  conservar la semántica cuando cambia el `display`. Cada opción lleva su texto
+  completo; la palomita y la tacha son decorativas.
+- Móvil (decisión de Adrián): una tarjeta biselada por criterio, con la opción
+  del integrador arriba y la de proveedores separados abajo, cada una con su
+  etiqueta. Desde 768 px: tabla de tres columnas en un marco biselado, con la
+  columna del integrador resaltada.
+- Animación: la tabla entra con `ScrollReveal`; un brillo recorre la columna del
+  integrador fila por fila mientras se dibujan las palomitas, y las tachas
+  aparecen al final, tenues. Al pasar el cursor se resalta la fila.
+- `ScrollReveal` marca cada elemento con `data-reveal-state` (`pending` /
+  `revealed`) para que las secciones encadenen efectos en CSS; sin el atributo,
+  todo se ve en su estado final.
+- Contenido en `src/content/sections/why-seslum.json`. Textos del prototipo,
+  pendientes de aprobación de marketing.
 
 ---
 
@@ -386,6 +406,9 @@ anterior desde el panel de Pages.
   y sin ampliar nunca. Solo WebP: AVIF pesaba lo mismo en estas fotos.
 - **29/sep/2026** — axe y el QA responsive auditan con movimiento reducido: miden
   el estado final, no un fotograma a mitad de una animación de entrada.
+- **30/sep/2026** — La tabla comparativa se ve como tarjetas en móvil (decisión de
+  Adrián): con tres columnas en 375 px solo cabía la primera y había que deslizar.
+  Es la misma tabla con otro `display`, no contenido duplicado.
 - **29/sep/2026** — Logo extraído del tablero de marca, aprobado por Adrián. Diseño
   entregó el tablero completo de Illustrator (1.9 MB, con paleta, variantes y
   PNG incrustados) y el horizontal solo venía en colores oscuros. Se armó el

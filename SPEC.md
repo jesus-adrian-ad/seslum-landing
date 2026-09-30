@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 4 (Sectores) · Última actualización: 29/sep/2026
+> Estado: Bloque 5 (Por qué SESLUM) · Última actualización: 30/sep/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -40,8 +40,8 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 1 | Navbar | `navbar` | Barra fija, logo, 5 enlaces (≥ 1180 px), CTA, menú hamburguesa animado (< 1180 px) | Publicado |
 | 2 | Encabezado | `hero` | Foto de obra a pantalla completa, título, 2 CTA, panel "Líneas integradas" | Publicado |
 | 3 | Servicios | `services` | 3 especialidades + 2 servicios transversales (10 capacidades) | Publicado |
-| 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable | En PR |
-| 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados | Pendiente |
+| 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable | Publicado (textos en revisión) |
+| 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | En PR |
 | 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | Pendiente |
 | 7 | Marcas y aliados | `brands` | Rejilla de logotipos autorizados | Pendiente |
 | 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas + JSON-LD `FAQPage` | Pendiente |
@@ -62,10 +62,10 @@ de cada bloque.
 |---|---|---|
 | Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado y Servicios aprobados · ⏳ resto con los del prototipo |
 | Logo SVG | Equipo de diseño de SESLUM | ✅ Tablero de marca recibido el 29/sep; horizontal claro e isotipo extraídos (`public/images/brand/`) |
-| Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada por el cliente (mide 1000×520; conviene una de ≥ 2400 px) |
+| Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada y definitiva (1000×520) |
 | Logotipos de marcas autorizadas | Cliente | ✅ |
 | Datos de contacto y horario | Cliente | ✅ (`src/content/site.json`) |
-| Aviso de privacidad | Cliente | ⏳ **Bloquea el bloque `contact-form`** |
+| Aviso de privacidad | YiSoft con Adrián | ⏳ Se redacta en conjunto al construir `contact-form` |
 | Perfil de LinkedIn | Cliente | ⏳ Se enlaza cuando exista |
 | Imagen Open Graph (1200×630) | Se genera con `npm run og:image` | ✅ |
 
@@ -160,10 +160,10 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [ ] ID del contenedor de GTM y acceso para YiSoft (marketing de SESLUM).
 - [x] Logo en SVG (equipo de diseño). Recibido el 29/sep como tablero; si diseño exporta los archivos sueltos, se sustituyen.
 - [ ] Primer bloque de textos (Danna).
-- [ ] Aviso de privacidad (cliente) — bloquea `contact-form`.
+- [ ] Aviso de privacidad — se redacta en conjunto al construir `contact-form`.
 - [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.
 - [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.
 - [ ] Mensaje precargado de WhatsApp (Danna).
 - [ ] Perfil de LinkedIn.
 - [x] Vista previa al compartir (Open Graph), resuelta en `feat/brand-logo`.
-- [ ] Foto del encabezado en alta resolución (≥ 2400 px de ancho). Se regenera con `scripts/optimize-image.mjs … --brand`.
+- [x] Foto del encabezado: se queda la actual (decisión del cliente, 30/sep).
