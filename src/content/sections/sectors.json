@@ -1,0 +1,58 @@
+{
+  "id": "sectores",
+  "eyebrow": "A quién servimos",
+  "title": "Conocemos la operación que está protegiendo",
+  "lead": "Un hospital no se protege como una planta ni como una residencia. Diseñamos cada sistema según el riesgo real de su industria.",
+  "tabsLabel": "Sectores",
+  "sectors": [
+    {
+      "id": "industrial",
+      "icon": "industrial",
+      "name": "Industrial",
+      "summary": "Plantas y parques industriales",
+      "description": "Perímetros extensos que vigilar y operación que no se detiene. Integramos videovigilancia perimetral, control de accesos vehiculares para embarques y detección de incendios en naves de alto riesgo. El mantenimiento se programa fuera de horarios productivos para no interrumpir la línea."
+    },
+    {
+      "id": "corporativo",
+      "icon": "corporate",
+      "name": "Corporativo",
+      "summary": "Oficinas y torres empresariales",
+      "description": "Alto flujo de personal y visitantes, con áreas restringidas por piso. Control de accesos peatonales con niveles de permiso, videovigilancia interior, megafonía de evacuación e infraestructura de voz y datos para todo el inmueble."
+    },
+    {
+      "id": "bancario",
+      "icon": "banking",
+      "name": "Bancario",
+      "summary": "Sucursales y áreas de valores",
+      "description": "El entorno con mayor exigencia normativa y de auditoría. Videovigilancia con retención de video, control de accesos a bóveda y áreas restringidas, detección de intrusión y sistemas de alarma con protocolos de respuesta documentados."
+    },
+    {
+      "id": "hotelero",
+      "icon": "hospitality",
+      "name": "Hotelero",
+      "summary": "Cadenas y desarrollos turísticos",
+      "description": "Huéspedes que no conocen el inmueble y áreas comunes en uso permanente. Detección de incendios por habitación, megafonía de evacuación, videovigilancia de accesos y áreas comunes, y control de accesos a zonas de servicio."
+    },
+    {
+      "id": "salud",
+      "icon": "health",
+      "name": "Salud",
+      "summary": "Hospitales y clínicas",
+      "description": "Continuidad operativa sin margen de interrupción. Protección de áreas críticas —quirófanos, farmacia, archivo clínico—, detección temprana por aspiración en zonas sensibles y climatización de precisión para equipo médico y site."
+    },
+    {
+      "id": "comercial",
+      "icon": "retail",
+      "name": "Comercial",
+      "summary": "Plazas y comercio minorista",
+      "description": "Alto flujo de personas y exposición a pérdidas. Videovigilancia con monitoreo centralizado, sistemas antihurto, control de accesos a bodegas y áreas administrativas, y detección de incendios en locales y pasillos."
+    },
+    {
+      "id": "residencial-plus",
+      "icon": "residential",
+      "name": "Residencial Plus",
+      "summary": "Residencias de alta gama",
+      "description": "Residencias y desarrollos privados donde la seguridad no puede notarse. Videovigilancia perimetral discreta, control de accesos, detección de intrusión y automatización, con instalación cuidada que respeta la arquitectura y los acabados del inmueble."
+    }
+  ]
+}
