@@ -30,6 +30,8 @@ export function buildLocalBusinessSchema(site: SiteContent): JsonLdObject {
     name: site.name,
     description: site.description,
     url: site.url,
+    logo: `${site.url}${site.brand.logo}`,
+    image: `${site.url}${site.seo.image.src}`,
     telephone: contact.phone.e164,
     email: contact.email,
     address: {

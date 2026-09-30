@@ -86,8 +86,8 @@
   --container-padding: clamp(1rem, 0.75rem + 1.25vw, 1.375rem);
   --header-height: 4.25rem;
   --header-height-compact: 3.5rem;
-  --logo-height: 1.75rem;
-  --logo-height-lg: 2rem;
+  --logo-height: 2.125rem;
+  --logo-height-lg: 2.25rem;
 
   --chamfer-lg: 14px;
   --chamfer-md: 12px;

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Quita metadatos de las imágenes publicadas (WebP, PNG y SVG): EXIF, XMP,
+ * Quita metadatos de las imágenes publicadas (WebP, PNG, JPEG y SVG): EXIF, XMP,
  * textos y manifiestos de procedencia (C2PA).
  *
  * Dos razones: los metadatos pesan (un manifiesto C2PA puede triplicar un logo
@@ -25,6 +25,11 @@ const WEBP_FLAG_XMP = 0x04;
 const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 const PNG_KEEP = new Set(["IHDR", "PLTE", "IDAT", "IEND", "tRNS", "gAMA", "cHRM", "sRGB", "iCCP", "sBIT", "pHYs"]);
 
+const JPEG_SOI = 0xd8;
+const JPEG_SOS = 0xda;
+const JPEG_APP2 = 0xe2;
+const JPEG_METADATA_MARKERS = new Set([0xe1, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xef, 0xfe]);
+
 const SVG_METADATA = /<metadata\b[\s\S]*?<\/metadata>/gi;
 const SVG_C2PA_NAMESPACE = /\s+xmlns:c2pa="[^"]*"/gi;
 
@@ -39,7 +44,7 @@ async function listImages(dir) {
     entries.map((entry) => {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) return listImages(full);
-      return /\.(webp|png|svg)$/i.test(entry.name) ? [full] : [];
+      return /\.(webp|png|jpe?g|svg)$/i.test(entry.name) ? [full] : [];
     }),
   );
   return nested.flat();
@@ -101,6 +106,36 @@ function stripPng(buffer) {
   return { output: removed.length > 0 ? Buffer.concat(kept) : buffer, removed };
 }
 
+function isIccProfile(buffer, offset) {
+  return buffer.toString("ascii", offset + 4, offset + 15) === "ICC_PROFILE";
+}
+
+function stripJpeg(buffer) {
+  if (buffer[0] !== 0xff || buffer[1] !== JPEG_SOI) {
+    return { output: buffer, removed: [] };
+  }
+  const kept = [buffer.subarray(0, 2)];
+  const removed = [];
+  let offset = 2;
+  while (offset + 4 <= buffer.length && buffer[offset] === 0xff) {
+    const marker = buffer[offset + 1];
+    if (marker === JPEG_SOS) {
+      break;
+    }
+    const end = offset + 2 + buffer.readUInt16BE(offset + 2);
+    const isMetadata =
+      JPEG_METADATA_MARKERS.has(marker) || (marker === JPEG_APP2 && !isIccProfile(buffer, offset));
+    if (isMetadata) {
+      removed.push(`FF${marker.toString(16).toUpperCase()}`);
+    } else {
+      kept.push(buffer.subarray(offset, end));
+    }
+    offset = end;
+  }
+  kept.push(buffer.subarray(offset));
+  return { output: removed.length > 0 ? Buffer.concat(kept) : buffer, removed };
+}
+
 function stripSvg(buffer) {
   const source = buffer.toString("utf8");
   const cleaned = source.replace(SVG_METADATA, "").replace(SVG_C2PA_NAMESPACE, "");
@@ -113,6 +148,7 @@ function strip(file, buffer) {
   const extension = path.extname(file).toLowerCase();
   if (extension === ".webp") return stripWebp(buffer);
   if (extension === ".png") return stripPng(buffer);
+  if (extension === ".jpg" || extension === ".jpeg") return stripJpeg(buffer);
   return stripSvg(buffer);
 }
 

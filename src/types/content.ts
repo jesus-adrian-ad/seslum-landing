@@ -42,6 +42,7 @@ export interface SiteLocation {
 export interface SiteSeo {
   readonly title: string;
   readonly description: string;
+  readonly image: ImageAsset;
 }
 
 export interface SiteContent {
@@ -50,7 +51,7 @@ export interface SiteContent {
   readonly url: string;
   readonly locale: string;
   readonly description: string;
-  readonly brand: { readonly themeColor: string };
+  readonly brand: { readonly themeColor: string; readonly logo: string };
   readonly seo: SiteSeo;
   readonly contact: SiteContact;
   readonly location: SiteLocation;

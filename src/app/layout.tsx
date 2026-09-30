@@ -9,7 +9,7 @@ import type { ReactNode } from "react";
 import { StructuredData } from "@/components/StructuredData";
 import { TagManager } from "@/components/TagManager";
 import { site } from "@/lib/content";
-import { buildEnv, isProduction } from "@/lib/env";
+import { buildEnv, isProduction, resolvePublicUrl } from "@/lib/env";
 import { buildSiteMetadata } from "@/lib/seo";
 import { buildLocalBusinessSchema } from "@/lib/structured-data";
 import "@/styles/tokens.css";
@@ -26,7 +26,10 @@ const sourceSans = localFont({
   adjustFontFallback: "Arial",
 });
 
-export const metadata: Metadata = buildSiteMetadata(site, isProduction);
+export const metadata: Metadata = buildSiteMetadata(site, {
+  indexable: isProduction,
+  publicUrl: resolvePublicUrl(site.url, buildEnv),
+});
 
 export const viewport: Viewport = {
   width: "device-width",

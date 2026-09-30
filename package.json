@@ -2,7 +2,7 @@
   "name": "seslum-landing",
   "version": "0.1.0",
   "private": true,
-  "description": "Landing page de Grupo SESLUM — desarrollada por YiSoft Development.",
+  "description": "Landing page de Grupo SESLUM \u2014 desarrollada por YiSoft Development.",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -16,6 +16,7 @@
     "test": "vitest run",
     "images:strip": "node scripts/strip-image-metadata.mjs",
     "images:check": "node scripts/strip-image-metadata.mjs --check",
+    "og:image": "node scripts/og-image.mjs",
     "verify": "./scripts/verify-block.sh --dist out --url http://localhost:8788"
   },
   "dependencies": {
