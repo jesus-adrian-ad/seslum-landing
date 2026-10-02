@@ -5,15 +5,18 @@
  * compilador verifique que el contenido cumple su contrato.
  */
 
+import faqJson from "@/content/sections/faq.json";
 import heroJson from "@/content/sections/hero.json";
 import navbarJson from "@/content/sections/navbar.json";
 import sectorsJson from "@/content/sections/sectors.json";
 import servicesJson from "@/content/sections/services.json";
 import whySeslumJson from "@/content/sections/why-seslum.json";
 import siteJson from "@/content/site.json";
+import { parseFaqContent } from "@/lib/faq-content";
 import { parseSectorsContent } from "@/lib/sectors-content";
 import { parseServicesContent } from "@/lib/services-content";
 import type {
+  FaqContent,
   HeroContent,
   NavbarContent,
   SectorsContent,
@@ -33,3 +36,5 @@ export const services: ServicesContent = parseServicesContent(servicesJson);
 export const sectors: SectorsContent = parseSectorsContent(sectorsJson);
 
 export const whySeslum: WhySeslumContent = whySeslumJson;
+
+export const faq: FaqContent = parseFaqContent(faqJson);

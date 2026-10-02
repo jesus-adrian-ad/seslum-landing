@@ -1,7 +1,7 @@
 # Grupo SESLUM — Landing Page
 
 Sitio de una página para Grupo SESLUM, integrador de seguridad electrónica,
-protección contra incendios e infraestructura en Monterrey. Su objetivo es que
+protección contra incendios e infraestructura con base en Monterrey. Su objetivo es que
 las empresas soliciten cotización.
 
 **Producción:** https://seslum.com.mx (pendiente) · **Staging:** alias `develop` en Cloudflare Pages · **Repo:** GitHub (privado)
@@ -19,17 +19,17 @@ y sistemas para tu negocio.
 | 1 | Navbar | `feature/navbar` | ✅ Publicado | #2 |
 | 2 | Encabezado | `feature/hero` | ✅ Publicado | — |
 | 3 | Servicios | `feature/services` | ✅ Publicado | #10 |
-| 4 | Sectores | `feature/sectors` | ✅ Publicado (textos en revisión) | — |
-| 5 | Por qué SESLUM | `feature/why-seslum` | 🔨 En PR | — |
-| 6 | Proyectos | `feature/projects` | ⏳ Pendiente | — |
-| 7 | Marcas y aliados | `feature/brands` | ⏳ Pendiente | — |
-| 8 | Preguntas frecuentes | `feature/faq` | ⏳ Pendiente | — |
+| 4 | Sectores | `feature/sectors` | ✅ Publicado | — |
+| 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
+| 6 | Proyectos | `feature/projects` | ⏸️ En espera de datos reales del cliente | — |
+| 7 | Marcas y aliados | `feature/brands` | ⏸️ En espera de logotipos y lista | — |
+| 8 | Preguntas frecuentes | `feature/faq` | 🔨 En PR | — |
 | 9 | Contacto | `feature/contact` | ⏳ Pendiente | — |
 | 10 | Formulario | `feature/contact-form` | ⏳ Pendiente | — |
 | 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 6 · Proyectos
+**Siguiente bloque:** 9 · Contacto. Proyectos (6) y Marcas (7) se retoman al recibir su contenido.
 
 ---
 
@@ -232,7 +232,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   catálogo (`ServiceIcon`, `SectorIcon`).
 - Contenido en `src/content/sections/sectors.json`, validado en el build
   (`src/lib/sectors-content.ts`): íconos del catálogo, ids únicos y al menos un sector.
-- Textos del prototipo, pendientes de aprobación de marketing.
+- Textos aprobados por marketing.
 
 ### 5 · Por qué SESLUM
 
@@ -252,8 +252,27 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - `ScrollReveal` marca cada elemento con `data-reveal-state` (`pending` /
   `revealed`) para que las secciones encadenen efectos en CSS; sin el atributo,
   todo se ve en su estado final.
-- Contenido en `src/content/sections/why-seslum.json`. Textos del prototipo,
-  pendientes de aprobación de marketing.
+- Contenido en `src/content/sections/why-seslum.json`. Textos aprobados por marketing.
+
+### 8 · Preguntas frecuentes
+
+- `#faq`: encabezado y acordeón de 8 preguntas en una columna centrada. Se
+  agregan más en el JSON sin tocar el código.
+- `<details>`/`<summary>` nativos agrupados por `name` (decisión de Adrián: una
+  sola abierta a la vez, la primera desplegada al cargar). Funciona sin
+  JavaScript y con teclado, y la búsqueda del navegador abre la respuesta que encuentra.
+- Las respuestas están en el HTML estático y se publican también como JSON-LD
+  `FAQPage` con el mismo texto. Google ya casi no muestra estas preguntas como
+  resultado enriquecido, pero el marcado le ayuda a entender la página.
+- Animación: las preguntas entran en cascada con `ScrollReveal`. Al abrir, la
+  respuesta se despliega animando la altura de `::details-content`
+  (`interpolate-size`), la flecha gira y la tarjeta toma el borde en acento. En
+  navegadores sin ese soporte abre al instante; con movimiento reducido, también.
+- Contenido en `src/content/sections/faq.json`, validado en el build
+  (`src/lib/faq-content.ts`): al menos una pregunta, ids únicos y textos no vacíos.
+- Textos del prototipo. Por el cambio de "Monterrey" a "México" en el hero, la
+  pregunta de cobertura dice "¿Atienden proyectos fuera de Nuevo León?".
+  Pendientes de aprobación de marketing.
 
 ---
 

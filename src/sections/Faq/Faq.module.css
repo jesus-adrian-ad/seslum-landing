@@ -1,0 +1,108 @@
+/**
+ * Preguntas frecuentes: columna centrada de tarjetas biseladas.
+ *
+ * La respuesta se despliega animando la altura de ::details-content hasta auto
+ * (interpolate-size); donde el navegador no lo soporta, abre al instante. La
+ * flecha gira, la respuesta entra con un leve desplazamiento y la tarjeta
+ * abierta lleva el borde en acento. El foco se dibuja hacia adentro porque el
+ * bisel recorta todo lo que sale de la tarjeta.
+ */
+
+.faq {
+  padding-block: var(--space-section);
+}
+
+.faq .inner {
+  max-width: calc(var(--content-narrow) + 2 * var(--container-padding));
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.item {
+  --frame-cut: var(--chamfer-md);
+  padding: var(--border-width);
+  background-color: var(--color-surface);
+  interpolate-size: allow-keywords;
+}
+
+.item[open] {
+  --frame-color: var(--color-accent-muted);
+}
+
+.item::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size var(--duration-base) var(--ease-out),
+    content-visibility var(--duration-base) allow-discrete;
+}
+
+.item[open]::details-content {
+  block-size: auto;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: var(--tap-target-min);
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  list-style: none;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.question::-webkit-details-marker {
+  display: none;
+}
+
+.question:focus-visible {
+  outline-offset: calc(-1 * var(--focus-offset));
+}
+
+.chevron {
+  flex: none;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  margin-left: auto;
+  color: var(--color-accent);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.item[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.answer {
+  padding: 0 var(--space-5) var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+}
+
+.answer p {
+  max-width: var(--measure);
+}
+
+.item[open] .answer {
+  animation: answer-in var(--duration-base) var(--ease-out) both;
+}
+
+@media (hover: hover) {
+  .question:hover {
+    background-color: var(--color-surface-hover);
+  }
+}
+
+@keyframes answer-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-2)));
+  }
+}

@@ -2,7 +2,8 @@
  * Página principal: compone las secciones en el orden del mapa del SPEC.
  */
 
-import { hero, navbar, sectors, services, whySeslum } from "@/lib/content";
+import { faq, hero, navbar, sectors, services, whySeslum } from "@/lib/content";
+import { Faq } from "@/sections/Faq/Faq";
 import { Hero } from "@/sections/Hero/Hero";
 import { Navbar } from "@/sections/Navbar/Navbar";
 import { Sectors } from "@/sections/Sectors/Sectors";
@@ -18,6 +19,7 @@ export default function HomePage() {
         <Services content={services} />
         <Sectors content={sectors} />
         <WhySeslum content={whySeslum} />
+        <Faq content={faq} />
       </main>
     </>
   );

@@ -200,3 +200,17 @@ export interface WhySeslumContent {
     readonly rows: readonly ComparisonRow[];
   };
 }
+
+export interface FaqItem {
+  readonly id: string;
+  readonly question: string;
+  readonly answer: string;
+}
+
+export interface FaqContent {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly items: readonly FaqItem[];
+}

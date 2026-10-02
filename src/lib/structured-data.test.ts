@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { site } from "@/lib/content";
-import { buildLocalBusinessSchema, serializeJsonLd } from "@/lib/structured-data";
+import { faq, site } from "@/lib/content";
+import { buildFaqPageSchema, buildLocalBusinessSchema, serializeJsonLd } from "@/lib/structured-data";
 
 describe("buildLocalBusinessSchema", () => {
   const schema = buildLocalBusinessSchema(site);
@@ -19,6 +19,25 @@ describe("buildLocalBusinessSchema", () => {
   it("omits sameAs while there is no LinkedIn profile", () => {
     expect(site.social.linkedin).toBeNull();
     expect(schema).not.toHaveProperty("sameAs");
+  });
+});
+
+describe("buildFaqPageSchema", () => {
+  const schema = buildFaqPageSchema(faq, site);
+
+  it("declares a FAQPage anchored to the section", () => {
+    expect(schema["@type"]).toBe("FAQPage");
+    expect(schema["@id"]).toBe(`${site.url}/#${faq.id}`);
+  });
+
+  it("publishes every question with the same text shown on the page", () => {
+    expect(schema.mainEntity).toEqual(
+      faq.items.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+      })),
+    );
   });
 });
 
