@@ -1,8 +1,8 @@
 /**
  * Contacto: WhatsApp, correo y llamada como tres vías equivalentes.
  *
- * Cada tarjeta es un solo enlace con toda su superficie como área táctil, y
- * publica su evento de medición con source "contact". Los datos salen de
+ * Cada tarjeta es un solo enlace estático con toda su superficie como área
+ * táctil, marcado para que ClickTracker publique su evento con source "contact". Los datos salen de
  * site.json; esta sección solo aporta el nombre y la nota de cada vía. El
  * formulario (bloque 10) se monta debajo de las tarjetas.
  */
@@ -10,10 +10,12 @@
 import { ContactIcon } from "@/components/ContactIcon/ContactIcon";
 import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
-import { TrackedLink } from "@/components/TrackedLink/TrackedLink";
+import { trackingAttributes } from "@/lib/analytics";
 import { buildContactChannels } from "@/lib/contact-links";
 import type { ContactContent, SiteContact } from "@/types/content";
 import styles from "./Contact.module.css";
+
+const EXTERNAL_LINK = { target: "_blank", rel: "noopener noreferrer" } as const;
 
 export interface ContactProps {
   readonly content: ContactContent;
@@ -32,19 +34,18 @@ export function Contact({ content, contact }: ContactProps) {
         <ul className={styles.channels} role="list">
           {channels.map((channel) => (
             <li key={channel.kind} data-reveal="">
-              <TrackedLink
+              <a
                 href={channel.href}
-                event={channel.event}
-                source="contact"
-                external={channel.external}
                 className={`chamfer-frame ${styles.channel}`}
+                {...trackingAttributes(channel.event, "contact")}
+                {...(channel.external ? EXTERNAL_LINK : {})}
               >
                 <ContactIcon name={channel.kind} className={styles.icon} draw />
                 <span className={styles.name}>{channel.name}</span>{" "}
                 <span className={styles.value}>{channel.value}</span>{" "}
                 <span className={styles.note}>{channel.note}</span>
                 {channel.external ? <span className="visually-hidden"> {content.newTabHint}</span> : null}
-              </TrackedLink>
+              </a>
             </li>
           ))}
         </ul>

@@ -162,6 +162,7 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [x] Logo en SVG (equipo de diseño). Recibido el 29/sep como tablero; si diseño exporta los archivos sueltos, se sustituyen.
 - [x] Textos de Encabezado a Por qué SESLUM (Danna).
 - [ ] Textos de Preguntas frecuentes y Contacto (Danna).
+- [ ] PR de rendimiento antes del bloque 10: margen de LCP en Lighthouse CI (nombres de clase, foto del hero, precarga de la fuente).
 - [ ] Datos reales de proyectos y logotipos de marcas (bloques 6 y 7).
 - [ ] Aviso de privacidad — se redacta en conjunto al construir `contact-form`.
 - [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.

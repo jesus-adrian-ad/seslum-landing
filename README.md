@@ -56,7 +56,7 @@ Requiere Node.js ≥ 22.12.
 ```bash
 npm ci
 npm run dev          # http://localhost:3000 — desarrollo, sin cabeceras de seguridad
-npm run build        # exporta a out/ en modo staging (no indexable) y calcula los hashes de la CSP
+npm run build        # exporta a out/ en modo staging (no indexable), inserta el JSON-LD y calcula los hashes de la CSP
 npm run build:audit  # igual, pero en modo producción: es el que se audita con Lighthouse
 npm run preview      # http://localhost:8788 — sirve out/ con las cabeceras reales de Pages
 npm run lint         # ESLint, cero advertencias
@@ -293,9 +293,17 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - WhatsApp abre en otra pestaña con `noopener noreferrer` y lo anuncia a lectores
   de pantalla. WhatsApp se representa con un globo de conversación genérico, no
   con el logotipo de la marca.
-- Medición: `TrackedLink` publica `click_whatsapp`, `click_email` y
+- Medición: los enlaces son HTML estático marcados con `trackingAttributes()`
+  (`data-track-event`, `data-track-source`); `ClickTracker` escucha los clics de
+  toda la página con un solo listener y publica `click_whatsapp`, `click_email` y
   `click_phone` con `source: "contact"`, y el flotante `click_whatsapp` con
-  `source: "floating"`.
+  `source: "floating"`. Así no se hidrata cada enlace por separado.
+- Datos estructurados fuera de React: `src/app/structured-data.json/route.ts`
+  genera el manifiesto en el build y `scripts/inline-structured-data.mjs` inserta
+  el JSON-LD (`LocalBusiness` y `FAQPage`) en `index.html`. Renderizado con React,
+  su texto viajaba dos veces en el HTML (etiqueta y payload de hidratación) y ese
+  peso empujó el LCP simulado de Lighthouse por encima de 2.5 s. En `npm run dev`
+  no aparece.
 - Animación: las tarjetas entran en cascada y su ícono se dibuja; al pasar el
   cursor se tiñen borde y fondo y el ícono sube. El flotante entra con una escala
   suave y un anillo que pulsa tres veces. Con movimiento reducido, nada se anima.
@@ -495,6 +503,12 @@ anterior desde el panel de Pages.
   detecte antes de que llegue a este repo.
 - **28/sep/2026** — `undici` forzado a ≥ 7.30 con `overrides`. Cierra un aviso
   moderado heredado de `wrangler`, que es una herramienta de desarrollo.
+- **01/oct/2026** — JSON-LD insertado después del build y medición de clics por
+  delegación. El bloque 9 llevó el LCP simulado de Lighthouse CI a 2.59 s (límite
+  2.5 s): el HTML crecía con texto repetido en el payload de hidratación. Sacar el
+  JSON-LD de React y dejar los enlaces medidos como HTML estático reduce ese peso
+  sin bajar el umbral. El margen sigue siendo corto; antes del bloque 10 va un PR
+  de rendimiento.
 
 ---
 
