@@ -105,12 +105,14 @@
   --icon-xs: 1rem;
   --icon-sm: 1.25rem;
   --icon-md: 1.625rem;
+  --float-size: 3.5rem;
   --icon-lg: 2.125rem;
   --card-padding: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem);
   --burger-gap: 0.375rem;
   --burger-gap-hover: 0.4375rem;
 
   --shadow-header: 0 8px 24px rgb(0 0 0 / 0.35);
+  --shadow-float: 0 5px 18px rgb(0 0 0 / 0.45);
   --status-size: 0.5rem;
   --hero-zoom-from: 1.08;
   --hero-media-overscan: 12%;
@@ -131,6 +133,7 @@
   --duration-reveal: 900ms;
   --duration-zoom: 2200ms;
   --duration-pulse: 2400ms;
+  --float-delay: 600ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   --z-header: 50;

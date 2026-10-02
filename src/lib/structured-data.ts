@@ -5,6 +5,9 @@
  * ubicación se declara a nivel ciudad, y el área de servicio como texto. Las
  * preguntas frecuentes se publican como FAQPage con el mismo texto visible en la
  * sección, como pide Google.
+ *
+ * El manifiesto agrupa los bloques ya serializados por página del export
+ * estático; scripts/inline-structured-data.mjs los inserta después del build.
  */
 
 import type { FaqContent, SiteContent } from "@/types/content";
@@ -70,4 +73,14 @@ export function buildFaqPageSchema(faq: FaqContent, site: SiteContent): JsonLdOb
 
 export function serializeJsonLd(data: JsonLdObject): string {
   return JSON.stringify(data).replace(UNSAFE_JSON_CHARACTERS, (character) => JSON_ESCAPES[character] ?? character);
+}
+
+export type StructuredDataManifest = Readonly<Record<string, readonly string[]>>;
+
+export const STRUCTURED_DATA_PAGE = "index.html";
+
+export function buildStructuredDataManifest(site: SiteContent, faq: FaqContent): StructuredDataManifest {
+  return {
+    [STRUCTURED_DATA_PAGE]: [buildLocalBusinessSchema(site), buildFaqPageSchema(faq, site)].map(serializeJsonLd),
+  };
 }

@@ -23,13 +23,13 @@ y sistemas para tu negocio.
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
 | 6 | Proyectos | `feature/projects` | ⏸️ En espera de datos reales del cliente | — |
 | 7 | Marcas y aliados | `feature/brands` | ⏸️ En espera de logotipos y lista | — |
-| 8 | Preguntas frecuentes | `feature/faq` | 🔨 En PR | — |
-| 9 | Contacto | `feature/contact` | ⏳ Pendiente | — |
+| 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado (textos en revisión) | — |
+| 9 | Contacto | `feature/contact` | 🔨 En PR | — |
 | 10 | Formulario | `feature/contact-form` | ⏳ Pendiente | — |
 | 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 9 · Contacto. Proyectos (6) y Marcas (7) se retoman al recibir su contenido.
+**Siguiente bloque:** 10 · Formulario. Proyectos (6) y Marcas (7) se retoman al recibir su contenido.
 
 ---
 
@@ -56,7 +56,7 @@ Requiere Node.js ≥ 22.12.
 ```bash
 npm ci
 npm run dev          # http://localhost:3000 — desarrollo, sin cabeceras de seguridad
-npm run build        # exporta a out/ en modo staging (no indexable) y calcula los hashes de la CSP
+npm run build        # exporta a out/ en modo staging (no indexable), inserta el JSON-LD y calcula los hashes de la CSP
 npm run build:audit  # igual, pero en modo producción: es el que se audita con Lighthouse
 npm run preview      # http://localhost:8788 — sirve out/ con las cabeceras reales de Pages
 npm run lint         # ESLint, cero advertencias
@@ -274,6 +274,41 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   pregunta de cobertura dice "¿Atienden proyectos fuera de Nuevo León?".
   Pendientes de aprobación de marketing.
 
+### 9 · Contacto + botón flotante de WhatsApp
+
+- `#contacto` sobre el fondo alterno: encabezado y tres tarjetas biseladas
+  equivalentes (WhatsApp, correo y llamada), apiladas en móvil y en tres columnas
+  desde 700 px. Cada tarjeta es un solo enlace con toda su superficie como área
+  táctil. El formulario del bloque 10 va debajo.
+- Los datos (número, correo, horario, mensaje de WhatsApp) viven solo en
+  `site.json`; `contact.json` aporta el nombre y la nota de cada vía. Las vías se
+  validan en el build (`src/lib/contact-links.ts`): tipo conocido, sin repetir y
+  al menos una.
+- Botón flotante de WhatsApp abajo a la derecha, visible desde la carga
+  (decisión de Adrián). Solo ícono; la etiqueta "Escríbanos por WhatsApp" es su
+  nombre accesible y se muestra al pasar el cursor o con foco. Respeta el área
+  segura de los teléfonos.
+- Mensaje precargado provisional ("Hola, me interesa cotizar un proyecto con
+  Grupo SESLUM.") en `site.json`, hasta recibir el definitivo de marketing.
+- WhatsApp abre en otra pestaña con `noopener noreferrer` y lo anuncia a lectores
+  de pantalla. WhatsApp se representa con un globo de conversación genérico, no
+  con el logotipo de la marca.
+- Medición: los enlaces son HTML estático marcados con `trackingAttributes()`
+  (`data-track-event`, `data-track-source`); `ClickTracker` escucha los clics de
+  toda la página con un solo listener y publica `click_whatsapp`, `click_email` y
+  `click_phone` con `source: "contact"`, y el flotante `click_whatsapp` con
+  `source: "floating"`. Así no se hidrata cada enlace por separado.
+- Datos estructurados fuera de React: `src/app/structured-data.json/route.ts`
+  genera el manifiesto en el build y `scripts/inline-structured-data.mjs` inserta
+  el JSON-LD (`LocalBusiness` y `FAQPage`) en `index.html`. Renderizado con React,
+  su texto viajaba dos veces en el HTML (etiqueta y payload de hidratación) y ese
+  peso empujó el LCP simulado de Lighthouse por encima de 2.5 s. En `npm run dev`
+  no aparece.
+- Animación: las tarjetas entran en cascada y su ícono se dibuja; al pasar el
+  cursor se tiñen borde y fondo y el ícono sube. El flotante entra con una escala
+  suave y un anillo que pulsa tres veces. Con movimiento reducido, nada se anima.
+- Textos del prototipo, pendientes de aprobación de marketing.
+
 ---
 
 ## Design system
@@ -468,6 +503,12 @@ anterior desde el panel de Pages.
   detecte antes de que llegue a este repo.
 - **28/sep/2026** — `undici` forzado a ≥ 7.30 con `overrides`. Cierra un aviso
   moderado heredado de `wrangler`, que es una herramienta de desarrollo.
+- **01/oct/2026** — JSON-LD insertado después del build y medición de clics por
+  delegación. El bloque 9 llevó el LCP simulado de Lighthouse CI a 2.59 s (límite
+  2.5 s): el HTML crecía con texto repetido en el payload de hidratación. Sacar el
+  JSON-LD de React y dejar los enlaces medidos como HTML estático reduce ese peso
+  sin bajar el umbral. El margen sigue siendo corto; antes del bloque 10 va un PR
+  de rendimiento.
 
 ---
 

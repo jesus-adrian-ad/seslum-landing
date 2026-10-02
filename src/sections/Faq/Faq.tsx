@@ -5,15 +5,13 @@
  * Usa details y summary nativos agrupados por name: abren con teclado y sin
  * JavaScript, el navegador cierra la anterior al abrir otra y la búsqueda en la
  * página despliega la respuesta que encuentra. Las respuestas están en el HTML
- * desde el inicio y se publican también como FAQPage con el mismo texto.
+ * desde el inicio y se publican también como FAQPage con el mismo texto (el
+ * JSON-LD se inserta después del build, ver structured-data.json/route.ts).
  */
 
 import { LineIcon, type LineShape } from "@/components/LineIcon/LineIcon";
 import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
-import { StructuredData } from "@/components/StructuredData";
-import { site } from "@/lib/content";
-import { buildFaqPageSchema } from "@/lib/structured-data";
 import type { FaqContent } from "@/types/content";
 import styles from "./Faq.module.css";
 
@@ -53,7 +51,6 @@ export function Faq({ content }: FaqProps) {
           ))}
         </div>
       </div>
-      <StructuredData data={buildFaqPageSchema(content, site)} />
       <ScrollReveal rootId={content.id} />
     </section>
   );

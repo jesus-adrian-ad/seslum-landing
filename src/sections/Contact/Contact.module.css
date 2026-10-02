@@ -1,0 +1,83 @@
+/**
+ * Contacto: fondo alterno y tres tarjetas biseladas, apiladas en móvil y en tres
+ * columnas desde 700 px. La tarjeta completa es el enlace; al pasar el cursor el
+ * borde y el fondo se tiñen y el ícono sube un poco. El foco se dibuja hacia
+ * adentro porque el bisel recorta lo que sale de la tarjeta.
+ */
+
+.contact {
+  padding-block: var(--space-section);
+  background-color: var(--color-bg-alt);
+}
+
+.channels {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.channel {
+  --frame-cut: var(--chamfer-md);
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  height: 100%;
+  padding: var(--space-6) var(--space-5);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  text-align: center;
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.channel:focus-visible {
+  outline-offset: calc(-1 * var(--focus-offset));
+}
+
+.icon {
+  width: var(--icon-md);
+  height: var(--icon-md);
+  margin-bottom: var(--space-3);
+  color: var(--color-accent);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.name {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+}
+
+.value {
+  margin-top: var(--space-1);
+  color: var(--color-accent);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  overflow-wrap: anywhere;
+}
+
+.note {
+  margin-top: var(--space-2);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+@media (hover: hover) {
+  .channel:hover {
+    --frame-color: var(--color-accent-muted);
+    background-color: var(--color-surface-hover);
+  }
+
+  .channel:hover .icon {
+    transform: translateY(calc(-1 * var(--space-1)));
+  }
+}
+
+@media (min-width: 700px) {
+  .channels {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -1,17 +1,17 @@
 /**
- * Layout base del sitio: documento, fuente, metadatos, datos estructurados y
- * medición. Todas las secciones se montan dentro de este layout.
+ * Layout base del sitio: documento, fuente, metadatos y medición. Todas las
+ * secciones se montan dentro de este layout. Los datos estructurados se
+ * insertan después del build (ver structured-data.json/route.ts).
  */
 
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
-import { StructuredData } from "@/components/StructuredData";
+import { ClickTracker } from "@/components/ClickTracker/ClickTracker";
 import { TagManager } from "@/components/TagManager";
 import { site } from "@/lib/content";
 import { buildEnv, isProduction, resolvePublicUrl } from "@/lib/env";
 import { buildSiteMetadata } from "@/lib/seo";
-import { buildLocalBusinessSchema } from "@/lib/structured-data";
 import "@/styles/tokens.css";
 import "@/styles/base.css";
 import "@/styles/pages/not-found.css";
@@ -50,8 +50,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           Saltar al contenido
         </a>
         {children}
-        <StructuredData data={buildLocalBusinessSchema(site)} />
         <TagManager gtmId={buildEnv.gtmId} />
+        <ClickTracker />
       </body>
     </html>
   );

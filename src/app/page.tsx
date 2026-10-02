@@ -2,7 +2,9 @@
  * Página principal: compone las secciones en el orden del mapa del SPEC.
  */
 
-import { faq, hero, navbar, sectors, services, whySeslum } from "@/lib/content";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat/WhatsAppFloat";
+import { contact, faq, hero, navbar, sectors, services, site, whySeslum } from "@/lib/content";
+import { Contact } from "@/sections/Contact/Contact";
 import { Faq } from "@/sections/Faq/Faq";
 import { Hero } from "@/sections/Hero/Hero";
 import { Navbar } from "@/sections/Navbar/Navbar";
@@ -20,7 +22,9 @@ export default function HomePage() {
         <Sectors content={sectors} />
         <WhySeslum content={whySeslum} />
         <Faq content={faq} />
+        <Contact content={contact} contact={site.contact} />
       </main>
+      <WhatsAppFloat whatsapp={site.contact.whatsapp} label={contact.floatingLabel} newTabHint={contact.newTabHint} />
     </>
   );
 }

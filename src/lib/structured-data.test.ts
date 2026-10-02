@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { faq, site } from "@/lib/content";
-import { buildFaqPageSchema, buildLocalBusinessSchema, serializeJsonLd } from "@/lib/structured-data";
+import {
+  STRUCTURED_DATA_PAGE,
+  buildFaqPageSchema,
+  buildLocalBusinessSchema,
+  buildStructuredDataManifest,
+  serializeJsonLd,
+} from "@/lib/structured-data";
 
 describe("buildLocalBusinessSchema", () => {
   const schema = buildLocalBusinessSchema(site);
@@ -46,5 +52,16 @@ describe("serializeJsonLd", () => {
     const output = serializeJsonLd({ name: "</script><script>alert(1)</script>&" });
     expect(output).not.toMatch(/[<>&]/);
     expect(JSON.parse(output)).toEqual({ name: "</script><script>alert(1)</script>&" });
+  });
+});
+
+describe("buildStructuredDataManifest", () => {
+  it("publishes LocalBusiness and FAQPage, already escaped, on the home page", () => {
+    const manifest = buildStructuredDataManifest(site, faq);
+    expect(Object.keys(manifest)).toEqual([STRUCTURED_DATA_PAGE]);
+    expect(manifest[STRUCTURED_DATA_PAGE]).toEqual([
+      serializeJsonLd(buildLocalBusinessSchema(site)),
+      serializeJsonLd(buildFaqPageSchema(faq, site)),
+    ]);
   });
 });
