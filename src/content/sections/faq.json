@@ -1,0 +1,48 @@
+{
+  "id": "faq",
+  "eyebrow": "Preguntas frecuentes",
+  "title": "Lo que suelen preguntarnos antes de cotizar",
+  "lead": "Si su duda no aparece aquí, escríbanos y la resolvemos sin compromiso.",
+  "items": [
+    {
+      "id": "inicio-proyecto",
+      "question": "¿Cómo empieza un proyecto con ustedes?",
+      "answer": "Con una visita a la instalación. Levantamos el riesgo real, revisamos la infraestructura existente y documentamos lo que se requiere. A partir de ese levantamiento entregamos una propuesta con alcance, equipo y tiempos."
+    },
+    {
+      "id": "duracion",
+      "question": "¿Cuánto tarda un proyecto desde la contratación?",
+      "answer": "Depende del alcance y de la disponibilidad de equipo. El plazo estimado se especifica en cada propuesta y se compromete por escrito."
+    },
+    {
+      "id": "sistemas-existentes",
+      "question": "¿Trabajan con instalaciones que ya tienen sistemas puestos?",
+      "answer": "Sí. Buena parte de los proyectos consiste en ampliar, migrar o corregir instalaciones existentes. Evaluamos qué equipo sigue siendo útil y qué conviene reemplazar."
+    },
+    {
+      "id": "un-solo-sistema",
+      "question": "¿Puedo contratar solo un sistema o tengo que tomar todo?",
+      "answer": "Puede contratar únicamente lo que necesita. La ventaja de que trabajemos todas las líneas es que, si más adelante requiere otro sistema, se integra sin rehacer lo instalado."
+    },
+    {
+      "id": "cobertura",
+      "question": "¿Atienden proyectos fuera de Nuevo León?",
+      "answer": "Sí. Nuestra base está en Monterrey y su área metropolitana, y ejecutamos proyectos en el norte, noreste y centro del país."
+    },
+    {
+      "id": "garantia",
+      "question": "¿Qué garantía tienen los sistemas que instalan?",
+      "answer": "El equipo conserva la garantía del fabricante, que varía según la marca y el tipo de sistema. Las condiciones se detallan en la propuesta antes de contratar."
+    },
+    {
+      "id": "mantenimiento",
+      "question": "¿El mantenimiento es obligatorio?",
+      "answer": "No, pero sí recomendable. Un sistema de seguridad solo vale lo que vale el día que se necesita, y los componentes requieren revisión periódica."
+    },
+    {
+      "id": "precios",
+      "question": "¿Manejan precios de lista?",
+      "answer": "No. Cada proyecto se cotiza a la medida, porque el equipo y la complejidad de instalación cambian por completo entre una nave industrial y una sucursal bancaria."
+    }
+  ]
+}

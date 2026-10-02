@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 5 (Por qué SESLUM) · Última actualización: 30/sep/2026
+> Estado: Bloque 8 (Preguntas frecuentes) · Última actualización: 01/oct/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -40,17 +40,17 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 1 | Navbar | `navbar` | Barra fija, logo, 5 enlaces (≥ 1180 px), CTA, menú hamburguesa animado (< 1180 px) | Publicado |
 | 2 | Encabezado | `hero` | Foto de obra a pantalla completa, título, 2 CTA, panel "Líneas integradas" | Publicado |
 | 3 | Servicios | `services` | 3 especialidades + 2 servicios transversales (10 capacidades) | Publicado |
-| 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable | Publicado (textos en revisión) |
-| 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | En PR |
-| 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | Pendiente |
-| 7 | Marcas y aliados | `brands` | Rejilla de logotipos autorizados | Pendiente |
-| 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas + JSON-LD `FAQPage` | Pendiente |
+| 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable | Publicado |
+| 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | Publicado |
+| 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | En espera de datos reales |
+| 7 | Marcas y aliados | `brands` | Rejilla de logotipos autorizados | En espera de logotipos |
+| 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | En PR |
 | 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp | Pendiente |
 | 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + `generate_lead` | Pendiente |
 | 11 | Pie de página | `footer` | 4 columnas, LinkedIn, crédito YiSoft, aviso de privacidad | Pendiente |
 | 12 | Consentimiento | `consent-banner` | Banner de cookies con Consent Mode v2 (`update`) | Pendiente |
 
-Estados: `Pendiente` → `En desarrollo` → `En PR` → `Publicado`.
+Estados: `Pendiente` → `En desarrollo` → `En PR` → `Publicado`. `En espera` = bloqueado por contenido del cliente.
 
 Nota: el diseño está aprobado en el prototipo (Anexo A). Por decisión de Adrián,
 no se generan las 3 previews por sección; las animaciones se definen en el prompt
@@ -60,10 +60,11 @@ de cada bloque.
 
 | Elemento | Origen | ¿Recibido? |
 |---|---|---|
-| Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado y Servicios aprobados · ⏳ resto con los del prototipo |
+| Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado, Servicios, Sectores y Por qué SESLUM aprobados · ⏳ Preguntas frecuentes con los del prototipo |
 | Logo SVG | Equipo de diseño de SESLUM | ✅ Tablero de marca recibido el 29/sep; horizontal claro e isotipo extraídos (`public/images/brand/`) |
 | Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada y definitiva (1000×520) |
-| Logotipos de marcas autorizadas | Cliente | ✅ |
+| Logotipos de marcas autorizadas | Cliente | ⏳ Adrián los tiene; se integran en el bloque 7 |
+| Datos reales de proyectos | Cliente | ⏳ Solicitados el 01/oct |
 | Datos de contacto y horario | Cliente | ✅ (`src/content/site.json`) |
 | Aviso de privacidad | YiSoft con Adrián | ⏳ Se redacta en conjunto al construir `contact-form` |
 | Perfil de LinkedIn | Cliente | ⏳ Se enlaza cuando exista |
@@ -159,7 +160,9 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 
 - [ ] ID del contenedor de GTM y acceso para YiSoft (marketing de SESLUM).
 - [x] Logo en SVG (equipo de diseño). Recibido el 29/sep como tablero; si diseño exporta los archivos sueltos, se sustituyen.
-- [ ] Primer bloque de textos (Danna).
+- [x] Textos de Encabezado a Por qué SESLUM (Danna).
+- [ ] Textos de Preguntas frecuentes (Danna).
+- [ ] Datos reales de proyectos y logotipos de marcas (bloques 6 y 7).
 - [ ] Aviso de privacidad — se redacta en conjunto al construir `contact-form`.
 - [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.
 - [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.

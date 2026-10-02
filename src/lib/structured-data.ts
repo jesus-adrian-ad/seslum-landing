@@ -2,10 +2,12 @@
  * Datos estructurados (JSON-LD) de schema.org a partir del contenido del sitio.
  *
  * Solo se publican datos que el cliente entregó. Sin dirección exacta, la
- * ubicación se declara a nivel ciudad, y el área de servicio como texto.
+ * ubicación se declara a nivel ciudad, y el área de servicio como texto. Las
+ * preguntas frecuentes se publican como FAQPage con el mismo texto visible en la
+ * sección, como pide Google.
  */
 
-import type { SiteContent } from "@/types/content";
+import type { FaqContent, SiteContent } from "@/types/content";
 
 export type JsonLdValue = string | number | boolean | null | readonly JsonLdValue[] | { readonly [key: string]: JsonLdValue };
 
@@ -50,6 +52,19 @@ export function buildLocalBusinessSchema(site: SiteContent): JsonLdObject {
       },
     ],
     ...(site.social.linkedin ? { sameAs: [site.social.linkedin] } : {}),
+  };
+}
+
+export function buildFaqPageSchema(faq: FaqContent, site: SiteContent): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${site.url}/#${faq.id}`,
+    mainEntity: faq.items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
   };
 }
 
