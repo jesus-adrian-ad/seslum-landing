@@ -1,7 +1,8 @@
 /**
  * Catálogo de íconos de las vías de contacto, redibujados del prototipo sobre la
- * rejilla de 32 × 32. WhatsApp se representa con un globo de conversación
- * genérico, no con el logotipo de la marca.
+ * rejilla de 32 × 32. WhatsApp se representa con un globo de conversación con
+ * el auricular del ícono de llamada dentro, dibujado a trazo como el resto del
+ * sitio; no se usa el logotipo de la marca.
  */
 
 import { LineIcon, type LineShape } from "@/components/LineIcon/LineIcon";
@@ -10,7 +11,7 @@ import type { ContactChannelKind } from "@/types/content";
 const ICONS: Readonly<Record<ContactChannelKind, readonly LineShape[]>> = {
   whatsapp: [
     { kind: "path", d: "M28 15.3a11.3 11.3 0 01-16.8 9.9L4 28l2.8-7.2A11.3 11.3 0 1128 15.3z" },
-    { kind: "path", d: "M11.3 12.7c0 4 2.7 6.6 6.7 6.6" },
+    { kind: "path", d: "M12.32 9.68h2.44L16 12.76l-1.56.92a7.36 7.36 0 003.68 3.68l.92-1.56 3.08 1.24v2.44a1.24 1.24 0 01-1.24 1.24 9.8 9.8 0 01-9.8-9.8 1.24 1.24 0 011.24-1.24z" },
   ],
   email: [
     { kind: "rect", x: 3, y: 7, width: 26, height: 18, rx: 2.5 },
