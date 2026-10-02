@@ -1,0 +1,98 @@
+/**
+ * Botón flotante de WhatsApp: círculo de acento con la etiqueta a su izquierda,
+ * oculta hasta el hover o el foco. Respeta el área segura inferior de los
+ * teléfonos y queda por encima del contenido, pero debajo del menú (que vive en
+ * la capa superior como dialog modal).
+ */
+
+.float {
+  position: fixed;
+  right: max(var(--space-5), env(safe-area-inset-right));
+  bottom: max(var(--space-5), env(safe-area-inset-bottom));
+  z-index: var(--z-floating);
+  display: grid;
+  place-items: center;
+  width: var(--float-size);
+  height: var(--float-size);
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  box-shadow: var(--shadow-float);
+  color: var(--color-on-accent);
+  text-decoration: none;
+  animation: float-in var(--duration-enter) var(--ease-out) var(--float-delay) both;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.float::before {
+  position: absolute;
+  inset: 0;
+  border: var(--line-thick) solid var(--color-accent);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  animation: float-ring var(--duration-pulse) var(--ease-out) calc(var(--float-delay) + var(--duration-enter)) 3;
+}
+
+.float:focus-visible {
+  outline-offset: var(--focus-offset);
+}
+
+.icon {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.label {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + var(--space-3));
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-overlay);
+  border: var(--border-width) solid var(--color-line);
+  color: var(--color-text);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(var(--space-2), -50%);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.float:focus-visible .label {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+@media (hover: hover) {
+  .float:hover {
+    background-color: var(--color-accent-hover);
+  }
+
+  .float:hover .label {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@keyframes float-ring {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}

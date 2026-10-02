@@ -1,0 +1,25 @@
+{
+  "id": "contacto",
+  "eyebrow": "Contacto",
+  "title": "Cuéntenos qué necesita proteger",
+  "lead": "Elija la vía que le resulte más cómoda. Le respondemos con una propuesta que incluye alcance, equipo y tiempos.",
+  "channels": [
+    {
+      "kind": "whatsapp",
+      "name": "WhatsApp",
+      "note": "Respuesta inmediata en horario hábil"
+    },
+    {
+      "kind": "email",
+      "name": "Correo",
+      "note": "Para solicitudes con documentación"
+    },
+    {
+      "kind": "phone",
+      "name": "Llamada",
+      "note": "Lunes a viernes, 8:00 a 18:00 h"
+    }
+  ],
+  "floatingLabel": "Escríbanos por WhatsApp",
+  "newTabHint": "(se abre en otra pestaña)"
+}

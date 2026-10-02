@@ -13,6 +13,7 @@ export interface PhoneContact {
 export interface WhatsAppContact {
   readonly display: string;
   readonly number: string;
+  readonly message: string;
 }
 
 export interface BusinessHours {
@@ -213,4 +214,24 @@ export interface FaqContent {
   readonly title: string;
   readonly lead: string;
   readonly items: readonly FaqItem[];
+}
+
+export const CONTACT_CHANNEL_KINDS = ["whatsapp", "email", "phone"] as const;
+
+export type ContactChannelKind = (typeof CONTACT_CHANNEL_KINDS)[number];
+
+export interface ContactChannelContent<Kind extends string = ContactChannelKind> {
+  readonly kind: Kind;
+  readonly name: string;
+  readonly note: string;
+}
+
+export interface ContactContent<Kind extends string = ContactChannelKind> {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly channels: readonly ContactChannelContent<Kind>[];
+  readonly floatingLabel: string;
+  readonly newTabHint: string;
 }

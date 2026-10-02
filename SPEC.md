@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 8 (Preguntas frecuentes) · Última actualización: 01/oct/2026
+> Estado: Bloque 9 (Contacto) · Última actualización: 01/oct/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -44,8 +44,8 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | Publicado |
 | 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | En espera de datos reales |
 | 7 | Marcas y aliados | `brands` | Rejilla de logotipos autorizados | En espera de logotipos |
-| 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | En PR |
-| 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp | Pendiente |
+| 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | Publicado (textos en revisión) |
+| 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp, siempre visible | En PR |
 | 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + `generate_lead` | Pendiente |
 | 11 | Pie de página | `footer` | 4 columnas, LinkedIn, crédito YiSoft, aviso de privacidad | Pendiente |
 | 12 | Consentimiento | `consent-banner` | Banner de cookies con Consent Mode v2 (`update`) | Pendiente |
@@ -60,7 +60,7 @@ de cada bloque.
 
 | Elemento | Origen | ¿Recibido? |
 |---|---|---|
-| Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado, Servicios, Sectores y Por qué SESLUM aprobados · ⏳ Preguntas frecuentes con los del prototipo |
+| Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado, Servicios, Sectores y Por qué SESLUM aprobados · ⏳ Preguntas frecuentes y Contacto con los del prototipo |
 | Logo SVG | Equipo de diseño de SESLUM | ✅ Tablero de marca recibido el 29/sep; horizontal claro e isotipo extraídos (`public/images/brand/`) |
 | Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada y definitiva (1000×520) |
 | Logotipos de marcas autorizadas | Cliente | ⏳ Adrián los tiene; se integran en el bloque 7 |
@@ -161,12 +161,12 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [ ] ID del contenedor de GTM y acceso para YiSoft (marketing de SESLUM).
 - [x] Logo en SVG (equipo de diseño). Recibido el 29/sep como tablero; si diseño exporta los archivos sueltos, se sustituyen.
 - [x] Textos de Encabezado a Por qué SESLUM (Danna).
-- [ ] Textos de Preguntas frecuentes (Danna).
+- [ ] Textos de Preguntas frecuentes y Contacto (Danna).
 - [ ] Datos reales de proyectos y logotipos de marcas (bloques 6 y 7).
 - [ ] Aviso de privacidad — se redacta en conjunto al construir `contact-form`.
 - [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.
 - [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.
-- [ ] Mensaje precargado de WhatsApp (Danna).
+- [ ] Mensaje precargado de WhatsApp (Danna). Provisional en `site.json`: "Hola, me interesa cotizar un proyecto con Grupo SESLUM."
 - [ ] Perfil de LinkedIn.
 - [x] Vista previa al compartir (Open Graph), resuelta en `feat/brand-logo`.
 - [x] Foto del encabezado: se queda la actual (decisión del cliente, 30/sep).
