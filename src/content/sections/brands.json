@@ -1,0 +1,45 @@
+{
+  "id": "alianzas",
+  "eyebrow": "Alianzas comerciales",
+  "title": "Tecnología con respaldo, no marcas de ocasión",
+  "lead": "Trabajamos con fabricantes reconocidos y alianzas vigentes. Eso garantiza refacciones, soporte técnico y continuidad del sistema a largo plazo.",
+  "backing": [
+    { "value": "Garantía", "label": "de fábrica" },
+    { "value": "Refacciones", "label": "originales" },
+    { "value": "Soporte", "label": "del fabricante" }
+  ],
+  "partnersLabel": "Alianzas comerciales vigentes",
+  "partners": [
+    {
+      "id": "edwards",
+      "logo": {
+        "src": "/images/brands/edwards-authorized-partner.svg",
+        "alt": "Edwards Authorized Partner",
+        "width": 829,
+        "height": 246
+      }
+    },
+    {
+      "id": "sectrol",
+      "logo": {
+        "src": "/images/brands/sectrol.svg",
+        "alt": "Sectrol Security & Control",
+        "width": 3617,
+        "height": 899
+      }
+    }
+  ],
+  "alsoTitle": "También trabajamos con",
+  "alsoGroups": [
+    {
+      "id": "seguridad-electronica",
+      "name": "Seguridad electrónica",
+      "brands": ["Tiandy", "LenelS2", "Onity", "Supra"]
+    },
+    {
+      "id": "deteccion-incendio",
+      "name": "Detección de incendio",
+      "brands": ["NOTIFIER", "System Sensor", "Fire-Lite", "Silent Knight"]
+    }
+  ]
+}

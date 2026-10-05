@@ -22,14 +22,14 @@ y sistemas para tu negocio.
 | 4 | Sectores | `feature/sectors` | ✅ Publicado | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
 | 6 | Proyectos | `feature/projects` | ⏸️ En espera de datos reales del cliente | — |
-| 7 | Marcas y aliados | `feature/brands` | ⏸️ En espera de logotipos y lista | — |
+| 7 | Alianzas comerciales | `feature/brands` | 🔨 En PR | — |
 | 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
 | 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
 | 10 | Formulario | `feature/contact-form` | ⏸️ En espera de la configuración de correo | — |
 | 11 | Pie de página | `feature/footer` | ✅ Publicado (textos en revisión) | — |
-| 12 | Consentimiento | `feature/consent-banner` | 🔨 En PR | — |
+| 12 | Consentimiento | `feature/consent-banner` | ✅ Publicado (textos en revisión) | — |
 
-**Siguiente bloque:** Formulario (10), Proyectos (6) y Marcas (7), cuando llegue lo que les falta.
+**Siguiente bloque:** Formulario (10) y Proyectos (6), cuando llegue lo que les falta.
 
 ---
 
@@ -327,6 +327,33 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Medición: correo, teléfono y WhatsApp con `source: "footer"`.
 - Animación: las columnas entran en cascada con `ScrollReveal`; enlaces y
   botones sociales se tiñen de acento al pasar el cursor.
+
+### 7 · Alianzas comerciales
+
+- `#alianzas` entre Por qué SESLUM y Preguntas frecuentes (el eyebrow cambió de
+  "Marcas y aliados" a "Alianzas comerciales", decisión de Adrián). Desde 860 px,
+  texto y respaldos (garantía, refacciones, soporte) a la izquierda y alianzas a
+  la derecha.
+- **Logo solo con autorización por escrito** (decisión de Adrián): Edwards
+  Authorized Partner (Vo.Bo. de Kidde Global Solutions) y Sectrol (Vo.Bo. de
+  Sectrol). Kidde Commercial también está autorizada; su logo se baja de MyEDDIE
+  y se agrega con una entrada en `brands.json`.
+- Las marcas que se trabajan sin Vo.Bo. van **en texto**, agrupadas por
+  especialidad ("También trabajamos con"): Tiandy, LenelS2, Onity, Supra,
+  NOTIFIER, System Sensor, Fire-Lite y Silent Knight. Si alguna da su Vo.Bo., pasa
+  de texto a logo cambiando solo el JSON.
+- Logos en blanco a una tinta (`#F0F1FA`) para el fondo oscuro, en SVG:
+  - Edwards, del EPS oficial: `gs` (EPS → PDF), `pdftocairo -svg`, colores a
+    blanco y `svgo` (5.7 KB).
+  - Sectrol, del PNG oficial: máscara de tinta y `potrace`, luego `svgo` (8.7 KB).
+  - Originales en `assets-src/marcas/`.
+- Validación en el build (`src/lib/brands-content.ts`): al menos una alianza con
+  logo, ids únicos, logos en `/images/brands/` con texto alternativo y medidas, y
+  ninguna marca repetida ni como logo y texto a la vez.
+- Animación: entrada en cascada con `ScrollReveal`, la línea de acento sobre los
+  respaldos se dibuja de izquierda a derecha, y las tarjetas de logo toman el
+  borde en acento al pasar el cursor.
+- Textos del prototipo, pendientes de aprobación de marketing.
 
 ### 12 · Consentimiento (banner de cookies)
 

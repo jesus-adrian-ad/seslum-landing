@@ -5,6 +5,7 @@
  * compilador verifique que el contenido cumple su contrato.
  */
 
+import brandsJson from "@/content/sections/brands.json";
 import consentJson from "@/content/sections/consent.json";
 import contactJson from "@/content/sections/contact.json";
 import faqJson from "@/content/sections/faq.json";
@@ -15,11 +16,13 @@ import sectorsJson from "@/content/sections/sectors.json";
 import servicesJson from "@/content/sections/services.json";
 import whySeslumJson from "@/content/sections/why-seslum.json";
 import siteJson from "@/content/site.json";
+import { parseBrandsContent } from "@/lib/brands-content";
 import { parseContactContent } from "@/lib/contact-links";
 import { parseFaqContent } from "@/lib/faq-content";
 import { parseSectorsContent } from "@/lib/sectors-content";
 import { parseServicesContent } from "@/lib/services-content";
 import type {
+  BrandsContent,
   ConsentContent,
   ContactContent,
   FaqContent,
@@ -51,3 +54,5 @@ export const contact: ContactContent = parseContactContent(contactJson);
 export const footer: FooterContent = footerJson;
 
 export const consent: ConsentContent = consentJson;
+
+export const brands: BrandsContent = parseBrandsContent(brandsJson);

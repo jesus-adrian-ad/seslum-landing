@@ -285,3 +285,31 @@ export interface ConsentContent {
     readonly advertising: ConsentCategoryContent;
   };
 }
+
+export interface BrandBacking {
+  readonly value: string;
+  readonly label: string;
+}
+
+export interface BrandPartner {
+  readonly id: string;
+  readonly logo: ImageAsset;
+}
+
+export interface BrandGroup {
+  readonly id: string;
+  readonly name: string;
+  readonly brands: readonly string[];
+}
+
+export interface BrandsContent {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly backing: readonly BrandBacking[];
+  readonly partnersLabel: string;
+  readonly partners: readonly BrandPartner[];
+  readonly alsoTitle: string;
+  readonly alsoGroups: readonly BrandGroup[];
+}
