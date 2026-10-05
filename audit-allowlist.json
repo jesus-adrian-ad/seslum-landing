@@ -1,0 +1,11 @@
+{
+  "_comment": "Avisos de seguridad aceptados temporalmente por scripts/audit-gate.mjs. Cada entrada lleva motivo y vencimiento; al vencer, el gate vuelve a fallar. Mantener en sincronía con osv-scanner.toml.",
+  "advisories": [
+    {
+      "id": "GHSA-vfj7-8cjw-p6xm",
+      "package": "braces",
+      "until": "2026-11-05",
+      "reason": "Sin parche publicado (afecta <=3.0.3, la última). Solo entra por eslint-config-next (dependencia de desarrollo): no llega al sitio y solo procesa patrones de la configuración propia."
+    }
+  ]
+}
