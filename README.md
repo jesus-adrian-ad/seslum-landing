@@ -22,14 +22,14 @@ y sistemas para tu negocio.
 | 4 | Sectores | `feature/sectors` | ✅ Publicado | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
 | 6 | Proyectos | `feature/projects` | ⏸️ En espera de datos reales del cliente | — |
-| 7 | Marcas y aliados | `feature/brands` | ⏸️ En espera de logotipos y lista | — |
+| 7 | Alianzas comerciales | `feature/brands` | 🔨 En PR | — |
 | 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
 | 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
 | 10 | Formulario | `feature/contact-form` | ⏸️ En espera de la configuración de correo | — |
 | 11 | Pie de página | `feature/footer` | ✅ Publicado (textos en revisión) | — |
-| 12 | Consentimiento | `feature/consent-banner` | 🔨 En PR | — |
+| 12 | Consentimiento | `feature/consent-banner` | ✅ Publicado (textos en revisión) | — |
 
-**Siguiente bloque:** Formulario (10), Proyectos (6) y Marcas (7), cuando llegue lo que les falta.
+**Siguiente bloque:** Formulario (10) y Proyectos (6), cuando llegue lo que les falta.
 
 ---
 
@@ -256,7 +256,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 
 ### 8 · Preguntas frecuentes
 
-- `#faq`: encabezado y acordeón de 8 preguntas en una columna centrada. Se
+- `#faq` sobre el fondo alterno: encabezado y acordeón de 8 preguntas en una columna centrada. Se
   agregan más en el JSON sin tocar el código.
 - `<details>`/`<summary>` nativos agrupados por `name` (decisión de Adrián: una
   sola abierta a la vez, la primera desplegada al cargar). Funciona sin
@@ -276,7 +276,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 
 ### 9 · Contacto + botón flotante de WhatsApp
 
-- `#contacto` sobre el fondo alterno: encabezado y tres tarjetas biseladas
+- `#contacto` sobre el fondo principal: encabezado y tres tarjetas biseladas
   equivalentes (WhatsApp, correo y llamada), apiladas en móvil y en tres columnas
   desde 700 px. Cada tarjeta es un solo enlace con toda su superficie como área
   táctil. El formulario del bloque 10 va debajo.
@@ -327,6 +327,38 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Medición: correo, teléfono y WhatsApp con `source: "footer"`.
 - Animación: las columnas entran en cascada con `ScrollReveal`; enlaces y
   botones sociales se tiñen de acento al pasar el cursor.
+
+### 7 · Alianzas comerciales
+
+- `#alianzas` entre Por qué SESLUM y Preguntas frecuentes (el eyebrow cambió de
+  "Marcas y aliados" a "Alianzas comerciales", decisión de Adrián). Desde 860 px,
+  texto y respaldos (garantía, refacciones, soporte) a la izquierda y alianzas a
+  la derecha.
+- Logos de las marcas con las que se trabaja. Con Vo.Bo. por escrito: Edwards
+  Authorized Partner y Kidde Commercial (Kidde Global Solutions) y Sectrol.
+  Tiandy y Honeywell no tienen Vo.Bo.; Adrián decidió mostrarlas con logo
+  (05/oct), bajo responsabilidad de SESLUM. Honeywell va con el logo de
+  Honeywell Technologies (sus marcas pertenecen al grupo).
+- Las marcas que todavía no tienen logo van **en texto**, agrupadas por
+  especialidad ("También trabajamos con"): LenelS2, Onity, Supra, NOTIFIER,
+  System Sensor, Fire-Lite y Silent Knight. Pasan a logo cambiando solo el JSON.
+- Logos en blanco a una tinta (`#F0F1FA`) para el fondo oscuro, en SVG:
+  - Edwards, del EPS oficial: `gs` (EPS → PDF), `pdftocairo -svg`, colores a
+    blanco y `svgo` (5.7 KB).
+  - Sectrol, del PNG oficial: máscara de tinta y `potrace`, luego `svgo` (8.7 KB).
+  - Kidde Commercial (de la firma del correo de autorización), Tiandy (del
+    banner del distribuidor) y Honeywell Technologies (PNG compartido por
+    Adrián): recorte, escalado, máscara y `potrace`. Son trazos
+    de capturas; se sustituyen por los vectores oficiales cuando lleguen
+    (Kidde, en MyEDDIE).
+  - Originales en `assets-src/marcas/`.
+- Validación en el build (`src/lib/brands-content.ts`): al menos una alianza con
+  logo, ids únicos, logos en `/images/brands/` con texto alternativo y medidas, y
+  ninguna marca repetida ni como logo y texto a la vez.
+- Animación: entrada en cascada con `ScrollReveal`, la línea de acento sobre los
+  respaldos se dibuja de izquierda a derecha, y las tarjetas de logo toman el
+  borde en acento al pasar el cursor.
+- Textos del prototipo, pendientes de aprobación de marketing.
 
 ### 12 · Consentimiento (banner de cookies)
 
@@ -550,6 +582,10 @@ anterior desde el panel de Pages.
   detecte antes de que llegue a este repo.
 - **28/sep/2026** — `undici` forzado a ≥ 7.30 con `overrides`. Cierra un aviso
   moderado heredado de `wrangler`, que es una herramienta de desarrollo.
+- **05/oct/2026** — Fondos alternados de principio a fin (decisión de Adrián):
+  Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
+  Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
+  fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
 - **01/oct/2026** — JSON-LD insertado después del build y medición de clics por
   delegación. El bloque 9 llevó el LCP simulado de Lighthouse CI a 2.59 s (límite
   2.5 s): el HTML crecía con texto repetido en el payload de hidratación. Sacar el

@@ -1,0 +1,153 @@
+/**
+ * Alianzas comerciales: una columna en móvil y, desde 860 px, texto y respaldos
+ * a la izquierda con las alianzas a la derecha. Los logos van en tarjetas
+ * biseladas de alto fijo, centrados y con su proporción. Las marcas en texto
+ * son etiquetas con borde.
+ *
+ * Al entrar en pantalla (data-reveal-state, ver ScrollReveal), la línea de
+ * acento sobre los respaldos se dibuja de izquierda a derecha. Sin ese atributo
+ * se ve completa.
+ */
+
+.brands {
+  padding-block: var(--space-section);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-10);
+}
+
+.backing {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-8);
+  margin: 0;
+  padding-top: var(--space-6);
+}
+
+.backing::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--border-width);
+  background: linear-gradient(90deg, var(--color-accent), var(--color-line) 40%);
+  content: "";
+  transform-origin: left center;
+}
+
+.backing[data-reveal-state="pending"]::before {
+  transform: scaleX(0);
+}
+
+.backing[data-reveal-state="revealed"]::before {
+  animation: line-draw var(--duration-reveal) var(--ease-out) both;
+  animation-delay: var(--delay-enter);
+}
+
+.backingValue {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-heading);
+  letter-spacing: -0.02em;
+}
+
+.backingLabel {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+}
+
+.aside {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.partners {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partner {
+  --frame-cut: var(--chamfer-md);
+  display: grid;
+  place-items: center;
+  height: var(--brand-card-height);
+  padding: var(--space-5) var(--space-4);
+  background-color: var(--color-surface);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.logo {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: var(--brand-logo-max-height);
+}
+
+.alsoTitle {
+  color: var(--color-accent);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.groups {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+}
+
+.groupName {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-bold);
+}
+
+.groupBrands {
+  margin: var(--space-2) 0 0;
+}
+
+.brandList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brand {
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--color-line);
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+
+@media (hover: hover) {
+  .partner:hover {
+    --frame-color: var(--color-accent-muted);
+    background-color: var(--color-surface-hover);
+  }
+}
+
+@media (min-width: 860px) {
+  .layout {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: center;
+    gap: var(--space-12);
+  }
+}
+
+@keyframes line-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
