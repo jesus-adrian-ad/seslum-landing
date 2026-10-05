@@ -1,10 +1,11 @@
 /**
  * Validación del contenido de Alianzas comerciales durante el build estático.
  *
- * Solo llevan logo las marcas que dieron su autorización por escrito; las demás
- * van como texto en los grupos. Se exige al menos una alianza con logo, ids
- * únicos, logos servidos desde /images/brands/ con texto alternativo y medidas,
- * y que ninguna marca aparezca a la vez como logo y como texto ni repetida.
+ * Las marcas con logo van en partners y las que aún no tienen logo, como texto
+ * en los grupos; una marca pasa de texto a logo cambiando solo el JSON. Se exige
+ * al menos una alianza con logo, ids únicos, logos servidos desde
+ * /images/brands/ con texto alternativo y medidas, y que ninguna marca aparezca
+ * a la vez como logo y como texto ni repetida.
  */
 
 import type { BrandsContent } from "@/types/content";

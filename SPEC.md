@@ -43,7 +43,7 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable | Publicado |
 | 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | Publicado |
 | 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | En espera de datos reales |
-| 7 | Alianzas comerciales | `brands` | Logos de alianzas con Vo.Bo. (Edwards, Sectrol; Kidde Commercial pendiente) y demás marcas en texto | En PR |
+| 7 | Alianzas comerciales | `brands` | Logos de Edwards, Kidde Commercial, Honeywell, Sectrol y Tiandy; LenelS2, Onity, Supra, NOTIFIER, System Sensor, Fire-Lite y Silent Knight en texto | En PR |
 | 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | Publicado |
 | 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp, siempre visible | Publicado (pruebas de correo iCloud pendientes) |
 | 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + `generate_lead` | En espera de la configuración de correo |
@@ -63,7 +63,7 @@ de cada bloque.
 | Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado, Servicios, Sectores y Por qué SESLUM aprobados · Preguntas frecuentes y Contacto también aprobados |
 | Logo SVG | Equipo de diseño de SESLUM | ✅ Tablero de marca recibido el 29/sep; horizontal claro e isotipo extraídos (`public/images/brand/`) |
 | Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada y definitiva (1000×520) |
-| Logotipos de marcas autorizadas | Cliente | ✅ Edwards y Sectrol (con Vo.Bo.) · ⏳ Kidde Commercial (autorizada; logo en MyEDDIE) · las demás marcas van en texto |
+| Logotipos de marcas autorizadas | Cliente | ✅ Edwards, Kidde Commercial y Sectrol (con Vo.Bo.), Honeywell y Tiandy · marcas de Honeywell en texto |
 | Datos reales de proyectos | Cliente | ⏳ Solicitados el 01/oct |
 | Datos de contacto y horario | Cliente | ✅ (`src/content/site.json`) |
 | Aviso de privacidad | YiSoft con Adrián | ⏳ Se redacta en conjunto al construir `contact-form` |
@@ -172,8 +172,8 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.
 - [x] Mensaje precargado de WhatsApp: el de `site.json` queda como definitivo (05/oct).
 - [ ] Textos del pie de página, del banner de cookies y de Alianzas comerciales (Danna).
-- [ ] Logo de Kidde Commercial desde MyEDDIE (SESLUM).
-- [ ] Opcional: Vo.Bo. de Honeywell y del distribuidor de Tiandy para pasar sus marcas de texto a logo.
+- [ ] Opcional: logos propios de LenelS2, Onity, Supra, NOTIFIER, System Sensor, Fire-Lite y Silent Knight (hoy en texto, bajo el logo de Honeywell).
+- [ ] Opcional: vectores oficiales de Kidde Commercial (MyEDDIE) y Tiandy para sustituir los trazados de capturas.
 - [ ] Perfil de LinkedIn.
 - [x] Vista previa al compartir (Open Graph), resuelta en `feat/brand-logo`.
 - [x] Foto del encabezado: se queda la actual (decisión del cliente, 30/sep).

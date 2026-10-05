@@ -1,11 +1,10 @@
 /**
- * Alianzas comerciales: respaldo de fabricante, logos de las alianzas
- * autorizadas y, en texto, las demás marcas con las que se trabaja.
+ * Alianzas comerciales: respaldo de fabricante, logos de las marcas con las que
+ * se trabaja y, en texto, las que todavía no tienen logo.
  *
- * Solo llevan logo las marcas que dieron su Vo.Bo. por escrito (decisión de
- * Adrián); una marca pasa de texto a logo cambiando solo brands.json. Los logos
- * van en blanco a una tinta para el fondo oscuro. Desde 860 px, texto y
- * respaldos a la izquierda y alianzas a la derecha.
+ * Una marca pasa de texto a logo cambiando solo brands.json. Los logos van en
+ * blanco a una tinta para el fondo oscuro. Desde 860 px, texto y respaldos a la
+ * izquierda y alianzas a la derecha.
  */
 
 import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";

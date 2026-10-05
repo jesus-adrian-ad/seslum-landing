@@ -334,18 +334,23 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   "Marcas y aliados" a "Alianzas comerciales", decisión de Adrián). Desde 860 px,
   texto y respaldos (garantía, refacciones, soporte) a la izquierda y alianzas a
   la derecha.
-- **Logo solo con autorización por escrito** (decisión de Adrián): Edwards
-  Authorized Partner (Vo.Bo. de Kidde Global Solutions) y Sectrol (Vo.Bo. de
-  Sectrol). Kidde Commercial también está autorizada; su logo se baja de MyEDDIE
-  y se agrega con una entrada en `brands.json`.
-- Las marcas que se trabajan sin Vo.Bo. van **en texto**, agrupadas por
-  especialidad ("También trabajamos con"): Tiandy, LenelS2, Onity, Supra,
-  NOTIFIER, System Sensor, Fire-Lite y Silent Knight. Si alguna da su Vo.Bo., pasa
-  de texto a logo cambiando solo el JSON.
+- Logos de las marcas con las que se trabaja. Con Vo.Bo. por escrito: Edwards
+  Authorized Partner y Kidde Commercial (Kidde Global Solutions) y Sectrol.
+  Tiandy y Honeywell no tienen Vo.Bo.; Adrián decidió mostrarlas con logo
+  (05/oct), bajo responsabilidad de SESLUM. Honeywell va con el logo de
+  Honeywell Technologies (sus marcas pertenecen al grupo).
+- Las marcas que todavía no tienen logo van **en texto**, agrupadas por
+  especialidad ("También trabajamos con"): LenelS2, Onity, Supra, NOTIFIER,
+  System Sensor, Fire-Lite y Silent Knight. Pasan a logo cambiando solo el JSON.
 - Logos en blanco a una tinta (`#F0F1FA`) para el fondo oscuro, en SVG:
   - Edwards, del EPS oficial: `gs` (EPS → PDF), `pdftocairo -svg`, colores a
     blanco y `svgo` (5.7 KB).
   - Sectrol, del PNG oficial: máscara de tinta y `potrace`, luego `svgo` (8.7 KB).
+  - Kidde Commercial (de la firma del correo de autorización), Tiandy (del
+    banner del distribuidor) y Honeywell Technologies (PNG compartido por
+    Adrián): recorte, escalado, máscara y `potrace`. Son trazos
+    de capturas; se sustituyen por los vectores oficiales cuando lleguen
+    (Kidde, en MyEDDIE).
   - Originales en `assets-src/marcas/`.
 - Validación en el build (`src/lib/brands-content.ts`): al menos una alianza con
   logo, ids únicos, logos en `/images/brands/` con texto alternativo y medidas, y
