@@ -3,9 +3,10 @@
  */
 
 import { WhatsAppFloat } from "@/components/WhatsAppFloat/WhatsAppFloat";
-import { contact, faq, hero, navbar, sectors, services, site, whySeslum } from "@/lib/content";
+import { contact, faq, footer, hero, navbar, sectors, services, site, whySeslum } from "@/lib/content";
 import { Contact } from "@/sections/Contact/Contact";
 import { Faq } from "@/sections/Faq/Faq";
+import { Footer } from "@/sections/Footer/Footer";
 import { Hero } from "@/sections/Hero/Hero";
 import { Navbar } from "@/sections/Navbar/Navbar";
 import { Sectors } from "@/sections/Sectors/Sectors";
@@ -24,6 +25,7 @@ export default function HomePage() {
         <Faq content={faq} />
         <Contact content={contact} contact={site.contact} />
       </main>
+      <Footer content={footer} site={site} navigation={navbar.links} services={services} logo={navbar.logo} />
       <WhatsAppFloat whatsapp={site.contact.whatsapp} label={contact.floatingLabel} newTabHint={contact.newTabHint} />
     </>
   );

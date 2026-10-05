@@ -7,6 +7,7 @@
 
 import contactJson from "@/content/sections/contact.json";
 import faqJson from "@/content/sections/faq.json";
+import footerJson from "@/content/sections/footer.json";
 import heroJson from "@/content/sections/hero.json";
 import navbarJson from "@/content/sections/navbar.json";
 import sectorsJson from "@/content/sections/sectors.json";
@@ -20,6 +21,7 @@ import { parseServicesContent } from "@/lib/services-content";
 import type {
   ContactContent,
   FaqContent,
+  FooterContent,
   HeroContent,
   NavbarContent,
   SectorsContent,
@@ -43,3 +45,5 @@ export const whySeslum: WhySeslumContent = whySeslumJson;
 export const faq: FaqContent = parseFaqContent(faqJson);
 
 export const contact: ContactContent = parseContactContent(contactJson);
+
+export const footer: FooterContent = footerJson;

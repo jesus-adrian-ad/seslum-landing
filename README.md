@@ -23,13 +23,13 @@ y sistemas para tu negocio.
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
 | 6 | Proyectos | `feature/projects` | ⏸️ En espera de datos reales del cliente | — |
 | 7 | Marcas y aliados | `feature/brands` | ⏸️ En espera de logotipos y lista | — |
-| 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado (textos en revisión) | — |
-| 9 | Contacto | `feature/contact` | 🔨 En PR | — |
-| 10 | Formulario | `feature/contact-form` | ⏳ Pendiente | — |
-| 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
+| 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
+| 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
+| 10 | Formulario | `feature/contact-form` | ⏸️ En espera de la configuración de correo | — |
+| 11 | Pie de página | `feature/footer` | 🔨 En PR | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 10 · Formulario. Proyectos (6) y Marcas (7) se retoman al recibir su contenido.
+**Siguiente bloque:** 12 · Consentimiento. Formulario (10), Proyectos (6) y Marcas (7) se retoman al recibir lo que les falta.
 
 ---
 
@@ -307,7 +307,26 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Animación: las tarjetas entran en cascada y su ícono se dibuja; al pasar el
   cursor se tiñen borde y fondo y el ícono sube. El flotante entra con una escala
   suave y un anillo que pulsa tres veces. Con movimiento reducido, nada se anima.
-- Textos del prototipo, pendientes de aprobación de marketing.
+- Textos aprobados por marketing (05/oct). Funcionamiento validado en PC y
+  celular; el correo enviado desde iCloud rebota en el servidor de GoDaddy
+  (*552 5.2.0 bare CR*), ajeno al sitio: el enlace es un `mailto:` sin cuerpo.
+
+### 11 · Pie de página
+
+- `<footer id="pie">` sobre el fondo alterno, separado por una línea. Cuatro
+  columnas desde 900 px y dos desde 560 px. En móvil, Navegación y Servicios
+  comparten fila; Marca y Contacto ocupan el ancho completo.
+- Sin contenido repetido: los enlaces salen del navbar, las 8 líneas de servicio
+  de `services.json` (enlazan a `#servicios`, decisión de Adrián) y los datos de
+  contacto de `site.json`. `footer.json` solo trae rótulos y el crédito.
+- Íconos sociales: WhatsApp siempre (como en el prototipo); LinkedIn aparece
+  cuando `site.social.linkedin` tenga el perfil.
+- Barra inferior: derechos con el año del build y "Desarrollado por YiSoft
+  Development". Deja libre la esquina del botón flotante. El enlace al aviso de
+  privacidad se agrega en el bloque 10, cuando exista la página.
+- Medición: correo, teléfono y WhatsApp con `source: "footer"`.
+- Animación: las columnas entran en cascada con `ScrollReveal`; enlaces y
+  botones sociales se tiñen de acento al pasar el cursor.
 
 ---
 

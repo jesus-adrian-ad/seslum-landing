@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 9 (Contacto) · Última actualización: 01/oct/2026
+> Estado: Bloque 11 (Pie de página) · Última actualización: 05/oct/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -44,10 +44,10 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | Publicado |
 | 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | En espera de datos reales |
 | 7 | Marcas y aliados | `brands` | Rejilla de logotipos autorizados | En espera de logotipos |
-| 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | Publicado (textos en revisión) |
-| 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp, siempre visible | En PR |
-| 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + `generate_lead` | Pendiente |
-| 11 | Pie de página | `footer` | 4 columnas, LinkedIn, crédito YiSoft, aviso de privacidad | Pendiente |
+| 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | Publicado |
+| 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp, siempre visible | Publicado (pruebas de correo iCloud pendientes) |
+| 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + `generate_lead` | En espera de la configuración de correo |
+| 11 | Pie de página | `footer` | 4 columnas, LinkedIn, crédito YiSoft (aviso de privacidad se enlaza en el bloque 10) | En PR |
 | 12 | Consentimiento | `consent-banner` | Banner de cookies con Consent Mode v2 (`update`) | Pendiente |
 
 Estados: `Pendiente` → `En desarrollo` → `En PR` → `Publicado`. `En espera` = bloqueado por contenido del cliente.
@@ -60,7 +60,7 @@ de cada bloque.
 
 | Elemento | Origen | ¿Recibido? |
 |---|---|---|
-| Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado, Servicios, Sectores y Por qué SESLUM aprobados · ⏳ Preguntas frecuentes y Contacto con los del prototipo |
+| Textos definitivos | Danna, a partir del guion de YiSoft | ✅ Encabezado, Servicios, Sectores y Por qué SESLUM aprobados · Preguntas frecuentes y Contacto también aprobados |
 | Logo SVG | Equipo de diseño de SESLUM | ✅ Tablero de marca recibido el 29/sep; horizontal claro e isotipo extraídos (`public/images/brand/`) |
 | Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada y definitiva (1000×520) |
 | Logotipos de marcas autorizadas | Cliente | ⏳ Adrián los tiene; se integran en el bloque 7 |
@@ -161,7 +161,9 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [ ] ID del contenedor de GTM y acceso para YiSoft (marketing de SESLUM).
 - [x] Logo en SVG (equipo de diseño). Recibido el 29/sep como tablero; si diseño exporta los archivos sueltos, se sustituyen.
 - [x] Textos de Encabezado a Por qué SESLUM (Danna).
-- [ ] Textos de Preguntas frecuentes y Contacto (Danna).
+- [x] Textos de Preguntas frecuentes y Contacto (Danna, 05/oct).
+- [ ] Pruebas de correo desde iCloud (rebote *bare CR* de GoDaddy, ajeno al sitio).
+- [ ] Enlace al aviso de privacidad en el pie de página (bloque 10).
 - [ ] PR de rendimiento antes del bloque 10: margen de LCP en Lighthouse CI (nombres de clase, foto del hero, precarga de la fuente).
 - [ ] Datos reales de proyectos y logotipos de marcas (bloques 6 y 7).
 - [ ] Aviso de privacidad — se redacta en conjunto al construir `contact-form`.

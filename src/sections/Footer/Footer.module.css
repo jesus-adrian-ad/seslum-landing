@@ -1,0 +1,164 @@
+/**
+ * Pie de página: fondo alterno separado del contenido por una línea. Cuatro
+ * columnas desde 900 px y dos desde 560 px; en móvil, Navegación y Servicios
+ * comparten fila y Marca y Contacto ocupan el ancho completo. La barra inferior
+ * deja libre la esquina del botón flotante de WhatsApp para que no tape el
+ * crédito. Los enlaces se tiñen de acento al pasar el cursor.
+ */
+
+.footer {
+  padding-top: var(--space-12);
+  background-color: var(--color-bg-alt);
+  border-top: var(--border-width) solid var(--color-line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-10) var(--space-6);
+}
+
+.brand,
+.contactColumn {
+  grid-column: 1 / -1;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: var(--logo-height);
+}
+
+.description {
+  max-width: 30ch;
+  margin-top: var(--space-4);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.social {
+  display: flex;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.socialLink {
+  display: grid;
+  place-items: center;
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  border: var(--border-width) solid var(--color-line);
+  color: var(--color-accent);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
+}
+
+.socialIcon {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.heading {
+  margin-bottom: var(--space-3);
+  color: var(--color-accent);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.links {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.contact {
+  display: grid;
+  gap: var(--space-3);
+  font-style: normal;
+}
+
+.contactValue {
+  display: block;
+  color: var(--color-text);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+a.contactValue {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.contactNote {
+  display: block;
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-6);
+  margin-top: var(--space-10);
+  padding-block: var(--space-5) var(--space-6);
+  padding-right: calc(var(--float-size) + var(--space-5));
+  border-top: var(--border-width) solid var(--color-line);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+}
+
+.credit {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .link:hover,
+  a.contactValue:hover,
+  .credit:hover {
+    color: var(--color-accent);
+  }
+
+  .socialLink:hover {
+    border-color: var(--color-accent-muted);
+    background-color: var(--color-accent-soft);
+  }
+}
+
+@media (min-width: 560px) {
+  .brand,
+  .contactColumn {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 1.25fr 0.7fr 0.9fr 1.1fr;
+  }
+}
