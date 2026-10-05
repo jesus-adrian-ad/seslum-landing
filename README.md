@@ -26,10 +26,10 @@ y sistemas para tu negocio.
 | 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
 | 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
 | 10 | Formulario | `feature/contact-form` | ⏸️ En espera de la configuración de correo | — |
-| 11 | Pie de página | `feature/footer` | 🔨 En PR | — |
-| 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
+| 11 | Pie de página | `feature/footer` | ✅ Publicado (textos en revisión) | — |
+| 12 | Consentimiento | `feature/consent-banner` | 🔨 En PR | — |
 
-**Siguiente bloque:** 12 · Consentimiento. Formulario (10), Proyectos (6) y Marcas (7) se retoman al recibir lo que les falta.
+**Siguiente bloque:** Formulario (10), Proyectos (6) y Marcas (7), cuando llegue lo que les falta.
 
 ---
 
@@ -288,8 +288,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   (decisión de Adrián). Solo ícono; la etiqueta "Escríbanos por WhatsApp" es su
   nombre accesible y se muestra al pasar el cursor o con foco. Respeta el área
   segura de los teléfonos.
-- Mensaje precargado provisional ("Hola, me interesa cotizar un proyecto con
-  Grupo SESLUM.") en `site.json`, hasta recibir el definitivo de marketing.
+- Mensaje precargado ("Hola, me interesa cotizar un proyecto con Grupo
+  SESLUM.") en `site.json`, aprobado por marketing como definitivo (05/oct).
 - WhatsApp abre en otra pestaña con `noopener noreferrer` y lo anuncia a lectores
   de pantalla. WhatsApp se representa con un globo de conversación genérico, no
   con el logotipo de la marca.
@@ -327,6 +327,33 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Medición: correo, teléfono y WhatsApp con `source: "footer"`.
 - Animación: las columnas entran en cascada con `ScrollReveal`; enlaces y
   botones sociales se tiñen de acento al pasar el cursor.
+
+### 12 · Consentimiento (banner de cookies)
+
+- `CookieConsent` en el layout: aparece solo si el visitante no ha decidido o si
+  su decisión venció (12 meses). Se monta después de hidratar y es fijo, así que
+  no compite con el LCP ni mueve el contenido.
+- Tres acciones con el mismo peso: Aceptar todo, Rechazar y Configurar. En
+  Configurar: Necesarias (siempre activas), Analítica y Publicidad como
+  interruptores (`role="switch"`). Publicidad va desde ahora aunque Google Ads
+  no esté confirmado (decisión de Adrián): si se activa, el consentimiento ya existe.
+- Formato (decisión de Adrián): tarjeta biselada abajo a la izquierda desde
+  640 px; en móvil, a lo ancho con margen. Mientras está visible publica su alto
+  en `--consent-offset` y el botón flotante de WhatsApp sube en móvil.
+- No es un modal: región con título que no bloquea la página. "Preferencias de
+  cookies" en la barra del pie (`data-consent-open`) reabre el panel, mueve el
+  foco a su título y lo devuelve al enlace al cerrar.
+- Medición: la decisión se guarda con su fecha en `localStorage`
+  (`seslum.consent.v1`), publica `consent update` de Consent Mode v2 y el evento
+  `consent_update` con `analytics` y `advertising`. Sin almacenamiento disponible,
+  vale para la visita. La lógica pura (vencimiento, formato, mapeo a Consent
+  Mode) está en `src/lib/consent.ts`; el lado del navegador, compartido con
+  `TagManager`, en `src/lib/consent-runtime.ts`.
+- Animación: la tarjeta entra deslizándose desde abajo y el panel de
+  preferencias con un leve desplazamiento; el interruptor desliza su perilla.
+  Con movimiento reducido, nada se anima.
+- Textos propuestos por YiSoft, pendientes de aprobación de marketing. El enlace
+  al aviso de privacidad se agrega en el bloque 10.
 
 ---
 
@@ -399,7 +426,7 @@ node scripts/responsive-shots.mjs --url http://localhost:8788 --section <slug>
 
 | Qué | Por qué | Desde | Qué haría falta para quitarla |
 |---|---|---|---|
-| `prefer-rest-params` apagado solo en `TagManager.tsx` | Consent Mode de GTM solo reconoce comandos publicados como objeto `arguments`; con un arreglo, los ignora sin avisar | 28/sep/2026 | Que Google acepte arreglos en el `dataLayer` para comandos de consentimiento |
+| `prefer-rest-params` apagado solo en `src/lib/consent-runtime.ts` | Consent Mode de GTM solo reconoce comandos publicados como objeto `arguments`; con un arreglo, los ignora sin avisar | 28/sep/2026 | Que Google acepte arreglos en el `dataLayer` para comandos de consentimiento |
 | `network-dependency-tree-insight` como advertencia en Lighthouse | Es un *insight* informativo de Lighthouse 12.6 que no afecta la calificación; el preset lo evalúa como error | 28/sep/2026 | Que el preset de LHCI lo excluya |
 | `legacy-javascript-insight` como advertencia en Lighthouse | Next.js mete siempre en su bundle principal un módulo de polyfills (`Array.prototype.at`, `flat`, `Object.fromEntries`, ~13 KB) que no se puede quitar por configuración. Es parte del costo de haber elegido Next; no afecta la calificación de Performance | 28/sep/2026 | Que Next permita desactivar `polyfill-module` para navegadores modernos |
 | `@next/next/no-img-element` apagado | Con exportación estática, `next/image` no optimiza y además escribe `style="color:transparent"`, que la CSP bloquea. Las imágenes se entregan ya optimizadas (WebP, `srcset`, `width`/`height`) | 28/sep/2026 | Un loader de imágenes que no escriba estilos en línea |

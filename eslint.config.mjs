@@ -13,7 +13,7 @@ export default defineConfig([
     },
   },
   {
-    files: ["src/components/TagManager.tsx"],
+    files: ["src/lib/consent-runtime.ts"],
     rules: {
       "prefer-rest-params": "off",
     },

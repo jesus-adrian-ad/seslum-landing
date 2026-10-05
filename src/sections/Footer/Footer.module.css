@@ -120,6 +120,7 @@ a.contactValue {
 .bottom {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-2) var(--space-6);
   margin-top: var(--space-10);
@@ -128,6 +129,20 @@ a.contactValue {
   border-top: var(--border-width) solid var(--color-line);
   color: var(--color-text-subtle);
   font-size: var(--fs-small);
+}
+
+.consentLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .credit {
@@ -140,6 +155,7 @@ a.contactValue {
 @media (hover: hover) {
   .link:hover,
   a.contactValue:hover,
+  .consentLink:hover,
   .credit:hover {
     color: var(--color-accent);
   }

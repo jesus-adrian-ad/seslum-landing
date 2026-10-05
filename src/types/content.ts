@@ -254,10 +254,34 @@ export interface FooterContent {
     readonly phoneNote: string;
   };
   readonly rights: string;
+  readonly consentLink: string;
   readonly newTabHint: string;
   readonly credit: {
     readonly prefix: string;
     readonly label: string;
     readonly href: string;
+  };
+}
+
+export interface ConsentCategoryContent {
+  readonly name: string;
+  readonly description: string;
+}
+
+export interface ConsentContent {
+  readonly title: string;
+  readonly body: string;
+  readonly actions: {
+    readonly acceptAll: string;
+    readonly reject: string;
+    readonly settings: string;
+    readonly save: string;
+  };
+  readonly settingsTitle: string;
+  readonly alwaysOn: string;
+  readonly categories: {
+    readonly necessary: ConsentCategoryContent;
+    readonly analytics: ConsentCategoryContent;
+    readonly advertising: ConsentCategoryContent;
   };
 }

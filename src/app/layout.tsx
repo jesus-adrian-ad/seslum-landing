@@ -8,8 +8,9 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { ClickTracker } from "@/components/ClickTracker/ClickTracker";
+import { CookieConsent } from "@/components/CookieConsent/CookieConsent";
 import { TagManager } from "@/components/TagManager";
-import { site } from "@/lib/content";
+import { consent, site } from "@/lib/content";
 import { buildEnv, isProduction, resolvePublicUrl } from "@/lib/env";
 import { buildSiteMetadata } from "@/lib/seo";
 import "@/styles/tokens.css";
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {children}
         <TagManager gtmId={buildEnv.gtmId} />
         <ClickTracker />
+        <CookieConsent content={consent} />
       </body>
     </html>
   );
