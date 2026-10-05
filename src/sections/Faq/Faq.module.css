@@ -1,5 +1,5 @@
 /**
- * Preguntas frecuentes: columna centrada de tarjetas biseladas.
+ * Preguntas frecuentes: fondo alterno y columna centrada de tarjetas biseladas.
  *
  * La respuesta se despliega animando la altura de ::details-content hasta auto
  * (interpolate-size); donde el navegador no lo soporta, abre al instante. La
@@ -10,6 +10,7 @@
 
 .faq {
   padding-block: var(--space-section);
+  background-color: var(--color-bg-alt);
 }
 
 .faq .inner {

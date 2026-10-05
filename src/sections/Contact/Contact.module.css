@@ -1,5 +1,5 @@
 /**
- * Contacto: fondo alterno y tres tarjetas biseladas, apiladas en móvil y en tres
+ * Contacto: fondo principal y tres tarjetas biseladas, apiladas en móvil y en tres
  * columnas desde 700 px. La tarjeta completa es el enlace; al pasar el cursor el
  * borde y el fondo se tiñen y el ícono sube un poco. El foco se dibuja hacia
  * adentro porque el bisel recorta lo que sale de la tarjeta.
@@ -7,7 +7,6 @@
 
 .contact {
   padding-block: var(--space-section);
-  background-color: var(--color-bg-alt);
 }
 
 .channels {

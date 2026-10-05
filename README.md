@@ -256,7 +256,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 
 ### 8 · Preguntas frecuentes
 
-- `#faq`: encabezado y acordeón de 8 preguntas en una columna centrada. Se
+- `#faq` sobre el fondo alterno: encabezado y acordeón de 8 preguntas en una columna centrada. Se
   agregan más en el JSON sin tocar el código.
 - `<details>`/`<summary>` nativos agrupados por `name` (decisión de Adrián: una
   sola abierta a la vez, la primera desplegada al cargar). Funciona sin
@@ -276,7 +276,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 
 ### 9 · Contacto + botón flotante de WhatsApp
 
-- `#contacto` sobre el fondo alterno: encabezado y tres tarjetas biseladas
+- `#contacto` sobre el fondo principal: encabezado y tres tarjetas biseladas
   equivalentes (WhatsApp, correo y llamada), apiladas en móvil y en tres columnas
   desde 700 px. Cada tarjeta es un solo enlace con toda su superficie como área
   táctil. El formulario del bloque 10 va debajo.
@@ -582,6 +582,10 @@ anterior desde el panel de Pages.
   detecte antes de que llegue a este repo.
 - **28/sep/2026** — `undici` forzado a ≥ 7.30 con `overrides`. Cierra un aviso
   moderado heredado de `wrangler`, que es una herramienta de desarrollo.
+- **05/oct/2026** — Fondos alternados de principio a fin (decisión de Adrián):
+  Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
+  Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
+  fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
 - **01/oct/2026** — JSON-LD insertado después del build y medición de clics por
   delegación. El bloque 9 llevó el LCP simulado de Lighthouse CI a 2.59 s (límite
   2.5 s): el HTML crecía con texto repetido en el payload de hidratación. Sacar el
