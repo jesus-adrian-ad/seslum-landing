@@ -1,0 +1,7 @@
+# Avisos aceptados temporalmente por OSV-Scanner. Mantener en sincronía con
+# audit-allowlist.json; al vencer ignoreUntil, el gate vuelve a fallar.
+
+[[IgnoredVulns]]
+id = "GHSA-vfj7-8cjw-p6xm"
+ignoreUntil = 2026-11-05T00:00:00Z
+reason = "braces sin parche publicado; solo entra por eslint-config-next (dependencia de desarrollo) y no llega al sitio."

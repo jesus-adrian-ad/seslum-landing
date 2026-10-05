@@ -23,13 +23,13 @@ y sistemas para tu negocio.
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
 | 6 | Proyectos | `feature/projects` | ⏸️ En espera de datos reales del cliente | — |
 | 7 | Marcas y aliados | `feature/brands` | ⏸️ En espera de logotipos y lista | — |
-| 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado (textos en revisión) | — |
-| 9 | Contacto | `feature/contact` | 🔨 En PR | — |
-| 10 | Formulario | `feature/contact-form` | ⏳ Pendiente | — |
-| 11 | Pie de página | `feature/footer` | ⏳ Pendiente | — |
+| 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
+| 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
+| 10 | Formulario | `feature/contact-form` | ⏸️ En espera de la configuración de correo | — |
+| 11 | Pie de página | `feature/footer` | 🔨 En PR | — |
 | 12 | Consentimiento | `feature/consent-banner` | ⏳ Pendiente | — |
 
-**Siguiente bloque:** 10 · Formulario. Proyectos (6) y Marcas (7) se retoman al recibir su contenido.
+**Siguiente bloque:** 12 · Consentimiento. Formulario (10), Proyectos (6) y Marcas (7) se retoman al recibir lo que les falta.
 
 ---
 
@@ -56,7 +56,7 @@ Requiere Node.js ≥ 22.12.
 ```bash
 npm ci
 npm run dev          # http://localhost:3000 — desarrollo, sin cabeceras de seguridad
-npm run build        # exporta a out/ en modo staging (no indexable), inserta el JSON-LD y calcula los hashes de la CSP
+npm run build        # exporta a out/ en modo staging (no indexable), inserta el JSON-LD, difiere la hidratación y calcula los hashes de la CSP
 npm run build:audit  # igual, pero en modo producción: es el que se audita con Lighthouse
 npm run preview      # http://localhost:8788 — sirve out/ con las cabeceras reales de Pages
 npm run lint         # ESLint, cero advertencias
@@ -307,7 +307,26 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Animación: las tarjetas entran en cascada y su ícono se dibuja; al pasar el
   cursor se tiñen borde y fondo y el ícono sube. El flotante entra con una escala
   suave y un anillo que pulsa tres veces. Con movimiento reducido, nada se anima.
-- Textos del prototipo, pendientes de aprobación de marketing.
+- Textos aprobados por marketing (05/oct). Funcionamiento validado en PC y
+  celular; el correo enviado desde iCloud rebota en el servidor de GoDaddy
+  (*552 5.2.0 bare CR*), ajeno al sitio: el enlace es un `mailto:` sin cuerpo.
+
+### 11 · Pie de página
+
+- `<footer id="pie">` sobre el fondo alterno, separado por una línea. Cuatro
+  columnas desde 900 px y dos desde 560 px. En móvil, Navegación y Servicios
+  comparten fila; Marca y Contacto ocupan el ancho completo.
+- Sin contenido repetido: los enlaces salen del navbar, las 8 líneas de servicio
+  de `services.json` (enlazan a `#servicios`, decisión de Adrián) y los datos de
+  contacto de `site.json`. `footer.json` solo trae rótulos y el crédito.
+- Íconos sociales: WhatsApp siempre (como en el prototipo); LinkedIn aparece
+  cuando `site.social.linkedin` tenga el perfil.
+- Barra inferior: derechos con el año del build y "Desarrollado por YiSoft
+  Development". Deja libre la esquina del botón flotante. El enlace al aviso de
+  privacidad se agrega en el bloque 10, cuando exista la página.
+- Medición: correo, teléfono y WhatsApp con `source: "footer"`.
+- Animación: las columnas entran en cascada con `ScrollReveal`; enlaces y
+  botones sociales se tiñen de acento al pasar el cursor.
 
 ---
 
@@ -359,7 +378,7 @@ Gates en cada PR (`.github/workflows/quality-gates.yml`):
 | Gate | Herramienta | Umbral |
 |---|---|---|
 | Secretos | Gitleaks | 0 hallazgos |
-| Dependencias | npm audit + OSV-Scanner | 0 high/critical |
+| Dependencias | `npm run audit:gate` (npm audit con excepciones acotadas) + OSV-Scanner | 0 high/critical fuera de las excepciones vigentes, con fecha de vencimiento |
 | Código | Semgrep (`p/default`, `p/secrets` y reglas propias) + ESLint + tsc + Vitest + `images:check` | 0 hallazgos, 0 advertencias, imágenes sin metadatos |
 | Cabeceras | Verificación de `public/_headers` | CSP sin `unsafe-*` |
 | Web | Lighthouse CI (build de producción) | ≥ 90 en las 4 categorías (móvil) |
@@ -384,6 +403,7 @@ node scripts/responsive-shots.mjs --url http://localhost:8788 --section <slug>
 | `network-dependency-tree-insight` como advertencia en Lighthouse | Es un *insight* informativo de Lighthouse 12.6 que no afecta la calificación; el preset lo evalúa como error | 28/sep/2026 | Que el preset de LHCI lo excluya |
 | `legacy-javascript-insight` como advertencia en Lighthouse | Next.js mete siempre en su bundle principal un módulo de polyfills (`Array.prototype.at`, `flat`, `Object.fromEntries`, ~13 KB) que no se puede quitar por configuración. Es parte del costo de haber elegido Next; no afecta la calificación de Performance | 28/sep/2026 | Que Next permita desactivar `polyfill-module` para navegadores modernos |
 | `@next/next/no-img-element` apagado | Con exportación estática, `next/image` no optimiza y además escribe `style="color:transparent"`, que la CSP bloquea. Las imágenes se entregan ya optimizadas (WebP, `srcset`, `width`/`height`) | 28/sep/2026 | Un loader de imágenes que no escriba estilos en línea |
+| `GHSA-vfj7-8cjw-p6xm` (`braces`) aceptado hasta el 05/nov/2026 en `audit-allowlist.json` y `osv-scanner.toml` | Aviso high sin parche publicado (afecta hasta la 3.0.3, la última). Solo entra por `eslint-config-next`, dependencia de desarrollo: no llega al sitio y solo procesa patrones de la configuración propia. `scripts/audit-gate.mjs` acepta ese ID exacto; cualquier otro aviso high/critical sigue fallando, y al vencer la fecha también | 05/oct/2026 | Que `braces` publique la versión corregida y `micromatch`/`fast-glob` la adopten; entonces se quitan las dos entradas |
 | ESLint 9 en lugar de 10 (Dependabot ignora sus versiones mayores) | `eslint-plugin-react` (incluido en `eslint-config-next`) todavía no es compatible con ESLint 10: el lint del CI falla con "contextOrFilename.getFilename is not a function" | 28/sep/2026 | Soporte de ESLint 10 en `eslint-plugin-react`; entonces se quita el `ignore` de `.github/dependabot.yml` |
 | TypeScript 6 en lugar de 7 (Dependabot ignora sus versiones mayores) | `typescript-eslint` todavía no soporta TypeScript 7: el lint del CI falla con "does not support TS 7.0" | 29/sep/2026 | Soporte de TypeScript 7 en `typescript-eslint`; entonces se quita el `ignore` de `.github/dependabot.yml` |
 
@@ -509,6 +529,17 @@ anterior desde el panel de Pages.
   JSON-LD de React y dejar los enlaces medidos como HTML estático reduce ese peso
   sin bajar el umbral. El margen sigue siendo corto; antes del bloque 10 va un PR
   de rendimiento.
+- **05/oct/2026** — Hidratación diferida al primer pintado
+  (`scripts/defer-hydration.mjs`) y foto del hero a calidad WebP 40. Con el
+  footer, el LCP simulado de Lighthouse CI volvió a rozar 2.5 s (2.53 s). El
+  desglose mostró que el 54 % era *render delay*: los chunks de Next se ejecutaban
+  antes de pintar la foto y la hidratación de React ocupaba el hilo principal.
+  Ahora el HTML (que ya trae todo el contenido) se pinta primero y los chunks se
+  insertan en el cuadro siguiente. Medido con la configuración del CI, 5 corridas:
+  LCP de 1.9–2.7 s a 1.44–1.53 s, Performance 97–99. Costo: la interacción
+  (menú, pestañas, medición) llega unos milisegundos después del primer pintado.
+  La foto va detrás de un velo oscuro y desaturada; a calidad 40 no se nota y
+  pesa 11 KB en lugar de 15 KB en móvil (`optimize-image.mjs --quality`).
 
 ---
 

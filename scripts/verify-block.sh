@@ -70,7 +70,7 @@ gate_secrets() {
 gate_deps() {
   local ok=0
   if [[ -f package.json ]]; then
-    npm audit --audit-level=high || ok=1
+    npm run --silent audit:gate || ok=1
   else
     echo "Sin package.json; se omite npm audit."
   fi

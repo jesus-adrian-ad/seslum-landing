@@ -235,3 +235,29 @@ export interface ContactContent<Kind extends string = ContactChannelKind> {
   readonly floatingLabel: string;
   readonly newTabHint: string;
 }
+
+export interface FooterContent {
+  readonly id: string;
+  readonly logoAlt: string;
+  readonly headings: {
+    readonly navigation: string;
+    readonly services: string;
+    readonly contact: string;
+  };
+  readonly navigationLabel: string;
+  readonly social: {
+    readonly label: string;
+    readonly linkedin: string;
+    readonly whatsapp: string;
+  };
+  readonly contactLabels: {
+    readonly phoneNote: string;
+  };
+  readonly rights: string;
+  readonly newTabHint: string;
+  readonly credit: {
+    readonly prefix: string;
+    readonly label: string;
+    readonly href: string;
+  };
+}

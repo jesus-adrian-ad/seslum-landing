@@ -1,0 +1,25 @@
+{
+  "id": "pie",
+  "logoAlt": "Grupo SESLUM",
+  "headings": {
+    "navigation": "Navegación",
+    "services": "Servicios",
+    "contact": "Contacto"
+  },
+  "navigationLabel": "Navegación del pie de página",
+  "social": {
+    "label": "Redes y mensajería",
+    "linkedin": "LinkedIn de Grupo SESLUM",
+    "whatsapp": "WhatsApp de Grupo SESLUM"
+  },
+  "contactLabels": {
+    "phoneNote": "WhatsApp y teléfono"
+  },
+  "rights": "Todos los derechos reservados.",
+  "newTabHint": "(se abre en otra pestaña)",
+  "credit": {
+    "prefix": "Desarrollado por",
+    "label": "YiSoft Development",
+    "href": "https://yisoft-development.com"
+  }
+}
