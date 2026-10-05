@@ -3,6 +3,8 @@
  *
  * El código no sabe qué herramienta escucha: solo publica eventos con nombre y
  * parámetros. GA4, Google Ads o cualquier otra etiqueta se conectan desde GTM.
+ * Los enlaces medidos se marcan con trackingAttributes() y los lee ClickTracker
+ * con un solo listener, así siguen siendo HTML estático.
  */
 
 export const ANALYTICS_EVENTS = {
@@ -10,6 +12,7 @@ export const ANALYTICS_EVENTS = {
   whatsappClick: "click_whatsapp",
   phoneClick: "click_phone",
   emailClick: "click_email",
+  consentUpdate: "consent_update",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
@@ -44,10 +47,6 @@ declare global {
   }
 }
 
-/**
- * Atributos que marcan un enlace para medir su clic. Los lee ClickTracker con un
- * solo listener para toda la página, así los enlaces siguen siendo HTML estático.
- */
 export function trackingAttributes(event: AnalyticsEventName, source: EventSource): Readonly<Record<string, string>> {
   return { [TRACK_EVENT_ATTRIBUTE]: event, [TRACK_SOURCE_ATTRIBUTE]: source };
 }

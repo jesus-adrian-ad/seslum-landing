@@ -2,7 +2,8 @@
  * Botón flotante de WhatsApp: círculo de acento con la etiqueta a su izquierda,
  * oculta hasta el hover o el foco. Respeta el área segura inferior de los
  * teléfonos y queda por encima del contenido, pero debajo del menú (que vive en
- * la capa superior como dialog modal).
+ * la capa superior como dialog modal). En móvil, mientras el banner de cookies
+ * está visible, sube su alto (--consent-offset) para no quedar tapado.
  */
 
 .float {
@@ -20,7 +21,9 @@
   color: var(--color-on-accent);
   text-decoration: none;
   animation: float-in var(--duration-enter) var(--ease-out) var(--float-delay) both;
-  transition: background-color var(--duration-fast) var(--ease-out);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    bottom var(--duration-base) var(--ease-out);
 }
 
 .float::before {
@@ -75,6 +78,12 @@
   .float:hover .label {
     opacity: 1;
     transform: translate(0, -50%);
+  }
+}
+
+@media (max-width: 639px) {
+  :global(:root[data-consent-banner="visible"]) .float {
+    bottom: calc(max(var(--space-3), env(safe-area-inset-bottom)) + var(--consent-offset, 0px) + var(--space-3));
   }
 }
 

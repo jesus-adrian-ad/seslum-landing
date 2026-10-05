@@ -5,14 +5,16 @@
  * No repite contenido: los enlaces salen del navbar, las líneas de servicio de
  * services.json y los datos de contacto de site.json. Correo, teléfono y
  * WhatsApp se miden con source "footer". LinkedIn aparece solo cuando
- * site.json tenga el perfil. El enlace al aviso de privacidad se agrega con el
- * bloque del formulario, cuando exista la página.
+ * site.json tenga el perfil. "Preferencias de cookies" vuelve a abrir el banner
+ * de consentimiento. El enlace al aviso de privacidad se agrega con el bloque
+ * del formulario, cuando exista la página.
  */
 
 import { ContactIcon } from "@/components/ContactIcon/ContactIcon";
 import { LineIcon, type LineShape } from "@/components/LineIcon/LineIcon";
 import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { ANALYTICS_EVENTS, trackingAttributes } from "@/lib/analytics";
+import { CONSENT_OPEN_ATTRIBUTE } from "@/lib/consent-runtime";
 import { emailHref, phoneHref, whatsappHref } from "@/lib/contact-links";
 import { copyrightLine, footerServiceLinks, locationLine } from "@/lib/footer-content";
 import type { FooterContent, ImageAsset, NavLink, ServicesContent, SiteContent } from "@/types/content";
@@ -137,6 +139,9 @@ export function Footer({ content, site, navigation, services, logo }: FooterProp
 
         <div className={styles.bottom}>
           <p>{copyrightLine(year, site.name, content.rights)}</p>
+          <button type="button" className={styles.consentLink} {...{ [CONSENT_OPEN_ATTRIBUTE]: "" }}>
+            {content.consentLink}
+          </button>
           <p>
             {content.credit.prefix}{" "}
             <a className={styles.credit} href={content.credit.href} {...EXTERNAL_LINK}>

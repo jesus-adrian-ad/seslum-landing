@@ -5,6 +5,7 @@
  * compilador verifique que el contenido cumple su contrato.
  */
 
+import consentJson from "@/content/sections/consent.json";
 import contactJson from "@/content/sections/contact.json";
 import faqJson from "@/content/sections/faq.json";
 import footerJson from "@/content/sections/footer.json";
@@ -19,6 +20,7 @@ import { parseFaqContent } from "@/lib/faq-content";
 import { parseSectorsContent } from "@/lib/sectors-content";
 import { parseServicesContent } from "@/lib/services-content";
 import type {
+  ConsentContent,
   ContactContent,
   FaqContent,
   FooterContent,
@@ -47,3 +49,5 @@ export const faq: FaqContent = parseFaqContent(faqJson);
 export const contact: ContactContent = parseContactContent(contactJson);
 
 export const footer: FooterContent = footerJson;
+
+export const consent: ConsentContent = consentJson;

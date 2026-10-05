@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   buildConsentDefault,
+  CONSENT_MAX_AGE_MS,
   CONSENT_WAIT_FOR_UPDATE_MS,
-  parseStoredPreferences,
-  serializePreferences,
+  parseStoredConsent,
+  serializeConsent,
   toConsentModeState,
 } from "@/lib/consent";
 
@@ -33,16 +34,33 @@ describe("buildConsentDefault", () => {
   });
 });
 
-describe("parseStoredPreferences", () => {
-  it("round-trips serialized preferences", () => {
-    const prefs = { analytics: true, advertising: false };
-    expect(parseStoredPreferences(serializePreferences(prefs))).toEqual(prefs);
+describe("parseStoredConsent", () => {
+  const now = Date.UTC(2026, 9, 5);
+  const prefs = { analytics: true, advertising: false };
+
+  it("round-trips a recent decision", () => {
+    expect(parseStoredConsent(serializeConsent(prefs, now - 1000), now)).toEqual(prefs);
   });
 
-  it.each([null, "", "not json", "null", "[]", '{"analytics":"yes","advertising":false}', '{"analytics":true}'])(
-    "rejects invalid input %j",
-    (raw) => {
-      expect(parseStoredPreferences(raw)).toBeNull();
-    },
-  );
+  it("asks again once the decision is older than twelve months", () => {
+    expect(parseStoredConsent(serializeConsent(prefs, now - CONSENT_MAX_AGE_MS), now)).toEqual(prefs);
+    expect(parseStoredConsent(serializeConsent(prefs, now - CONSENT_MAX_AGE_MS - 1), now)).toBeNull();
+  });
+
+  it("rejects a decision dated in the future", () => {
+    expect(parseStoredConsent(serializeConsent(prefs, now + 60_000), now)).toBeNull();
+  });
+
+  it.each([
+    null,
+    "",
+    "not json",
+    "null",
+    "[]",
+    '{"analytics":"yes","advertising":false,"decidedAt":1}',
+    '{"analytics":true,"advertising":false}',
+    '{"analytics":true,"advertising":false,"decidedAt":"hoy"}',
+  ])("rejects invalid input %j", (raw) => {
+    expect(parseStoredConsent(raw, now)).toBeNull();
+  });
 });

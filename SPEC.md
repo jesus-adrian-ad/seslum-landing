@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 11 (Pie de página) · Última actualización: 05/oct/2026
+> Estado: Bloque 12 (Consentimiento) · Última actualización: 05/oct/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -47,8 +47,8 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | Publicado |
 | 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp, siempre visible | Publicado (pruebas de correo iCloud pendientes) |
 | 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + `generate_lead` | En espera de la configuración de correo |
-| 11 | Pie de página | `footer` | 4 columnas, LinkedIn, crédito YiSoft (aviso de privacidad se enlaza en el bloque 10) | En PR |
-| 12 | Consentimiento | `consent-banner` | Banner de cookies con Consent Mode v2 (`update`) | Pendiente |
+| 11 | Pie de página | `footer` | 4 columnas, LinkedIn, crédito YiSoft, enlace a preferencias de cookies (aviso de privacidad se enlaza en el bloque 10) | Publicado (textos en revisión) |
+| 12 | Consentimiento | `consent-banner` | Banner de cookies con Consent Mode v2 (`update`): Necesarias, Analítica y Publicidad; vence a los 12 meses | En PR |
 
 Estados: `Pendiente` → `En desarrollo` → `En PR` → `Publicado`. `En espera` = bloqueado por contenido del cliente.
 
@@ -136,12 +136,13 @@ Variables del repo: `CF_PAGES_PROJECT`, `GTM_ID`.
 |---|---|---|
 | Google Tag Manager | Cuenta de Google de SESLUM (marketing) | ⏳ Pendiente de crear |
 | GA4 | Cuenta de Google de SESLUM | ⏳ Se configura desde GTM |
-| Search Console | Cuenta de Google de SESLUM, verificación por TXT en DNS | ⏳ Tras migrar DNS |
+| Search Console | — | ❌ No se usa: marketing no manejará SEO (05/oct) |
 | Acceso de YiSoft | `jesus-adrian@yisoft-development.com`, permiso Publicar | ⏳ |
 
 Eventos: `generate_lead` (evento clave), `click_whatsapp`, `click_phone`,
 `click_email`, con el parámetro `source` (`header`, `hero`, `contact`, `footer`,
-`floating`, `form`).
+`floating`, `form`), y `consent_update` (`analytics`, `advertising`) al decidir
+en el banner.
 
 Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 `security_storage`; el banner (bloque 12) actualiza el estado.
@@ -169,7 +170,8 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [ ] Aviso de privacidad — se redacta en conjunto al construir `contact-form`.
 - [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.
 - [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.
-- [ ] Mensaje precargado de WhatsApp (Danna). Provisional en `site.json`: "Hola, me interesa cotizar un proyecto con Grupo SESLUM."
+- [x] Mensaje precargado de WhatsApp: el de `site.json` queda como definitivo (05/oct).
+- [ ] Textos del pie de página y del banner de cookies (Danna).
 - [ ] Perfil de LinkedIn.
 - [x] Vista previa al compartir (Open Graph), resuelta en `feat/brand-logo`.
 - [x] Foto del encabezado: se queda la actual (decisión del cliente, 30/sep).

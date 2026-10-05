@@ -1,0 +1,26 @@
+{
+  "title": "Usamos cookies",
+  "body": "Las necesarias hacen funcionar el sitio. Con su permiso, también usamos cookies de analítica para entender cómo se usa la página y de publicidad para medir nuestras campañas.",
+  "actions": {
+    "acceptAll": "Aceptar todo",
+    "reject": "Rechazar",
+    "settings": "Configurar",
+    "save": "Guardar preferencias"
+  },
+  "settingsTitle": "Preferencias de cookies",
+  "alwaysOn": "Siempre activas",
+  "categories": {
+    "necessary": {
+      "name": "Necesarias",
+      "description": "Permiten que el sitio funcione y recuerdan esta decisión."
+    },
+    "analytics": {
+      "name": "Analítica",
+      "description": "Nos ayudan a saber qué secciones se visitan para mejorar el sitio (Google Analytics)."
+    },
+    "advertising": {
+      "name": "Publicidad",
+      "description": "Miden los resultados de nuestras campañas de anuncios (Google Ads)."
+    }
+  }
+}

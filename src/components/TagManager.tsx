@@ -11,26 +11,13 @@
 
 import { useEffect } from "react";
 import { ensureDataLayer } from "@/lib/analytics";
-import { buildConsentDefault, CONSENT_STORAGE_KEY, parseStoredPreferences } from "@/lib/consent";
+import { buildConsentDefault } from "@/lib/consent";
+import { pushConsentCommand, readStoredConsent } from "@/lib/consent-runtime";
 import { buildGtmScriptUrl, buildGtmStartEvent, isValidGtmId } from "@/lib/gtm";
-
-type ConsentCommand = (command: "consent", action: "default" | "update", state: object) => void;
 
 const IDLE_TIMEOUT_MS = 3000;
 
 const bootedContainers = new Set<string>();
-
-const pushConsentCommand: ConsentCommand = function pushConsentCommand() {
-  ensureDataLayer(window).push(arguments);
-};
-
-function readStoredPreferences(): string | null {
-  try {
-    return window.localStorage.getItem(CONSENT_STORAGE_KEY);
-  } catch {
-    return null;
-  }
-}
 
 function injectContainer(id: string): void {
   if (document.querySelector(`script[data-gtm-id="${id}"]`)) {
@@ -78,7 +65,7 @@ export function TagManager({ gtmId }: TagManagerProps): null {
     }
     if (!bootedContainers.has(gtmId)) {
       bootedContainers.add(gtmId);
-      pushConsentCommand("consent", "default", buildConsentDefault(parseStoredPreferences(readStoredPreferences())));
+      pushConsentCommand("consent", "default", buildConsentDefault(readStoredConsent()));
       ensureDataLayer(window).push(buildGtmStartEvent(Date.now()));
     }
     return runWhenIdle(() => injectContainer(gtmId));
