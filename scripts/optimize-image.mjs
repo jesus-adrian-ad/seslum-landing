@@ -14,8 +14,12 @@
  * Así cualquier foto nueva de marketing entra al sitio con el mismo proceso:
  * se deja el original en assets-src/ y se corre este script.
  *
- *   node scripts/optimize-image.mjs <entrada> <salida-sin-extensión> [anchos] [--brand]
- *   node scripts/optimize-image.mjs assets-src/foto-hero.jpg public/images/hero/obra 640,960,1280,1920 --brand
+ * Con --quality=N cambia la calidad WebP (62 por omisión). Las fotos de fondo
+ * que van detrás de un velo oscuro aguantan menos calidad sin que se note, y
+ * cada KB de la imagen LCP retrasa su pintado en móvil.
+ *
+ *   node scripts/optimize-image.mjs <entrada> <salida-sin-extensión> [anchos] [--brand] [--quality=N]
+ *   node scripts/optimize-image.mjs assets-src/foto-hero.jpg public/images/hero/obra-contra-incendio 480,768,1000 --brand --quality=40
  */
 
 import { mkdir } from "node:fs/promises";
@@ -23,11 +27,18 @@ import path from "node:path";
 import sharp from "sharp";
 
 const DEFAULT_WIDTHS = [640, 960, 1280, 1920, 2560];
-const WEBP_OPTIONS = { quality: 62, effort: 6 };
+const DEFAULT_QUALITY = 62;
+const WEBP_EFFORT = 6;
 const BRAND_SATURATION = 0.34;
 
 const args = process.argv.slice(2);
 const applyBrand = args.includes("--brand");
+const qualityArg = args.find((arg) => arg.startsWith("--quality="));
+const quality = qualityArg ? Number.parseInt(qualityArg.slice("--quality=".length), 10) : DEFAULT_QUALITY;
+if (!Number.isInteger(quality) || quality < 1 || quality > 100) {
+  process.stderr.write("--quality debe ser un entero entre 1 y 100.\n");
+  process.exit(2);
+}
 const [input, outputBase, widthsArg] = args.filter((arg) => !arg.startsWith("--"));
 
 if (!input || !outputBase) {
@@ -53,11 +64,11 @@ for (const width of widths) {
   const resized = sharp(input).rotate().resize({ width, withoutEnlargement: true });
   const pipeline = applyBrand ? resized.modulate({ saturation: BRAND_SATURATION }) : resized;
   const webp = `${outputBase}-${width}.webp`;
-  const info = await pipeline.webp(WEBP_OPTIONS).toFile(webp);
+  const info = await pipeline.webp({ quality, effort: WEBP_EFFORT }).toFile(webp);
   written.push({ width, height, size: info.size });
 }
 
-process.stdout.write(`Original: ${originalWidth}×${originalHeight}\n`);
+process.stdout.write(`Original: ${originalWidth}×${originalHeight} · WebP calidad ${quality}\n`);
 for (const entry of written) {
   process.stdout.write(`  ${entry.width}×${entry.height}  ${(entry.size / 1024).toFixed(1)} KB\n`);
 }

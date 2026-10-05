@@ -164,7 +164,7 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [x] Textos de Preguntas frecuentes y Contacto (Danna, 05/oct).
 - [ ] Pruebas de correo desde iCloud (rebote *bare CR* de GoDaddy, ajeno al sitio).
 - [ ] Enlace al aviso de privacidad en el pie de página (bloque 10).
-- [ ] PR de rendimiento antes del bloque 10: margen de LCP en Lighthouse CI (nombres de clase, foto del hero, precarga de la fuente).
+- [x] Margen de LCP en Lighthouse CI: hidratación diferida al primer pintado y foto del hero más ligera (05/oct). LCP 1.44–1.53 s.
 - [ ] Datos reales de proyectos y logotipos de marcas (bloques 6 y 7).
 - [ ] Aviso de privacidad — se redacta en conjunto al construir `contact-form`.
 - [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.

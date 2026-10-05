@@ -56,7 +56,7 @@ Requiere Node.js ≥ 22.12.
 ```bash
 npm ci
 npm run dev          # http://localhost:3000 — desarrollo, sin cabeceras de seguridad
-npm run build        # exporta a out/ en modo staging (no indexable), inserta el JSON-LD y calcula los hashes de la CSP
+npm run build        # exporta a out/ en modo staging (no indexable), inserta el JSON-LD, difiere la hidratación y calcula los hashes de la CSP
 npm run build:audit  # igual, pero en modo producción: es el que se audita con Lighthouse
 npm run preview      # http://localhost:8788 — sirve out/ con las cabeceras reales de Pages
 npm run lint         # ESLint, cero advertencias
@@ -529,6 +529,17 @@ anterior desde el panel de Pages.
   JSON-LD de React y dejar los enlaces medidos como HTML estático reduce ese peso
   sin bajar el umbral. El margen sigue siendo corto; antes del bloque 10 va un PR
   de rendimiento.
+- **05/oct/2026** — Hidratación diferida al primer pintado
+  (`scripts/defer-hydration.mjs`) y foto del hero a calidad WebP 40. Con el
+  footer, el LCP simulado de Lighthouse CI volvió a rozar 2.5 s (2.53 s). El
+  desglose mostró que el 54 % era *render delay*: los chunks de Next se ejecutaban
+  antes de pintar la foto y la hidratación de React ocupaba el hilo principal.
+  Ahora el HTML (que ya trae todo el contenido) se pinta primero y los chunks se
+  insertan en el cuadro siguiente. Medido con la configuración del CI, 5 corridas:
+  LCP de 1.9–2.7 s a 1.44–1.53 s, Performance 97–99. Costo: la interacción
+  (menú, pestañas, medición) llega unos milisegundos después del primer pintado.
+  La foto va detrás de un velo oscuro y desaturada; a calidad 40 no se nota y
+  pesa 11 KB en lugar de 15 KB en móvil (`optimize-image.mjs --quality`).
 
 ---
 
