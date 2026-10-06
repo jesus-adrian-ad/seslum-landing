@@ -3,7 +3,7 @@
  * se trabaja y, en texto, las que todavía no tienen logo.
  *
  * Una marca pasa de texto a logo cambiando solo brands.json. Los logos van en
- * blanco a una tinta para el fondo oscuro. Desde 860 px, texto y respaldos a la
+ * sus colores originales sobre tarjetas blancas. Desde 860 px, texto y respaldos a la
  * izquierda y alianzas a la derecha.
  */
 

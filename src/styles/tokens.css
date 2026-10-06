@@ -20,6 +20,7 @@
   --color-bg-alt: var(--color-void);
   --color-surface: var(--color-raised);
   --color-surface-hover: #223452;
+  --color-logo-surface: #ffffff;
   --color-text: var(--color-paper);
   --color-text-muted: rgb(240 241 250 / 0.74);
   --color-text-subtle: rgb(240 241 250 / 0.62);

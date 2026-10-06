@@ -13,7 +13,7 @@ resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
 | Contratante | Juan Carlos Pastrana García, Director Comercial (contrato YS-CTR-2026-001) |
 | Contacto de contenido | Danna (marketing) |
 | Giro | Integrador de seguridad electrónica, protección contra incendios e infraestructura |
-| Zona | Monterrey, N.L.; proyectos en el norte, noreste y centro del país |
+| Zona | Servicio en toda la República; atención local en Ciudad de México, Guadalajara, Tijuana y Monterrey |
 | Idioma | Español (México) |
 | Dominio | seslum.com.mx (GoDaddy; renovación 10/mar/2027) |
 | Sitio actual | Websites + Marketing de GoDaddy (plan gratuito); se retira después del lanzamiento |

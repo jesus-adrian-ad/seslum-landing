@@ -80,8 +80,7 @@
   place-items: center;
   height: var(--brand-card-height);
   padding: var(--space-5) var(--space-4);
-  background-color: var(--color-surface);
-  transition: background-color var(--duration-fast) var(--ease-out);
+  background-color: var(--color-logo-surface);
 }
 
 .logo {
@@ -133,8 +132,7 @@
 
 @media (hover: hover) {
   .partner:hover {
-    --frame-color: var(--color-accent-muted);
-    background-color: var(--color-surface-hover);
+    --frame-color: var(--color-accent);
   }
 }
 

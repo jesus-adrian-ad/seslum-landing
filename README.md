@@ -1,7 +1,8 @@
 # Grupo SESLUM — Landing Page
 
 Sitio de una página para Grupo SESLUM, integrador de seguridad electrónica,
-protección contra incendios e infraestructura con base en Monterrey. Su objetivo es que
+protección contra incendios e infraestructura con servicio en todo México y atención
+local en Ciudad de México, Guadalajara, Tijuana y Monterrey. Su objetivo es que
 las empresas soliciten cotización.
 
 **Producción:** https://seslum.com.mx (pendiente) · **Staging:** alias `develop` en Cloudflare Pages · **Repo:** GitHub (privado)
@@ -270,18 +271,21 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   navegadores sin ese soporte abre al instante; con movimiento reducido, también.
 - Contenido en `src/content/sections/faq.json`, validado en el build
   (`src/lib/faq-content.ts`): al menos una pregunta, ids únicos y textos no vacíos.
-- Textos del prototipo. Por el cambio de "Monterrey" a "México" en el hero, la
-  pregunta de cobertura dice "¿Atienden proyectos fuera de Nuevo León?".
-  Pendientes de aprobación de marketing.
+- Textos aprobados por marketing (05/oct). La pregunta de cobertura dice
+  "¿Atienden proyectos en todo el país?" (corrección del cliente, 06/oct):
+  servicio en toda la República y atención local en cuatro ciudades.
 
 ### 9 · Contacto + botón flotante de WhatsApp
 
 - `#contacto` sobre el fondo principal: encabezado y tres tarjetas biseladas
   equivalentes (WhatsApp, correo y llamada), apiladas en móvil y en tres columnas
   desde 700 px. Cada tarjeta es un solo enlace con toda su superficie como área
-  táctil. El formulario del bloque 10 va debajo.
-- Los datos (número, correo, horario, mensaje de WhatsApp) viven solo en
-  `site.json`; `contact.json` aporta el nombre y la nota de cada vía. Las vías se
+  táctil. Debajo, una línea con las ciudades con atención local y la cobertura
+  nacional. El formulario del bloque 10 va debajo.
+- Los datos (número, correo, horario, mensaje de WhatsApp, ciudades con atención
+  local en `location.offices`) viven solo en `site.json`, que se valida en el
+  build (`src/lib/site-content.ts`: al menos una ciudad, sin vacías ni
+  repetidas); `contact.json` aporta el nombre y la nota de cada vía. Las vías se
   validan en el build (`src/lib/contact-links.ts`): tipo conocido, sin repetir y
   al menos una.
 - Botón flotante de WhatsApp abajo a la derecha, visible desde la carga
@@ -324,6 +328,9 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Barra inferior: derechos con el año del build y "Desarrollado por YiSoft
   Development". Deja libre la esquina del botón flotante. El enlace al aviso de
   privacidad se agrega en el bloque 10, cuando exista la página.
+- La columna de Contacto cierra con las ciudades con atención local
+  (`officesInline()`, separadas por punto medio) y "Servicio en toda la
+  República Mexicana".
 - Medición: correo, teléfono y WhatsApp con `source: "footer"`.
 - Animación: las columnas entran en cascada con `ScrollReveal`; enlaces y
   botones sociales se tiñen de acento al pasar el cursor.
@@ -342,22 +349,24 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Las marcas que todavía no tienen logo van **en texto**, agrupadas por
   especialidad ("También trabajamos con"): LenelS2, Onity, Supra, NOTIFIER,
   System Sensor, Fire-Lite y Silent Knight. Pasan a logo cambiando solo el JSON.
-- Logos en blanco a una tinta (`#F0F1FA`) para el fondo oscuro, en SVG:
-  - Edwards, del EPS oficial: `gs` (EPS → PDF), `pdftocairo -svg`, colores a
-    blanco y `svgo` (5.7 KB).
-  - Sectrol, del PNG oficial: máscara de tinta y `potrace`, luego `svgo` (8.7 KB).
-  - Kidde Commercial (de la firma del correo de autorización), Tiandy (del
-    banner del distribuidor) y Honeywell Technologies (PNG compartido por
-    Adrián): recorte, escalado, máscara y `potrace`. Son trazos
-    de capturas; se sustituyen por los vectores oficiales cuando lleguen
-    (Kidde, en MyEDDIE).
+- Logos en sus **colores originales** sobre tarjetas blancas
+  (`--color-logo-surface`), dentro de la sección oscura (corrección del cliente,
+  06/oct: las marcas pueden pedir su color oficial). En SVG:
+  - Edwards, del EPS oficial: `gs` (EPS → PDF), `pdftocairo -svg` y `svgo`
+    (#231F20 y #8293AB, 4.6 KB).
+  - Sectrol (PNG oficial) y Kidde Commercial (firma del correo de autorización):
+    una máscara y un `potrace` por color (negro y rojo), luego `svgo`.
+  - Tiandy (banner del distribuidor, #33A722) y Honeywell Technologies (PNG
+    compartido por Adrián, #E20100): trazo a una tinta con el color de la marca.
+  - Kidde, Tiandy y Honeywell son trazos de capturas; se sustituyen por los
+    vectores oficiales cuando lleguen (Kidde, en MyEDDIE).
   - Originales en `assets-src/marcas/`.
 - Validación en el build (`src/lib/brands-content.ts`): al menos una alianza con
   logo, ids únicos, logos en `/images/brands/` con texto alternativo y medidas, y
   ninguna marca repetida ni como logo y texto a la vez.
 - Animación: entrada en cascada con `ScrollReveal`, la línea de acento sobre los
   respaldos se dibuja de izquierda a derecha, y las tarjetas de logo toman el
-  borde en acento al pasar el cursor.
+  borde en acento al pasar el cursor (el fondo blanco no cambia).
 - Textos del prototipo, pendientes de aprobación de marketing.
 
 ### 12 · Consentimiento (banner de cookies)
@@ -586,6 +595,22 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **06/oct/2026** — Cobertura nacional (corrección del cliente): servicio en
+  toda la República con atención local en Ciudad de México, Guadalajara, Tijuana
+  y Monterrey. Se dice en la pregunta de cobertura, bajo las tarjetas de Contacto
+  y en el pie. `areaServed` del JSON-LD pasa a "México"; la dirección de
+  `LocalBusiness` se queda en Monterrey, N.L. Sin domicilio público (decisión de
+  SESLUM).
+- **06/oct/2026** — `sharp` forzado a ≥ 0.35.5 y `source-map-js` a ≥ 1.2.2 con
+  `overrides`. Cierran dos avisos high publicados ese día (GHSA-wq5f-xc86-pv6w,
+  librsvg en `sharp`, heredado por `wrangler` → `miniflare`; y GHSA-68fv-2mgg-jv7q,
+  DoS en `source-map-js`, vía `postcss`). Ambos tienen parche, así que no van a
+  la lista de excepciones.
+- **06/oct/2026** — Logos de alianzas en colores originales sobre tarjetas
+  blancas (corrección del cliente: las marcas pueden reclamar si su logo no va
+  en su color oficial). Sectrol, Edwards y Kidde llevan negro, que no se lee
+  sobre el fondo oscuro; la tarjeta blanca lo resuelve sin cambiar la
+  alternancia de fondos.
 - **01/oct/2026** — JSON-LD insertado después del build y medición de clics por
   delegación. El bloque 9 llevó el LCP simulado de Lighthouse CI a 2.59 s (límite
   2.5 s): el HTML crecía con texto repetido en el payload de hidratación. Sacar el

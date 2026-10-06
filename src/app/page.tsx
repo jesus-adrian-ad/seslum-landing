@@ -25,7 +25,7 @@ export default function HomePage() {
         <WhySeslum content={whySeslum} />
         <Brands content={brands} />
         <Faq content={faq} />
-        <Contact content={contact} contact={site.contact} />
+        <Contact content={contact} contact={site.contact} location={site.location} />
       </main>
       <Footer content={footer} site={site} navigation={navbar.links} services={services} logo={navbar.logo} />
       <WhatsAppFloat whatsapp={site.contact.whatsapp} label={contact.floatingLabel} newTabHint={contact.newTabHint} />

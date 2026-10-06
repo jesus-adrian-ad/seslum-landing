@@ -12,6 +12,7 @@ const base: ContactContent<string> = {
   title: "Título",
   lead: "Entrada",
   channels: [channel("whatsapp"), channel("email"), channel("phone")],
+  officesLabel: "Atención local en",
   floatingLabel: "Escríbanos por WhatsApp",
   newTabHint: "(se abre en otra pestaña)",
 };

@@ -38,6 +38,7 @@ export interface SiteLocation {
   readonly country: string;
   readonly serviceArea: string;
   readonly areaServed: string;
+  readonly offices: readonly string[];
 }
 
 export interface SiteSeo {
@@ -232,6 +233,7 @@ export interface ContactContent<Kind extends string = ContactChannelKind> {
   readonly title: string;
   readonly lead: string;
   readonly channels: readonly ContactChannelContent<Kind>[];
+  readonly officesLabel: string;
   readonly floatingLabel: string;
   readonly newTabHint: string;
 }
