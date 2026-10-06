@@ -342,22 +342,24 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Las marcas que todavía no tienen logo van **en texto**, agrupadas por
   especialidad ("También trabajamos con"): LenelS2, Onity, Supra, NOTIFIER,
   System Sensor, Fire-Lite y Silent Knight. Pasan a logo cambiando solo el JSON.
-- Logos en blanco a una tinta (`#F0F1FA`) para el fondo oscuro, en SVG:
-  - Edwards, del EPS oficial: `gs` (EPS → PDF), `pdftocairo -svg`, colores a
-    blanco y `svgo` (5.7 KB).
-  - Sectrol, del PNG oficial: máscara de tinta y `potrace`, luego `svgo` (8.7 KB).
-  - Kidde Commercial (de la firma del correo de autorización), Tiandy (del
-    banner del distribuidor) y Honeywell Technologies (PNG compartido por
-    Adrián): recorte, escalado, máscara y `potrace`. Son trazos
-    de capturas; se sustituyen por los vectores oficiales cuando lleguen
-    (Kidde, en MyEDDIE).
+- Logos en sus **colores originales** sobre tarjetas blancas
+  (`--color-logo-surface`), dentro de la sección oscura (corrección del cliente,
+  06/oct: las marcas pueden pedir su color oficial). En SVG:
+  - Edwards, del EPS oficial: `gs` (EPS → PDF), `pdftocairo -svg` y `svgo`
+    (#231F20 y #8293AB, 4.6 KB).
+  - Sectrol (PNG oficial) y Kidde Commercial (firma del correo de autorización):
+    una máscara y un `potrace` por color (negro y rojo), luego `svgo`.
+  - Tiandy (banner del distribuidor, #33A722) y Honeywell Technologies (PNG
+    compartido por Adrián, #E20100): trazo a una tinta con el color de la marca.
+  - Kidde, Tiandy y Honeywell son trazos de capturas; se sustituyen por los
+    vectores oficiales cuando lleguen (Kidde, en MyEDDIE).
   - Originales en `assets-src/marcas/`.
 - Validación en el build (`src/lib/brands-content.ts`): al menos una alianza con
   logo, ids únicos, logos en `/images/brands/` con texto alternativo y medidas, y
   ninguna marca repetida ni como logo y texto a la vez.
 - Animación: entrada en cascada con `ScrollReveal`, la línea de acento sobre los
   respaldos se dibuja de izquierda a derecha, y las tarjetas de logo toman el
-  borde en acento al pasar el cursor.
+  borde en acento al pasar el cursor (el fondo blanco no cambia).
 - Textos del prototipo, pendientes de aprobación de marketing.
 
 ### 12 · Consentimiento (banner de cookies)
@@ -586,6 +588,11 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **06/oct/2026** — Logos de alianzas en colores originales sobre tarjetas
+  blancas (corrección del cliente: las marcas pueden reclamar si su logo no va
+  en su color oficial). Sectrol, Edwards y Kidde llevan negro, que no se lee
+  sobre el fondo oscuro; la tarjeta blanca lo resuelve sin cambiar la
+  alternancia de fondos.
 - **01/oct/2026** — JSON-LD insertado después del build y medición de clics por
   delegación. El bloque 9 llevó el LCP simulado de Lighthouse CI a 2.59 s (límite
   2.5 s): el HTML crecía con texto repetido en el payload de hidratación. Sacar el
