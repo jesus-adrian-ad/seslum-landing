@@ -21,6 +21,7 @@ import { parseContactContent } from "@/lib/contact-links";
 import { parseFaqContent } from "@/lib/faq-content";
 import { parseSectorsContent } from "@/lib/sectors-content";
 import { parseServicesContent } from "@/lib/services-content";
+import { parseSiteContent } from "@/lib/site-content";
 import type {
   BrandsContent,
   ConsentContent,
@@ -35,7 +36,7 @@ import type {
   WhySeslumContent,
 } from "@/types/content";
 
-export const site: SiteContent = siteJson;
+export const site: SiteContent = parseSiteContent(siteJson);
 
 export const navbar: NavbarContent = navbarJson;
 

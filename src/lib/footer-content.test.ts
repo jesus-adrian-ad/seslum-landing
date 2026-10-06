@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { services, site } from "@/lib/content";
-import { copyrightLine, footerServiceLinks, locationLine } from "./footer-content";
+import { services } from "@/lib/content";
+import { copyrightLine, footerServiceLinks } from "./footer-content";
 
 describe("footerServiceLinks", () => {
   const links = footerServiceLinks(services);
@@ -16,11 +16,7 @@ describe("footerServiceLinks", () => {
   });
 });
 
-describe("locationLine y copyrightLine", () => {
-  it("arma la ubicación con ciudad y estado", () => {
-    expect(locationLine(site.location)).toBe("Monterrey, Nuevo León");
-  });
-
+describe("copyrightLine", () => {
   it("arma el aviso de derechos con el año recibido", () => {
     expect(copyrightLine(2026, "Grupo SESLUM", "Todos los derechos reservados.")).toBe(
       "© 2026 Grupo SESLUM. Todos los derechos reservados.",

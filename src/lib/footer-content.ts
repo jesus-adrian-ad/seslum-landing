@@ -6,7 +6,7 @@
  * en cualquiera de ellos llega aquí sin tocar el pie.
  */
 
-import type { ServicesContent, SiteLocation } from "@/types/content";
+import type { ServicesContent } from "@/types/content";
 
 export interface FooterServiceLink {
   readonly label: string;
@@ -16,10 +16,6 @@ export interface FooterServiceLink {
 export function footerServiceLinks(services: ServicesContent): FooterServiceLink[] {
   const href = `#${services.id}`;
   return services.groups.flatMap((group) => group.items.map((item) => ({ label: item.name, href })));
-}
-
-export function locationLine(location: SiteLocation): string {
-  return `${location.locality}, ${location.region}`;
 }
 
 export function copyrightLine(year: number, name: string, rights: string): string {

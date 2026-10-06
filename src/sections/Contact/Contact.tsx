@@ -3,7 +3,8 @@
  *
  * Cada tarjeta es un solo enlace estático con toda su superficie como área
  * táctil, marcado para que ClickTracker publique su evento con source "contact". Los datos salen de
- * site.json; esta sección solo aporta el nombre y la nota de cada vía. El
+ * site.json; esta sección solo aporta el nombre y la nota de cada vía. Debajo,
+ * una línea con las ciudades con atención local y la cobertura nacional. El
  * formulario (bloque 10) se monta debajo de las tarjetas.
  */
 
@@ -12,7 +13,8 @@ import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import { trackingAttributes } from "@/lib/analytics";
 import { buildContactChannels } from "@/lib/contact-links";
-import type { ContactContent, SiteContact } from "@/types/content";
+import { officesSentence } from "@/lib/offices";
+import type { ContactContent, SiteContact, SiteLocation } from "@/types/content";
 import styles from "./Contact.module.css";
 
 const EXTERNAL_LINK = { target: "_blank", rel: "noopener noreferrer" } as const;
@@ -20,9 +22,10 @@ const EXTERNAL_LINK = { target: "_blank", rel: "noopener noreferrer" } as const;
 export interface ContactProps {
   readonly content: ContactContent;
   readonly contact: SiteContact;
+  readonly location: SiteLocation;
 }
 
-export function Contact({ content, contact }: ContactProps) {
+export function Contact({ content, contact, location }: ContactProps) {
   const titleId = `${content.id}-title`;
   const channels = buildContactChannels(content, contact);
 
@@ -49,6 +52,10 @@ export function Contact({ content, contact }: ContactProps) {
             </li>
           ))}
         </ul>
+
+        <p className={styles.offices} data-reveal="">
+          {`${content.officesLabel} ${officesSentence(location.offices)}. ${location.serviceArea}.`}
+        </p>
       </div>
       <ScrollReveal rootId={content.id} />
     </section>

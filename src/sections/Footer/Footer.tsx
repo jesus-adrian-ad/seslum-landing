@@ -4,7 +4,8 @@
  *
  * No repite contenido: los enlaces salen del navbar, las líneas de servicio de
  * services.json y los datos de contacto de site.json. Correo, teléfono y
- * WhatsApp se miden con source "footer". LinkedIn aparece solo cuando
+ * WhatsApp se miden con source "footer"; las ciudades con atención local salen
+ * de site.json. LinkedIn aparece solo cuando
  * site.json tenga el perfil. "Preferencias de cookies" vuelve a abrir el banner
  * de consentimiento. El enlace al aviso de privacidad se agrega con el bloque
  * del formulario, cuando exista la página.
@@ -16,7 +17,8 @@ import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { ANALYTICS_EVENTS, trackingAttributes } from "@/lib/analytics";
 import { CONSENT_OPEN_ATTRIBUTE } from "@/lib/consent-runtime";
 import { emailHref, phoneHref, whatsappHref } from "@/lib/contact-links";
-import { copyrightLine, footerServiceLinks, locationLine } from "@/lib/footer-content";
+import { copyrightLine, footerServiceLinks } from "@/lib/footer-content";
+import { officesInline } from "@/lib/offices";
 import type { FooterContent, ImageAsset, NavLink, ServicesContent, SiteContent } from "@/types/content";
 import styles from "./Footer.module.css";
 
@@ -130,7 +132,7 @@ export function Footer({ content, site, navigation, services, logo }: FooterProp
                 </span>
               </p>
               <p>
-                <span className={styles.contactValue}>{locationLine(location)}</span>
+                <span className={styles.contactValue}>{officesInline(location.offices)}</span>
                 <span className={styles.contactNote}>{location.serviceArea}</span>
               </p>
             </address>

@@ -64,6 +64,15 @@
   line-height: 1.5;
 }
 
+.offices {
+  max-width: var(--content-narrow);
+  margin: var(--space-6) auto 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  text-align: center;
+}
+
 @media (hover: hover) {
   .channel:hover {
     --frame-color: var(--color-accent-muted);
