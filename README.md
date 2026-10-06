@@ -588,6 +588,11 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **06/oct/2026** — `sharp` forzado a ≥ 0.35.5 y `source-map-js` a ≥ 1.2.2 con
+  `overrides`. Cierran dos avisos high publicados ese día (GHSA-wq5f-xc86-pv6w,
+  librsvg en `sharp`, heredado por `wrangler` → `miniflare`; y GHSA-68fv-2mgg-jv7q,
+  DoS en `source-map-js`, vía `postcss`). Ambos tienen parche, así que no van a
+  la lista de excepciones.
 - **06/oct/2026** — Logos de alianzas en colores originales sobre tarjetas
   blancas (corrección del cliente: las marcas pueden reclamar si su logo no va
   en su color oficial). Sectrol, Edwards y Kidde llevan negro, que no se lee
