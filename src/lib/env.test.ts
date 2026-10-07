@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseDeployUrl, resolveBuildEnv, resolvePublicUrl } from "./env";
+import { parseDeployUrl, resolveBuildEnv, resolvePublicUrl, resolveTurnstileSiteKey, TURNSTILE_TEST_SITE_KEY } from "./env";
 
 const CANONICAL = "https://seslum.com.mx";
 
@@ -24,11 +24,29 @@ describe("resolvePublicUrl", () => {
   });
 
   it("usa siempre el dominio canónico en producción", () => {
-    const env = resolveBuildEnv({ NEXT_PUBLIC_SITE_ENV: "production", NEXT_PUBLIC_SITE_URL: "https://otro.pages.dev" });
+    const env = resolveBuildEnv({
+      NEXT_PUBLIC_SITE_ENV: "production",
+      NEXT_PUBLIC_SITE_URL: "https://otro.pages.dev",
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: "0x4AAAAAAA",
+    });
     expect(resolvePublicUrl(CANONICAL, env)).toBe(CANONICAL);
   });
 
   it("cae al dominio canónico si staging no trae alias", () => {
     expect(resolvePublicUrl(CANONICAL, resolveBuildEnv({}))).toBe(CANONICAL);
+  });
+});
+
+describe("resolveTurnstileSiteKey", () => {
+  it("usa la clave configurada, sin espacios", () => {
+    expect(resolveTurnstileSiteKey(" 0x4AAAAAAA ", "production")).toBe("0x4AAAAAAA");
+  });
+
+  it("en staging cae a la clave de prueba de Cloudflare", () => {
+    expect(resolveTurnstileSiteKey(undefined, "staging")).toBe(TURNSTILE_TEST_SITE_KEY);
+  });
+
+  it("en producción falla el build si no hay clave", () => {
+    expect(() => resolveTurnstileSiteKey("", "production")).toThrow(/NEXT_PUBLIC_TURNSTILE_SITE_KEY/);
   });
 });

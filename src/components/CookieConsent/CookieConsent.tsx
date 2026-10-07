@@ -12,12 +12,13 @@
  *
  * No es un modal: es una región con título que no bloquea la página. Mientras
  * está visible publica su alto en --consent-offset para que el botón flotante de
- * WhatsApp suba en móvil.
+ * WhatsApp suba en móvil. El texto enlaza al aviso de privacidad.
  */
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { ACCEPTED_PREFERENCES, type ConsentPreferences, DENIED_PREFERENCES } from "@/lib/consent";
 import { CONSENT_OPEN_ATTRIBUTE, readStoredConsent, saveConsent } from "@/lib/consent-runtime";
+import { PRIVACY_PATH } from "@/lib/privacy";
 import type { ConsentContent } from "@/types/content";
 import styles from "./CookieConsent.module.css";
 
@@ -157,7 +158,7 @@ export function CookieConsent({ content }: CookieConsentProps) {
             {content.title}
           </h2>
           <p id={bodyId} className={styles.body}>
-            {content.body}
+            {content.body} <a href={PRIVACY_PATH}>{content.privacyLink}</a>
           </p>
           <div className={styles.actions}>
             <button type="button" className={styles.primary} onClick={() => decide(ACCEPTED_PREFERENCES)}>

@@ -21,6 +21,8 @@
   --color-surface: var(--color-raised);
   --color-surface-hover: #223452;
   --color-logo-surface: #ffffff;
+  --color-input: rgb(11 17 32 / 0.45);
+  --color-input-border: rgb(255 255 255 / 0.17);
   --color-text: var(--color-paper);
   --color-text-muted: rgb(240 241 250 / 0.74);
   --color-text-subtle: rgb(240 241 250 / 0.62);
@@ -123,6 +125,7 @@
   --hero-max-height: 64rem;
 
   --tap-target-min: 44px;
+  --form-message-height: 7.5rem;
   --focus-ring: 2px solid var(--color-accent);
   --focus-offset: 3px;
 

@@ -7,8 +7,7 @@
  * WhatsApp se miden con source "footer"; las ciudades con atención local salen
  * de site.json. LinkedIn aparece solo cuando
  * site.json tenga el perfil. "Preferencias de cookies" vuelve a abrir el banner
- * de consentimiento. El enlace al aviso de privacidad se agrega con el bloque
- * del formulario, cuando exista la página.
+ * de consentimiento; junto a él, el enlace al aviso de privacidad.
  */
 
 import { ContactIcon } from "@/components/ContactIcon/ContactIcon";
@@ -19,6 +18,7 @@ import { CONSENT_OPEN_ATTRIBUTE } from "@/lib/consent-runtime";
 import { emailHref, phoneHref, whatsappHref } from "@/lib/contact-links";
 import { copyrightLine, footerServiceLinks } from "@/lib/footer-content";
 import { officesInline } from "@/lib/offices";
+import { PRIVACY_PATH } from "@/lib/privacy";
 import type { FooterContent, ImageAsset, NavLink, ServicesContent, SiteContent } from "@/types/content";
 import styles from "./Footer.module.css";
 
@@ -141,9 +141,14 @@ export function Footer({ content, site, navigation, services, logo }: FooterProp
 
         <div className={styles.bottom}>
           <p>{copyrightLine(year, site.name, content.rights)}</p>
-          <button type="button" className={styles.consentLink} {...{ [CONSENT_OPEN_ATTRIBUTE]: "" }}>
-            {content.consentLink}
-          </button>
+          <div className={styles.legal}>
+            <a className={styles.legalLink} href={PRIVACY_PATH}>
+              {content.privacyLink}
+            </a>
+            <button type="button" className={styles.legalLink} {...{ [CONSENT_OPEN_ATTRIBUTE]: "" }}>
+              {content.consentLink}
+            </button>
+          </div>
           <p>
             {content.credit.prefix}{" "}
             <a className={styles.credit} href={content.credit.href} {...EXTERNAL_LINK}>

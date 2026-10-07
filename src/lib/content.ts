@@ -7,10 +7,12 @@
 
 import brandsJson from "@/content/sections/brands.json";
 import consentJson from "@/content/sections/consent.json";
+import contactFormJson from "@/content/sections/contact-form.json";
 import contactJson from "@/content/sections/contact.json";
 import faqJson from "@/content/sections/faq.json";
 import footerJson from "@/content/sections/footer.json";
 import heroJson from "@/content/sections/hero.json";
+import privacyJson from "@/content/pages/privacy.json";
 import navbarJson from "@/content/sections/navbar.json";
 import sectorsJson from "@/content/sections/sectors.json";
 import servicesJson from "@/content/sections/services.json";
@@ -26,10 +28,12 @@ import type {
   BrandsContent,
   ConsentContent,
   ContactContent,
+  ContactFormContent,
   FaqContent,
   FooterContent,
   HeroContent,
   NavbarContent,
+  PrivacyContent,
   SectorsContent,
   ServicesContent,
   SiteContent,
@@ -52,8 +56,12 @@ export const faq: FaqContent = parseFaqContent(faqJson);
 
 export const contact: ContactContent = parseContactContent(contactJson);
 
+export const contactForm: ContactFormContent = contactFormJson;
+
 export const footer: FooterContent = footerJson;
 
 export const consent: ConsentContent = consentJson;
+
+export const privacy: PrivacyContent = privacyJson;
 
 export const brands: BrandsContent = parseBrandsContent(brandsJson);

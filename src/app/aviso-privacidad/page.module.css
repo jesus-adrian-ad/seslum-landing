@@ -1,0 +1,116 @@
+/**
+ * Aviso de privacidad: encabezado con logo y regreso al inicio, texto a ancho
+ * de lectura y pie mínimo con derechos y preferencias de cookies.
+ */
+
+.header {
+  border-bottom: var(--border-width) solid var(--color-line);
+  background-color: var(--color-bg-alt);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--header-height);
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+}
+
+.logo {
+  width: auto;
+  height: var(--logo-height);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  color: var(--color-accent);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+}
+
+.main {
+  max-width: calc(var(--measure) + 2 * var(--container-padding));
+  padding-block: var(--space-12) var(--space-16);
+  color: var(--color-text-muted);
+  line-height: var(--lh-body);
+}
+
+.title {
+  color: var(--color-text);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
+}
+
+.updated {
+  margin-top: var(--space-3);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+}
+
+.section {
+  margin-top: var(--space-10);
+}
+
+.section p,
+.list {
+  margin-top: var(--space-3);
+}
+
+.section a {
+  color: var(--color-accent);
+  overflow-wrap: anywhere;
+}
+
+.heading {
+  color: var(--color-text);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: var(--space-5);
+}
+
+.footer {
+  border-top: var(--border-width) solid var(--color-line);
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-subtle);
+  font-size: var(--fs-small);
+}
+
+.footerInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-6);
+  padding-block: var(--space-5);
+}
+
+.consentLink {
+  min-height: var(--tap-target-min);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-muted);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.consentLink:hover {
+  color: var(--color-accent);
+}

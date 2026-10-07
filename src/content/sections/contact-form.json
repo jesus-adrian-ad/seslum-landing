@@ -1,0 +1,66 @@
+{
+  "id": "formulario",
+  "title": "O déjenos sus datos y nosotros lo contactamos",
+  "labels": {
+    "name": "Nombre",
+    "company": "Empresa",
+    "email": "Correo corporativo",
+    "phone": "Teléfono",
+    "service": "Servicio de interés",
+    "message": "Mensaje"
+  },
+  "optional": "(opcional)",
+  "placeholders": {
+    "service": "Seleccione una opción",
+    "message": "Describa brevemente su instalación"
+  },
+  "errors": {
+    "required": "Este campo es obligatorio.",
+    "tooShort": "Es demasiado corto.",
+    "tooLong": "Es demasiado largo.",
+    "invalid": "Revise lo que escribió en este campo."
+  },
+  "fieldErrors": {
+    "name": {
+      "required": "Escriba su nombre.",
+      "tooShort": "Escriba su nombre completo.",
+      "invalid": "Escriba su nombre en una sola línea."
+    },
+    "email": {
+      "required": "Escriba su correo.",
+      "tooShort": "Revise el correo, por ejemplo nombre@empresa.com.",
+      "invalid": "Revise el correo, por ejemplo nombre@empresa.com."
+    },
+    "phone": {
+      "invalid": "Revise el teléfono: al menos 8 dígitos, con números, espacios, +, paréntesis o guiones."
+    },
+    "service": {
+      "invalid": "Elija una opción de la lista."
+    },
+    "message": {
+      "required": "Cuéntenos brevemente qué necesita.",
+      "tooShort": "Agregue un poco más de detalle (mínimo 10 caracteres).",
+      "tooLong": "El mensaje admite hasta 2,000 caracteres."
+    }
+  },
+  "status": {
+    "invalid": "Revise los campos marcados.",
+    "verifying": "Un momento: estamos verificando que el envío es de una persona. Intente de nuevo en unos segundos.",
+    "captcha": "No pudimos verificar el envío. Intente de nuevo.",
+    "server": "No pudimos enviar su solicitud. Intente de nuevo en unos minutos o escríbanos por WhatsApp."
+  },
+  "submit": "Solicitar cotización",
+  "sending": "Enviando…",
+  "success": {
+    "title": "Recibimos su solicitud",
+    "body": "Gracias. Le responderemos en un máximo de 24 horas hábiles con los siguientes pasos.",
+    "again": "Enviar otra solicitud"
+  },
+  "privacy": {
+    "before": "Al enviar acepta nuestro ",
+    "link": "aviso de privacidad",
+    "after": ". Sus datos se utilizan únicamente para responder esta solicitud."
+  },
+  "honeypotLabel": "Deje este campo vacío",
+  "noscript": "Para enviar el formulario se necesita JavaScript activo. También puede escribirnos por WhatsApp o correo con los datos de arriba."
+}

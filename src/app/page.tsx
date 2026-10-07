@@ -3,7 +3,9 @@
  */
 
 import { WhatsAppFloat } from "@/components/WhatsAppFloat/WhatsAppFloat";
-import { brands, contact, faq, footer, hero, navbar, sectors, services, site, whySeslum } from "@/lib/content";
+import { serviceOptions } from "@/lib/contact-form";
+import { brands, contact, contactForm, faq, footer, hero, navbar, sectors, services, site, whySeslum } from "@/lib/content";
+import { buildEnv } from "@/lib/env";
 import { Brands } from "@/sections/Brands/Brands";
 import { Contact } from "@/sections/Contact/Contact";
 import { Faq } from "@/sections/Faq/Faq";
@@ -25,7 +27,14 @@ export default function HomePage() {
         <WhySeslum content={whySeslum} />
         <Brands content={brands} />
         <Faq content={faq} />
-        <Contact content={contact} contact={site.contact} location={site.location} />
+        <Contact
+          content={contact}
+          contact={site.contact}
+          location={site.location}
+          form={contactForm}
+          services={serviceOptions(services)}
+          turnstileSiteKey={buildEnv.turnstileSiteKey}
+        />
       </main>
       <Footer content={footer} site={site} navigation={navbar.links} services={services} logo={navbar.logo} />
       <WhatsAppFloat whatsapp={site.contact.whatsapp} label={contact.floatingLabel} newTabHint={contact.newTabHint} />

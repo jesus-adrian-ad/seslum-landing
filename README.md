@@ -23,14 +23,14 @@ y sistemas para tu negocio.
 | 4 | Sectores | `feature/sectors` | ✅ Publicado | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
 | 6 | Proyectos | `feature/projects` | ⏸️ En espera de datos reales del cliente | — |
-| 7 | Alianzas comerciales | `feature/brands` | 🔨 En PR | — |
+| 7 | Alianzas comerciales | `feature/brands` | ✅ Publicado (textos en revisión) | — |
 | 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
 | 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
-| 10 | Formulario | `feature/contact-form` | ⏸️ En espera de la configuración de correo | — |
+| 10 | Formulario + aviso de privacidad | `feature/contact-form` | 🔨 En PR | — |
 | 11 | Pie de página | `feature/footer` | ✅ Publicado (textos en revisión) | — |
 | 12 | Consentimiento | `feature/consent-banner` | ✅ Publicado (textos en revisión) | — |
 
-**Siguiente bloque:** Formulario (10) y Proyectos (6), cuando llegue lo que les falta.
+**Siguiente bloque:** Proyectos (6), cuando lleguen los datos reales del cliente.
 
 ---
 
@@ -86,7 +86,20 @@ en este repo.
 | `NEXT_PUBLIC_SITE_ENV` | `production` solo en `main`. Cualquier otro valor marca el sitio como no indexable. |
 | `NEXT_PUBLIC_GTM_ID` | Contenedor de GTM. Vacío = no se carga GTM. |
 | `NEXT_PUBLIC_SITE_URL` | Solo staging: URL del alias de la rama en Pages, base de canonical y `og:image`. La calcula el workflow; en local puede ir vacía. |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` · `TURNSTILE_SECRET_KEY` · `CONTACT_FORM_TO` | Formulario (bloque 10). |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Clave pública del widget de Turnstile. Obligatoria en producción (el build falla sin ella); vacía en staging o local = clave de prueba de Cloudflare. |
+
+Secretos de la Pages Function del formulario: viven en Cloudflare Pages →
+`seslum-landing` → Configuración → Variables y secretos, en **Producción y Vista
+previa**. Nunca en GitHub ni en el repo.
+
+| Secreto | Para qué |
+|---|---|
+| `RESEND_API_KEY` | Clave de Resend con permiso *Sending access* solo para `mail.seslum.com.mx`. |
+| `TURNSTILE_SECRET_KEY` | Clave secreta del widget `seslum-landing-formulario`. |
+
+Para probar el formulario en local: `cp .dev.vars.example .dev.vars`,
+`npm run build` y `npx wrangler pages dev out`. Con las claves de prueba
+Turnstile siempre pasa; sin clave de Resend la Function responde 503.
 
 ---
 
@@ -315,6 +328,51 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   celular; el correo enviado desde iCloud rebota en el servidor de GoDaddy
   (*552 5.2.0 bare CR*), ajeno al sitio: el enlace es un `mailto:` sin cuerpo.
 
+### 10 · Formulario de cotización + aviso de privacidad
+
+- Tarjeta "O déjenos sus datos y nosotros lo contactamos" al final de
+  `#contacto` (`#formulario`): Nombre, Empresa, Correo corporativo, Teléfono,
+  Servicio de interés y Mensaje. Obligatorios: nombre, correo y mensaje
+  (decisión de Adrián). Una columna en móvil, dos desde 700 px.
+- Servicio de interés: las 10 capacidades de `services.json` + "Otro / varios"
+  (`serviceOptions()`), sin duplicar textos.
+- Reglas compartidas por navegador y servidor en `src/lib/contact-form.ts`:
+  longitudes, formato de correo y teléfono (≥ 8 dígitos), servicio de la lista,
+  sin saltos de línea en campos de una línea (inyección de cabeceras) ni
+  caracteres de control. Se rechaza lo que no cuadra; no se "limpia".
+- Errores bajo cada campo con `aria-describedby` y `aria-invalid`; al fallar,
+  el foco va al primer campo con error y una línea de estado (`role="status"`)
+  lo anuncia. Con éxito, la tarjeta cambia por la confirmación y su título
+  recibe el foco.
+- **Envío:** `POST /api/contact` → Pages Function `functions/api/contact.ts`,
+  que solo enlaza con `src/server/contact-handler.ts`. Orden: mismo origen,
+  `Content-Type: application/json`, cuerpo ≤ 16 KB, honeypot, validación,
+  Turnstile y Resend. Respuestas `{ ok }` o un código genérico (`invalid`,
+  `captcha`, `server`), con `Cache-Control: no-store`; nunca repiten lo enviado.
+  Sin secretos responde 503 (falla cerrado).
+- **Anti-bots, tres capas:** Turnstile verificado en el servidor (con la acción
+  `contact`), honeypot `website` invisible que descarta en silencio, y regla de
+  rate limiting de Cloudflare sobre `/api/contact` al conectar el dominio.
+- **Turnstile:** el script se carga cuando el formulario está a 600 px de la
+  vista, para no tocar el LCP; modo administrado con apariencia
+  *interaction-only* (solo se ve si Cloudflare necesita preguntar). Cada token
+  sirve una vez: el widget se reinicia tras cada intento. CSP:
+  `challenges.cloudflare.com` en `script-src` y `frame-src`.
+- **Correo:** Resend desde `formulario@mail.seslum.com.mx` (subdominio
+  verificado con DKIM y SPF propios; el dominio principal tiene SPF `-all` y
+  DMARC `p=reject`) a `ventas@seslum.com.mx` (de `site.json`), con `reply_to`
+  al visitante. Todo lo escrito se escapa antes de entrar al HTML. Sin SDK: una
+  llamada `fetch` a la API.
+- Medición: `generate_lead` con `source: "form"` y `service` (o
+  `sin_especificar`) solo cuando el servidor confirma el envío.
+- **Aviso de privacidad** en `/aviso-privacidad` (`src/app/aviso-privacidad/`),
+  con el texto en `src/content/pages/privacy.json`: responsable Grupo SESLUM,
+  datos del formulario, finalidad solo de cotización, encargados (Cloudflare,
+  Resend, GoDaddy), cookies, derechos ARCO por `avisoprivacidad@seslum.com.mx`,
+  conservación de hasta 12 meses. Encabezado y pie mínimos propios; enlazado
+  desde el formulario, el pie y el banner de cookies, y en `sitemap.xml`.
+  Borrador aprobado por Adrián; pendiente la revisión legal de SESLUM.
+
 ### 11 · Pie de página
 
 - `<footer id="pie">` sobre el fondo alterno, separado por una línea. Cuatro
@@ -326,8 +384,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Íconos sociales: WhatsApp siempre (como en el prototipo); LinkedIn aparece
   cuando `site.social.linkedin` tenga el perfil.
 - Barra inferior: derechos con el año del build y "Desarrollado por YiSoft
-  Development". Deja libre la esquina del botón flotante. El enlace al aviso de
-  privacidad se agrega en el bloque 10, cuando exista la página.
+  Development". Deja libre la esquina del botón flotante. Junto a
+  "Preferencias de cookies", el enlace al aviso de privacidad (bloque 10).
 - La columna de Contacto cierra con las ciudades con atención local
   (`officesInline()`, separadas por punto medio) y "Servicio en toda la
   República Mexicana".
@@ -429,7 +487,7 @@ desde GTM, con las cuentas a nombre de Grupo SESLUM.
 
 | Evento | Se dispara cuando | Parámetros |
 |---|---|---|
-| `generate_lead` | El formulario se envía correctamente (evento clave en GA4) | `source` |
+| `generate_lead` | El servidor confirma el envío del formulario (evento clave en GA4) | `source` (`form`), `service` |
 | `click_whatsapp` | Clic en cualquier enlace de WhatsApp | `source` |
 | `click_phone` | Clic en un enlace `tel:` | `source` |
 | `click_email` | Clic en un enlace `mailto:` | `source` |
@@ -493,7 +551,15 @@ los gates están en verde. Cloudflare nunca tiene acceso a este repo.
    `Account · Cloudflare Pages · Edit`, limitado a la cuenta de Grupo SESLUM.
 3. En GitHub → Settings → Secrets and variables → Actions:
    - Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
-   - Variables: `CF_PAGES_PROJECT=seslum-landing`, `GTM_ID` (cuando exista).
+   - Variables: `CF_PAGES_PROJECT=seslum-landing`, `GTM_ID` (cuando exista),
+     `TURNSTILE_SITE_KEY`.
+4. Formulario: en Resend (cuenta con `sitioweb@`), dominio `mail.seslum.com.mx`
+   verificado con sus registros en Cloudflare en *DNS only*; en Turnstile, el
+   widget `seslum-landing-formulario` (hosts `seslum.com.mx` y
+   `seslum-landing.pages.dev`, modo administrado); y los dos secretos de la
+   Function en Pages (Producción y Vista previa).
+5. Al conectar el dominio: regla de rate limiting en Security → WAF para
+   `/api/contact` (pocas solicitudes por minuto por IP).
 
 **Rollback:** revertir el merge en `main` y hacer push, o promover un deployment
 anterior desde el panel de Pages.
@@ -503,6 +569,10 @@ anterior desde el panel de Pages.
 ## Mantenimiento
 
 - **Cambiar un texto o un dato de contacto:** `src/content/`. No hace falta tocar código.
+- **Cambiar el aviso de privacidad:** `src/content/pages/privacy.json` (y su
+  fecha `updated`).
+- **Rotar una clave del formulario:** crear la nueva en Resend o Turnstile,
+  reemplazar el secreto en Pages (Producción y Vista previa) y revocar la vieja.
 - **Cambiar un color o la tipografía:** `src/styles/tokens.css`.
 - **Agregar una sección:** método de bloques: rama, gates, PR a `develop`.
 - **Actualizar dependencias:** Dependabot abre PRs semanales contra `develop`;
@@ -595,6 +665,15 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **07/oct/2026** — Formulario con Resend + Turnstile en una Pages Function.
+  Resend porque autentica un subdominio propio sin tocar el SPF/DMARC estricto
+  del correo de GoDaddy, y tiene plan gratuito suficiente. La lógica vive en
+  `src/server/` (probada con Vitest) y la Function solo la enlaza. Turnstile se
+  carga perezosamente para no afectar el LCP. El build de auditoría usa la
+  clave de prueba de Turnstile porque se sirve en localhost.
+- **07/oct/2026** — Aviso de privacidad publicado con el borrador aprobado por
+  Adrián (responsable "Grupo SESLUM", sin domicilio por decisión de SESLUM).
+  La ley pide el domicilio; queda para la revisión legal de SESLUM.
 - **06/oct/2026** — Cobertura nacional (corrección del cliente): servicio en
   toda la República con atención local en Ciudad de México, Guadalajara, Tijuana
   y Monterrey. Se dice en la pregunta de cobertura, bajo las tarjetas de Contacto

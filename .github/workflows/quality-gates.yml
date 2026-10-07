@@ -12,6 +12,12 @@
 #                    CLOUDFLARE_ACCOUNT_ID
 # Variables del repo: CF_PAGES_PROJECT (nombre del proyecto de Pages)
 #                     GTM_ID (contenedor de GTM; vacío mientras no exista)
+#                     TURNSTILE_SITE_KEY (clave pública del widget de Turnstile)
+#
+# Turnstile: el build de auditoría usa la clave de prueba de Cloudflare, porque
+# se sirve en localhost y la clave real solo acepta los dominios del sitio. Los
+# secretos de la Pages Function (RESEND_API_KEY, TURNSTILE_SECRET_KEY) viven en
+# el proyecto de Pages, no en GitHub.
 #
 # NEXT_PUBLIC_SITE_URL: en staging, la URL del alias de la rama en Pages. Los
 # metadatos (canonical, og:image) la usan como base para que la vista previa al
@@ -140,6 +146,7 @@ jobs:
         env:
           NEXT_PUBLIC_SITE_ENV: production
           NEXT_PUBLIC_GTM_ID: ${{ vars.GTM_ID }}
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: 1x00000000000000000000AA
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: out-audit
@@ -224,6 +231,7 @@ jobs:
           NEXT_PUBLIC_SITE_ENV: ${{ (github.event_name == 'push' && github.ref_name == 'main') && 'production' || 'staging' }}
           NEXT_PUBLIC_GTM_ID: ${{ vars.GTM_ID }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.public-url.outputs.url }}
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
 
       - name: Publicar en Pages
         id: pages
