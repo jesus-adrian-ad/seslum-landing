@@ -9,6 +9,8 @@
 #   - Google Tag Manager y Google Analytics 4: medición.
 #   - Google Ads (googleadservices, doubleclick, google.com): conversiones de la
 #     campaña, que marketing configura desde GTM sin tocar código.
+#   - Cloudflare Turnstile (challenges.cloudflare.com): verificación anti-bots
+#     del formulario; carga su script y su iframe.
 #
 # La imagen de vista previa (/images/og/) es la única que se deja cargar desde
 # otros sitios: algunas apps en su versión web la muestran directo desde aquí.
@@ -16,7 +18,7 @@
 # Antes del release, verificar en https://securityheaders.com (objetivo: A o A+).
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' __INLINE_SCRIPT_HASHES__ https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com; style-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://www.google.com.mx; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://www.google.com.mx; frame-src https://www.googletagmanager.com https://td.doubleclick.net; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' __INLINE_SCRIPT_HASHES__ https://challenges.cloudflare.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com; style-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://www.google.com.mx; font-src 'self'; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://www.google.com.mx; frame-src https://challenges.cloudflare.com https://www.googletagmanager.com https://td.doubleclick.net; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

@@ -131,7 +131,13 @@ a.contactValue {
   font-size: var(--fs-small);
 }
 
-.consentLink {
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-6);
+}
+
+.legalLink {
   display: inline-flex;
   align-items: center;
   min-height: var(--tap-target-min);
@@ -155,7 +161,7 @@ a.contactValue {
 @media (hover: hover) {
   .link:hover,
   a.contactValue:hover,
-  .consentLink:hover,
+  .legalLink:hover,
   .credit:hover {
     color: var(--color-accent);
   }

@@ -1,0 +1,112 @@
+{
+  "title": "Aviso de privacidad integral",
+  "description": "Cómo trata Grupo SESLUM los datos personales que recibe por su sitio web, para qué los usa y cómo ejercer sus derechos ARCO.",
+  "updatedLabel": "Última actualización:",
+  "updated": "2026-10-07",
+  "backLabel": "Volver al inicio",
+  "sections": [
+    {
+      "id": "responsable",
+      "title": "1. Responsable del tratamiento de sus datos personales",
+      "paragraphs": [
+        "Grupo SESLUM es responsable del tratamiento de los datos personales que usted proporcione a través de este sitio web, conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares."
+      ]
+    },
+    {
+      "id": "datos",
+      "title": "2. Datos personales que recabamos",
+      "paragraphs": ["Cuando usted completa el formulario de contacto, recabamos:"],
+      "list": [
+        "Nombre.",
+        "Empresa u organización (opcional).",
+        "Correo electrónico.",
+        "Teléfono (opcional).",
+        "Servicio de interés (opcional).",
+        "Mensaje o descripción del proyecto que desea cotizar."
+      ],
+      "closing": [
+        "No solicitamos datos personales sensibles. Le pedimos no incluirlos en el campo de mensaje.",
+        "Si usted nos contacta directamente por WhatsApp, llamada telefónica o correo electrónico, recibiremos los datos que decida compartir en esa comunicación (por ejemplo, su número de teléfono o su dirección de correo) y los trataremos para las mismas finalidades descritas abajo."
+      ]
+    },
+    {
+      "id": "finalidades",
+      "title": "3. Finalidades del tratamiento",
+      "paragraphs": ["Sus datos se usan únicamente para las siguientes finalidades, necesarias para atender su solicitud:"],
+      "list": [
+        "Contactarle para dar respuesta a su solicitud de información o de cotización.",
+        "Dar seguimiento a la cotización solicitada."
+      ],
+      "closing": [
+        "Grupo SESLUM no utiliza sus datos para enviarle promociones ni publicidad, ni para finalidades distintas a las anteriores. Si en el futuro se agregaran finalidades adicionales, se lo informaremos mediante una actualización de este aviso y, cuando corresponda, solicitaremos su consentimiento expreso."
+      ]
+    },
+    {
+      "id": "encargados",
+      "title": "4. Transferencias y encargados del tratamiento",
+      "paragraphs": [
+        "Grupo SESLUM no vende ni transfiere sus datos personales a terceros para fines propios de ellos.",
+        "Para operar el sitio y el formulario nos apoyamos en proveedores que tratan datos por cuenta de Grupo SESLUM, como encargados y bajo nuestras instrucciones:"
+      ],
+      "list": [
+        "Cloudflare, Inc.: alojamiento del sitio y verificación anti-bots del formulario (Turnstile).",
+        "Resend, Inc.: entrega del mensaje del formulario al equipo de Grupo SESLUM.",
+        "GoDaddy: servicio de correo electrónico corporativo en el que se recibe su mensaje."
+      ],
+      "closing": [
+        "Algunos de estos proveedores se ubican en el extranjero, por lo que sus datos pueden tratarse fuera de México. Estas comunicaciones corresponden a encargados que actúan por nuestra cuenta y no requieren su consentimiento adicional conforme a la ley."
+      ]
+    },
+    {
+      "id": "cookies",
+      "title": "5. Cookies y tecnologías de seguimiento",
+      "paragraphs": [
+        "Este sitio utiliza cookies de analítica y de publicidad solo si usted las acepta en el banner de cookies:"
+      ],
+      "list": [
+        "Analítica: para conocer cómo se usa el sitio.",
+        "Publicidad: para medir la efectividad de nuestras campañas."
+      ],
+      "closing": [
+        "Se gestionan mediante Google Tag Manager y servicios de Google. Mientras usted no las acepte, esas cookies no se activan. Puede cambiar su decisión en cualquier momento desde el enlace «Preferencias de cookies» al pie del sitio.",
+        "La verificación anti-bots del formulario (Cloudflare Turnstile) analiza señales técnicas del navegador para distinguir personas de programas automatizados; es necesaria para proteger el formulario y no se usa con fines de publicidad."
+      ]
+    },
+    {
+      "id": "arco",
+      "title": "6. Derechos ARCO y revocación del consentimiento",
+      "paragraphs": [
+        "Usted tiene derecho a acceder a sus datos, rectificarlos, cancelarlos u oponerse a su tratamiento (derechos ARCO), así como a revocar su consentimiento.",
+        "Para ejercerlos, envíe una solicitud a avisoprivacidad@seslum.com.mx indicando:"
+      ],
+      "list": [
+        "Su nombre y un medio para comunicarle la respuesta.",
+        "Un documento que acredite su identidad (copia simple).",
+        "La descripción clara de los datos y del derecho que desea ejercer."
+      ],
+      "closing": [
+        "Le responderemos en un plazo máximo de 20 días hábiles, contados desde que recibamos su solicitud completa.",
+        "Si considera que su solicitud no fue atendida, puede acudir a la Secretaría Anticorrupción y Buen Gobierno."
+      ]
+    },
+    {
+      "id": "limitacion",
+      "title": "7. Limitación del uso o divulgación",
+      "paragraphs": [
+        "Para limitar el uso o la divulgación de sus datos, escriba a avisoprivacidad@seslum.com.mx. Podemos mantener una lista interna de personas que no desean ser contactadas."
+      ]
+    },
+    {
+      "id": "conservacion",
+      "title": "8. Conservación",
+      "paragraphs": [
+        "Conservamos sus datos el tiempo necesario para atender su solicitud y, en su caso, hasta 12 meses adicionales para dar seguimiento a la cotización. Después se bloquean y se suprimen de forma segura."
+      ]
+    },
+    {
+      "id": "cambios",
+      "title": "9. Cambios a este aviso",
+      "paragraphs": ["Cualquier cambio a este aviso se publicará en esta misma página, con su fecha de última actualización."]
+    }
+  ]
+}

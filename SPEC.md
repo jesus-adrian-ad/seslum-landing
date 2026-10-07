@@ -1,6 +1,6 @@
 # SPEC — Landing Grupo SESLUM
 
-> Estado: Bloque 7 (Alianzas comerciales) · Última actualización: 05/oct/2026
+> Estado: Bloque 10 (Formulario) · Última actualización: 07/oct/2026
 
 Fuente de verdad técnica del proyecto. Cuando haya duda sobre qué construir, se
 resuelve aquí. Lo marcado como `PENDIENTE` bloquea solo el bloque que lo usa.
@@ -46,8 +46,8 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 7 | Alianzas comerciales | `brands` | Logos de Edwards, Kidde Commercial, Honeywell, Sectrol y Tiandy; LenelS2, Onity, Supra, NOTIFIER, System Sensor, Fire-Lite y Silent Knight en texto | En PR |
 | 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | Publicado |
 | 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp, siempre visible | Publicado (pruebas de correo iCloud pendientes) |
-| 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + `generate_lead` | En espera de la configuración de correo |
-| 11 | Pie de página | `footer` | 4 columnas, LinkedIn, crédito YiSoft, enlace a preferencias de cookies (aviso de privacidad se enlaza en el bloque 10) | Publicado (textos en revisión) |
+| 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + Resend + `generate_lead` + aviso de privacidad | En PR |
+| 11 | Pie de página | `footer` | 4 columnas, LinkedIn, crédito YiSoft, enlaces a aviso de privacidad y preferencias de cookies | Publicado (textos en revisión) |
 | 12 | Consentimiento | `consent-banner` | Banner de cookies con Consent Mode v2 (`update`): Necesarias, Analítica y Publicidad; vence a los 12 meses | Publicado (textos en revisión) |
 
 Estados: `Pendiente` → `En desarrollo` → `En PR` → `Publicado`. `En espera` = bloqueado por contenido del cliente.
@@ -66,7 +66,7 @@ de cada bloque.
 | Logotipos de marcas autorizadas | Cliente | ✅ Edwards, Kidde Commercial y Sectrol (con Vo.Bo.), Honeywell y Tiandy · marcas de Honeywell en texto |
 | Datos reales de proyectos | Cliente | ⏳ Solicitados el 01/oct |
 | Datos de contacto y horario | Cliente | ✅ (`src/content/site.json`) |
-| Aviso de privacidad | YiSoft con Adrián | ⏳ Se redacta en conjunto al construir `contact-form` |
+| Aviso de privacidad | YiSoft con Adrián | ✅ Borrador publicado en `/aviso-privacidad` (07/oct); ⏳ revisión legal de SESLUM |
 | Perfil de LinkedIn | Cliente | ⏳ Se enlaza cuando exista |
 | Imagen Open Graph (1200×630) | Se genera con `npm run og:image` | ✅ |
 
@@ -167,8 +167,9 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [ ] Enlace al aviso de privacidad en el pie de página (bloque 10).
 - [x] Margen de LCP en Lighthouse CI: hidratación diferida al primer pintado y foto del hero más ligera (05/oct). LCP 1.44–1.53 s.
 - [ ] Datos reales de proyectos y logotipos de marcas (bloques 6 y 7).
-- [ ] Aviso de privacidad — se redacta en conjunto al construir `contact-form`.
-- [ ] Servicio de envío de correo del formulario — se decide en `contact-form`.
+- [x] Aviso de privacidad — borrador publicado (07/oct). Pendiente: revisión legal de SESLUM (incluye el domicilio que pide la ley).
+- [x] Servicio de envío de correo del formulario — Resend, desde `mail.seslum.com.mx` (07/oct).
+- [ ] Regla de rate limiting para `/api/contact` al conectar el dominio.
 - [x] Tamaños de texto: se sigue la regla del método (≥ 14 px, tap targets ≥ 44 px) por encima del prototipo. Decidido por Adrián el 28/sep.
 - [x] Mensaje precargado de WhatsApp: el de `site.json` queda como definitivo (05/oct).
 - [ ] Textos del pie de página, del banner de cookies y de Alianzas comerciales (Danna).

@@ -5,6 +5,8 @@
  * compilación, así un texto mal capturado rompe el build y no el sitio.
  */
 
+import type { ContactField, FieldErrorCode } from "@/lib/contact-form";
+
 export interface PhoneContact {
   readonly display: string;
   readonly e164: string;
@@ -256,6 +258,7 @@ export interface FooterContent {
     readonly phoneNote: string;
   };
   readonly rights: string;
+  readonly privacyLink: string;
   readonly consentLink: string;
   readonly newTabHint: string;
   readonly credit: {
@@ -273,6 +276,7 @@ export interface ConsentCategoryContent {
 export interface ConsentContent {
   readonly title: string;
   readonly body: string;
+  readonly privacyLink: string;
   readonly actions: {
     readonly acceptAll: string;
     readonly reject: string;
@@ -314,4 +318,54 @@ export interface BrandsContent {
   readonly partners: readonly BrandPartner[];
   readonly alsoTitle: string;
   readonly alsoGroups: readonly BrandGroup[];
+}
+
+export interface ContactFormContent {
+  readonly id: string;
+  readonly title: string;
+  readonly labels: Readonly<Record<ContactField, string>>;
+  readonly optional: string;
+  readonly placeholders: {
+    readonly service: string;
+    readonly message: string;
+  };
+  readonly errors: Readonly<Record<FieldErrorCode, string>>;
+  readonly fieldErrors: Readonly<Partial<Record<ContactField, Readonly<Partial<Record<FieldErrorCode, string>>>>>>;
+  readonly status: {
+    readonly invalid: string;
+    readonly verifying: string;
+    readonly captcha: string;
+    readonly server: string;
+  };
+  readonly submit: string;
+  readonly sending: string;
+  readonly success: {
+    readonly title: string;
+    readonly body: string;
+    readonly again: string;
+  };
+  readonly privacy: {
+    readonly before: string;
+    readonly link: string;
+    readonly after: string;
+  };
+  readonly honeypotLabel: string;
+  readonly noscript: string;
+}
+
+export interface PrivacySection {
+  readonly id: string;
+  readonly title: string;
+  readonly paragraphs?: readonly string[];
+  readonly list?: readonly string[];
+  readonly closing?: readonly string[];
+}
+
+export interface PrivacyContent {
+  readonly title: string;
+  readonly description: string;
+  readonly updatedLabel: string;
+  readonly updated: string;
+  readonly backLabel: string;
+  readonly sections: readonly PrivacySection[];
 }

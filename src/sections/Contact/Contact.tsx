@@ -4,8 +4,8 @@
  * Cada tarjeta es un solo enlace estático con toda su superficie como área
  * táctil, marcado para que ClickTracker publique su evento con source "contact". Los datos salen de
  * site.json; esta sección solo aporta el nombre y la nota de cada vía. Debajo,
- * una línea con las ciudades con atención local y la cobertura nacional. El
- * formulario (bloque 10) se monta debajo de las tarjetas.
+ * una línea con las ciudades con atención local y la cobertura nacional, y al
+ * final el formulario de cotización (bloque 10).
  */
 
 import { ContactIcon } from "@/components/ContactIcon/ContactIcon";
@@ -14,7 +14,8 @@ import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import { trackingAttributes } from "@/lib/analytics";
 import { buildContactChannels } from "@/lib/contact-links";
 import { officesSentence } from "@/lib/offices";
-import type { ContactContent, SiteContact, SiteLocation } from "@/types/content";
+import { ContactForm } from "@/sections/ContactForm/ContactForm";
+import type { ContactContent, ContactFormContent, SiteContact, SiteLocation } from "@/types/content";
 import styles from "./Contact.module.css";
 
 const EXTERNAL_LINK = { target: "_blank", rel: "noopener noreferrer" } as const;
@@ -23,9 +24,12 @@ export interface ContactProps {
   readonly content: ContactContent;
   readonly contact: SiteContact;
   readonly location: SiteLocation;
+  readonly form: ContactFormContent;
+  readonly services: readonly string[];
+  readonly turnstileSiteKey: string;
 }
 
-export function Contact({ content, contact, location }: ContactProps) {
+export function Contact({ content, contact, location, form, services, turnstileSiteKey }: ContactProps) {
   const titleId = `${content.id}-title`;
   const channels = buildContactChannels(content, contact);
 
@@ -56,6 +60,8 @@ export function Contact({ content, contact, location }: ContactProps) {
         <p className={styles.offices} data-reveal="">
           {`${content.officesLabel} ${officesSentence(location.offices)}. ${location.serviceArea}.`}
         </p>
+
+        <ContactForm content={form} services={services} turnstileSiteKey={turnstileSiteKey} />
       </div>
       <ScrollReveal rootId={content.id} />
     </section>

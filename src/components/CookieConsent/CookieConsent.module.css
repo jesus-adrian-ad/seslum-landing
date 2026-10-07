@@ -39,6 +39,10 @@
   line-height: 1.5;
 }
 
+.body a {
+  color: var(--color-accent);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
