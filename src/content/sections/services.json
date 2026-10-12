@@ -2,7 +2,7 @@
   "id": "servicios",
   "eyebrow": "Qué hacemos",
   "title": "Diez capacidades, un solo responsable",
-  "lead": "Diseñamos, suministramos, instalamos y damos mantenimiento, cada línea se integra con la otra por un mismo equipo.",
+  "lead": "Diseñamos, suministramos, instalamos y damos mantenimiento a cada una de nuestras soluciones, desarrollando proyectos de acuerdo con los requerimientos específicos de cada sistema y, cuando el proyecto lo requiere, considerando su integración con otras soluciones.",
   "groups": [
     {
       "id": "seguridad-electronica",
@@ -16,12 +16,12 @@
         },
         {
           "icon": "access-control",
-          "name": "Control de acceso",
-          "description": "Accesos vehiculares y peatonales, torniquetes, rayos X y detección de metales."
+          "name": "Control de acceso e intercomunicación",
+          "description": "Accesos vehiculares y peatonales, biométricos, torniquetes, rayos X y detección de metales."
         },
         {
           "icon": "intrusion",
-          "name": "Detección de intrusión",
+          "name": "Alarma e intrusión",
           "description": "Alarmas, sensores perimetrales y sistemas de aviso temprano."
         }
       ]
@@ -51,12 +51,12 @@
         {
           "icon": "structured-cabling",
           "name": "Voz y datos",
-          "description": "Cableado estructurado, racks y canalización."
+          "description": "Cableado estructurado, fibra óptica, racks, charola y canalización."
         },
         {
           "icon": "electrical",
           "name": "Instalaciones eléctricas",
-          "description": "Acometidas, tableros, canalización y alimentación de los sistemas instalados."
+          "description": "Acometidas, tableros, canalización, UPS y alimentación de los sistemas instalados."
         },
         {
           "icon": "precision-cooling",

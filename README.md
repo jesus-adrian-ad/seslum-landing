@@ -670,6 +670,11 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **12/oct/2026** — Servicios (observaciones de la junta): subtítulo nuevo de
+  marketing; "Control de acceso e intercomunicación" (con biométricos),
+  "Alarma e intrusión", fibra óptica y charola en Voz y datos, UPS en
+  Instalaciones eléctricas. El nombre largo se repite en el panel del Hero para
+  que coincida; el pie y el selector del formulario lo toman de `services.json`.
 - **12/oct/2026** — Next.js y `eslint-config-next` de 16.3.6 a 16.3.8 por seis
   avisos de seguridad publicados ese día (entre ellos GHSA-cjq9-62q9-8jv4, SSRF
   en la optimización de imágenes). Con exportación estática y `images.unoptimized`
