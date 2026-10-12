@@ -4,8 +4,8 @@
  *
  * No repite contenido: los enlaces salen del navbar, las líneas de servicio de
  * services.json y los datos de contacto de site.json. Correo, teléfono y
- * WhatsApp se miden con source "footer"; las ciudades con atención local salen
- * de site.json. LinkedIn aparece solo cuando
+ * WhatsApp se miden con source "footer"; la matriz (location.locality) y las
+ * ciudades con atención local salen de site.json. LinkedIn aparece solo cuando
  * site.json tenga el perfil. "Preferencias de cookies" vuelve a abrir el banner
  * de consentimiento; junto a él, el enlace al aviso de privacidad.
  */
@@ -132,8 +132,10 @@ export function Footer({ content, site, navigation, services, logo }: FooterProp
                 </span>
               </p>
               <p>
-                <span className={styles.contactValue}>{officesInline(location.offices)}</span>
-                <span className={styles.contactNote}>{location.serviceArea}</span>
+                <span className={styles.contactValue}>{`${content.contactLabels.headquarters} ${location.locality}`}</span>
+                <span className={styles.contactNote}>
+                  {`${content.contactLabels.offices} ${officesInline(location.offices)}. ${location.serviceArea}.`}
+                </span>
               </p>
             </address>
           </div>

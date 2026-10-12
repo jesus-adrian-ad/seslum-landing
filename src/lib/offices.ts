@@ -15,7 +15,7 @@ export function officesSentence(offices: readonly string[]): string {
   return SPANISH_LIST.format(offices);
 }
 
-export function assertOffices(offices: readonly string[]): void {
+export function assertOffices(offices: readonly string[], headquarters: string): void {
   if (offices.length === 0) {
     throw new Error("site.json: location.offices necesita al menos una ciudad.");
   }
@@ -25,5 +25,8 @@ export function assertOffices(offices: readonly string[]): void {
   }
   if (new Set(offices).size !== offices.length) {
     throw new Error("site.json: location.offices tiene ciudades repetidas.");
+  }
+  if (offices.includes(headquarters)) {
+    throw new Error("site.json: la matriz (location.locality) no va en location.offices.");
   }
 }

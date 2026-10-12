@@ -20,7 +20,8 @@
       "note": "Lunes a viernes, 8:00 a 18:00 h"
     }
   ],
-  "officesLabel": "Atención local en",
+  "headquartersLabel": "Matriz en",
+  "officesLabel": "y, además, atención local en",
   "floatingLabel": "Escríbanos por WhatsApp",
   "newTabHint": "(se abre en otra pestaña)"
 }

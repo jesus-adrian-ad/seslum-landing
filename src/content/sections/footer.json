@@ -13,7 +13,9 @@
     "whatsapp": "WhatsApp de Grupo SESLUM"
   },
   "contactLabels": {
-    "phoneNote": "WhatsApp y teléfono"
+    "phoneNote": "WhatsApp y teléfono",
+    "headquarters": "Matriz en",
+    "offices": "Además, atención local en"
   },
   "rights": "Todos los derechos reservados.",
   "privacyLink": "Aviso de privacidad",

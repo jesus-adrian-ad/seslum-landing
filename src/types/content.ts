@@ -235,6 +235,7 @@ export interface ContactContent<Kind extends string = ContactChannelKind> {
   readonly title: string;
   readonly lead: string;
   readonly channels: readonly ContactChannelContent<Kind>[];
+  readonly headquartersLabel: string;
   readonly officesLabel: string;
   readonly floatingLabel: string;
   readonly newTabHint: string;
@@ -256,6 +257,8 @@ export interface FooterContent {
   };
   readonly contactLabels: {
     readonly phoneNote: string;
+    readonly headquarters: string;
+    readonly offices: string;
   };
   readonly rights: string;
   readonly privacyLink: string;

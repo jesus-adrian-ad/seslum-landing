@@ -4,7 +4,8 @@
  * Cada tarjeta es un solo enlace estático con toda su superficie como área
  * táctil, marcado para que ClickTracker publique su evento con source "contact". Los datos salen de
  * site.json; esta sección solo aporta el nombre y la nota de cada vía. Debajo,
- * una línea con las ciudades con atención local y la cobertura nacional, y al
+ * una línea con la matriz, las ciudades con atención local y la cobertura
+ * nacional, y al
  * final el formulario de cotización (bloque 10).
  */
 
@@ -58,7 +59,7 @@ export function Contact({ content, contact, location, form, services, turnstileS
         </ul>
 
         <p className={styles.offices} data-reveal="">
-          {`${content.officesLabel} ${officesSentence(location.offices)}. ${location.serviceArea}.`}
+          {`${content.headquartersLabel} ${location.locality} ${content.officesLabel} ${officesSentence(location.offices)}. ${location.serviceArea}.`}
         </p>
 
         <ContactForm content={form} services={services} turnstileSiteKey={turnstileSiteKey} />
