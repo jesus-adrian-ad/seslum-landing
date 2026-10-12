@@ -670,6 +670,11 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **12/oct/2026** — Next.js y `eslint-config-next` de 16.3.6 a 16.3.8 por seis
+  avisos de seguridad publicados ese día (entre ellos GHSA-cjq9-62q9-8jv4, SSRF
+  en la optimización de imágenes). Con exportación estática y `images.unoptimized`
+  el sitio no expone esas rutas, pero el parche es una versión menor y se aplica
+  en lugar de abrir una excepción.
 - **12/oct/2026** — Observaciones de la junta del 08/oct, una rama por sección.
   Hero: cobertura en toda la República en el eyebrow, descripción en dos frases
   ("Soluciones integrales a la medida y acompañamiento durante todo el
