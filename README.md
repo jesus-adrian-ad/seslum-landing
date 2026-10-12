@@ -392,8 +392,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   Development". Deja libre la esquina del botón flotante. Junto a
   "Preferencias de cookies", el enlace al aviso de privacidad (bloque 10).
 - La columna de Contacto cierra con las ciudades con atención local
-  (`officesInline()`, separadas por punto medio) y "Servicio en toda la
-  República Mexicana".
+  ("Matriz en Monterrey" y debajo "Además, atención local en" con `officesInline()`) y
+  "Servicio en toda la República Mexicana".
 - Medición: correo, teléfono y WhatsApp con `source: "footer"`.
 - Animación: las columnas entran en cascada con `ScrollReveal`; enlaces y
   botones sociales se tiñen de acento al pasar el cursor.
@@ -670,6 +670,13 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **12/oct/2026** — FAQ y matriz en Monterrey (observaciones de la junta): la
+  matriz es `location.locality` de `site.json` (la misma que usa el JSON-LD) y
+  sale de la lista de atención local, que queda en Ciudad de México,
+  Guadalajara y Tijuana; el build falla si se repite. Se dice igual en la FAQ,
+  bajo Contacto y en el pie. En la FAQ también: "análisis de riesgo real" y las
+  áreas de oportunidad detectadas en el levantamiento. "¿Manejan precios de
+  lista?" queda pendiente del texto de sustitución de SESLUM.
 - **12/oct/2026** — Por qué SESLUM: "trabajar con un integrador" pasa a
   "trabajar con Grupo SESLUM", también en el encabezado de la tabla (y en las
   tarjetas de móvil) y en su `caption`.

@@ -7,7 +7,7 @@
     {
       "id": "inicio-proyecto",
       "question": "¿Cómo empieza un proyecto con ustedes?",
-      "answer": "Con una visita a la instalación. Levantamos el riesgo real, revisamos la infraestructura existente y documentamos lo que se requiere. A partir de ese levantamiento entregamos una propuesta con alcance, equipo y tiempos."
+      "answer": "Con una visita a la instalación. Levantamos el análisis de riesgo real, revisamos la infraestructura existente y documentamos lo que se requiere. A partir de ese levantamiento entregamos una propuesta con alcance, equipo y tiempos."
     },
     {
       "id": "duracion",
@@ -22,12 +22,12 @@
     {
       "id": "un-solo-sistema",
       "question": "¿Puedo contratar solo un sistema o tengo que tomar todo?",
-      "answer": "Puede contratar únicamente lo que necesita. La ventaja de que trabajemos todas las líneas es que, si más adelante requiere otro sistema, se integra sin rehacer lo instalado."
+      "answer": "Puede contratar únicamente lo que necesita. Durante el levantamiento le señalamos las áreas de oportunidad que detectemos en sus demás sistemas, para que decida con información. Y como trabajamos todas las líneas, si más adelante requiere otro sistema, se integra sin rehacer lo instalado."
     },
     {
       "id": "cobertura",
       "question": "¿Atienden proyectos en todo el país?",
-      "answer": "Sí. Damos servicio en toda la República Mexicana y contamos con atención local en Ciudad de México, Guadalajara, Tijuana y Monterrey."
+      "answer": "Sí. Nuestra matriz está en Monterrey y, además, contamos con atención local en Ciudad de México, Guadalajara y Tijuana. Damos servicio en toda la República Mexicana."
     },
     {
       "id": "garantia",

@@ -20,12 +20,16 @@ describe("officesInline y officesSentence", () => {
 
 describe("assertOffices", () => {
   it("acepta las ciudades de site.json", () => {
-    expect(() => assertOffices(site.location.offices)).not.toThrow();
+    expect(() => assertOffices(site.location.offices, site.location.locality)).not.toThrow();
   });
 
   it("rechaza una lista vacía, ciudades vacías o repetidas", () => {
-    expect(() => assertOffices([])).toThrow(/al menos una/);
-    expect(() => assertOffices(["Monterrey", " "])).toThrow(/vacía/);
-    expect(() => assertOffices(["Tijuana", "Tijuana"])).toThrow(/repetidas/);
+    expect(() => assertOffices([], "Monterrey")).toThrow(/al menos una/);
+    expect(() => assertOffices(["Tijuana", " "], "Monterrey")).toThrow(/vacía/);
+    expect(() => assertOffices(["Tijuana", "Tijuana"], "Monterrey")).toThrow(/repetidas/);
+  });
+
+  it("rechaza que la matriz aparezca también como atención local", () => {
+    expect(() => assertOffices(["Tijuana", "Monterrey"], "Monterrey")).toThrow(/matriz/);
   });
 });
