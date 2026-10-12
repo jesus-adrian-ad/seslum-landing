@@ -51,11 +51,11 @@ describe("validateSubmission", () => {
     expect(result).toEqual({ ok: true, data: valid });
   });
 
-  it("solo exige nombre, correo y mensaje", () => {
-    const result = validateSubmission({ ...valid, company: "", phone: "", service: "" }, allowed);
+  it("exige nombre, correo, servicio y mensaje; empresa y teléfono son opcionales", () => {
+    const result = validateSubmission({ ...valid, company: "", phone: "" }, allowed);
     expect(result.ok).toBe(true);
     const empty = validateSubmission(emptySubmission(), allowed);
-    expect(empty).toEqual({ ok: false, errors: { name: "required", email: "required", message: "required" } });
+    expect(empty).toEqual({ ok: false, errors: { name: "required", email: "required", service: "required", message: "required" } });
   });
 
   it("valida longitudes mínimas y máximas", () => {

@@ -7,12 +7,12 @@
     {
       "kind": "whatsapp",
       "name": "WhatsApp",
-      "note": "Respuesta inmediata en horario hábil"
+      "note": "Lunes a viernes, 8:00 a 18:00 h"
     },
     {
       "kind": "email",
       "name": "Correo",
-      "note": "Para solicitudes con documentación"
+      "note": "Lunes a viernes, 8:00 a 18:00 h"
     },
     {
       "kind": "phone",

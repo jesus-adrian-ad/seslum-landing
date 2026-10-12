@@ -38,7 +38,7 @@ export const FIELD_RULES: Readonly<Record<ContactField, FieldRule>> = {
   company: { required: false, min: 0, max: 100 },
   email: { required: true, min: 6, max: 254 },
   phone: { required: false, min: 0, max: 25 },
-  service: { required: false, min: 0, max: 80 },
+  service: { required: true, min: 0, max: 80 },
   message: { required: true, min: 10, max: 2000 },
 };
 
