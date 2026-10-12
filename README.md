@@ -337,8 +337,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 
 - Tarjeta "O déjenos sus datos y nosotros lo contactamos" al final de
   `#contacto` (`#formulario`): Nombre, Empresa, Correo corporativo, Teléfono,
-  Servicio de interés y Mensaje. Obligatorios: nombre, correo y mensaje
-  (decisión de Adrián). Una columna en móvil, dos desde 700 px.
+  Servicio de interés y Mensaje. Obligatorios: nombre, correo, servicio de
+  interés y mensaje (el servicio pasó a obligatorio en la junta del 08/oct). Una columna en móvil, dos desde 700 px.
 - Servicio de interés: las 10 capacidades de `services.json` + "Otro / varios"
   (`serviceOptions()`), sin duplicar textos.
 - Reglas compartidas por navegador y servidor en `src/lib/contact-form.ts`:
@@ -368,8 +368,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   DMARC `p=reject`) a `ventas@seslum.com.mx` (de `site.json`), con `reply_to`
   al visitante. Todo lo escrito se escapa antes de entrar al HTML. Sin SDK: una
   llamada `fetch` a la API.
-- Medición: `generate_lead` con `source: "form"` y `service` (o
-  `sin_especificar`) solo cuando el servidor confirma el envío.
+- Medición: `generate_lead` con `source: "form"` y `service` solo cuando el
+  servidor confirma el envío.
 - **Aviso de privacidad** en `/aviso-privacidad` (`src/app/aviso-privacidad/`),
   con el texto en `src/content/pages/privacy.json`: responsable Grupo SESLUM,
   datos del formulario, finalidad solo de cotización, encargados (Cloudflare,
@@ -670,6 +670,11 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **12/oct/2026** — Formulario y Contacto (observaciones de la junta): el
+  servicio de interés pasa a obligatorio (navegador y servidor, con la misma
+  regla) y las tres tarjetas de Contacto llevan la misma nota de horario,
+  "Lunes a viernes, 8:00 a 18:00 h". El aviso de privacidad ya no lo marca como
+  opcional.
 - **12/oct/2026** — FAQ y matriz en Monterrey (observaciones de la junta): la
   matriz es `location.locality` de `site.json` (la misma que usa el JSON-LD) y
   sale de la lista de atención local, que queda en Ciudad de México,

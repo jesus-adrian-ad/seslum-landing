@@ -11,7 +11,7 @@
  * formulario se acerca a la vista y en modo "interaction-only": solo se ve si
  * Cloudflare necesita preguntarle algo al visitante. Cada token sirve una vez,
  * así que el widget se reinicia después de cada intento. Con el envío exitoso
- * publica generate_lead con source "form" y el servicio elegido.
+ * publica generate_lead con source "form" y el servicio elegido (obligatorio).
  *
  * El honeypot es un campo invisible que una persona no ve ni alcanza con el
  * teclado, pero que sí viaja en el formulario; si llega lleno, el servidor descarta el envío en silencio.
@@ -40,7 +40,6 @@ import type { ContactFormContent } from "@/types/content";
 import styles from "./ContactForm.module.css";
 
 const LOAD_MARGIN = "600px 0px";
-const NO_SERVICE = "sin_especificar";
 
 type FieldElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
@@ -176,7 +175,7 @@ export function ContactForm({ content, services, turnstileSiteKey }: ContactForm
       });
       const body = (await response.json()) as ContactResponse;
       if (body.ok) {
-        trackEvent(ANALYTICS_EVENTS.lead, { source: "form", service: result.data.service || NO_SERVICE });
+        trackEvent(ANALYTICS_EVENTS.lead, { source: "form", service: result.data.service });
         setValues(emptySubmission());
         setStatus("success");
         return;

@@ -35,6 +35,7 @@
       "invalid": "Revise el teléfono: al menos 8 dígitos, con números, espacios, +, paréntesis o guiones."
     },
     "service": {
+      "required": "Elija el servicio que le interesa.",
       "invalid": "Elija una opción de la lista."
     },
     "message": {
