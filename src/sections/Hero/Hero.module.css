@@ -196,10 +196,26 @@
   animation-delay: calc(var(--delay-enter) * 12 + var(--line-index, 0) * var(--delay-enter) * 1.5);
 }
 
+.leadLine {
+  display: block;
+  text-wrap: pretty;
+}
+
 .more {
-  margin-top: var(--space-3);
-  color: var(--color-text-subtle);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  margin-top: var(--space-1);
+  color: var(--color-accent);
   font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.more:hover {
+  color: var(--color-accent-hover);
 }
 
 @media (min-width: 768px) {

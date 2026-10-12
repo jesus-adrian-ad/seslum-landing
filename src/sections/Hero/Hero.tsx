@@ -1,6 +1,7 @@
 /**
  * Encabezado: foto de obra a pantalla completa con el tratamiento de color de la
- * marca, título, llamadas a la acción y el panel de líneas integradas.
+ * marca, título, descripción (una frase por línea), llamadas a la acción y el
+ * panel de líneas integradas, cuyo pie enlaza a Servicios.
  *
  * Se renderiza en el servidor. La entrada es CSS puro, así se ve animada desde
  * el primer pintado sin esperar a JavaScript; solo el parallax del scroll vive
@@ -60,7 +61,13 @@ export function Hero({ content }: HeroProps) {
               </Fragment>
             ))}
           </h1>
-          <p className={styles.lead}>{content.lead}</p>
+          <p className={styles.lead}>
+            {content.lead.map((line) => (
+              <span key={line} className={styles.leadLine}>
+                {line}
+              </span>
+            ))}
+          </p>
           <div className={styles.actions}>
             <ButtonLink href={content.primaryCta.href}>{content.primaryCta.label}</ButtonLink>
             <ButtonLink href={content.secondaryCta.href} variant="outline">
@@ -82,7 +89,9 @@ export function Hero({ content }: HeroProps) {
               </li>
             ))}
           </ul>
-          <p className={styles.more}>{panel.more}</p>
+          <a className={styles.more} href={panel.more.href}>
+            {panel.more.label}
+          </a>
         </aside>
       </div>
 

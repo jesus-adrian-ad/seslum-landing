@@ -187,11 +187,15 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   desaturación (0.34) va horneada en la imagen y el tinte azul `#114E81` al 42 %
   es una capa plana en CSS; encima, un velo vertical en móvil y horizontal desde
   1024 px para que el texto siempre tenga contraste.
-- Título "Proyectos que no admiten falla" con entrada palabra por palabra bajo
-  máscara, subtítulo, CTA "Solicitar cotización" y "Ver proyectos" (variante
-  `outline`, con las esquinas biseladas dibujadas completas).
+- Eyebrow "Integrador de seguridad · Cobertura en la República Mexicana".
+  Título "Proyectos que no admiten falla" con entrada palabra por palabra bajo
+  máscara, descripción en dos frases (una por línea, `lead` es un arreglo en el
+  JSON, con `text-wrap: pretty` para no dejar palabras sueltas), CTA "Solicitar
+  cotización" y "Ver proyectos" (variante `outline`, con las esquinas biseladas
+  dibujadas completas).
 - Panel "Líneas integradas": las luces de estado se encienden en secuencia, con
-  un pulso suave y un barrido de escaneo al entrar.
+  un pulso suave y un barrido de escaneo al entrar. "+ 6 líneas adicionales"
+  enlaza a `#servicios`.
 - La entrada es CSS puro: se ve animada desde el primer pintado, sin esperar a
   JavaScript. El parallax al hacer scroll (la foto baja más lento y el contenido
   se desvanece) es GSAP con carga diferida.
@@ -200,8 +204,9 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Contenido en `src/content/sections/hero.json`. Original de la foto en
   `assets-src/foto-hero.jpg`; variantes con `node scripts/optimize-image.mjs
   assets-src/foto-hero.jpg public/images/hero/obra-contra-incendio 480,768,1000 --brand`.
-- La foto de banco (1000×520) queda como definitiva por decisión del cliente. Si
-  algún día se cambia, se regeneran las variantes con el mismo comando, sin tocar código.
+- La foto de banco (1000×520) se sustituirá por fotos propias que enviará
+  Javier (observación de la junta del 08/oct), en una rama aparte. Se regeneran
+  las variantes con el mismo comando, sin tocar código, y luego `npm run og:image`.
 
 ### 3 · Servicios
 
@@ -665,6 +670,11 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **12/oct/2026** — Observaciones de la junta del 08/oct, una rama por sección.
+  Hero: cobertura en toda la República en el eyebrow, descripción en dos frases
+  ("Soluciones integrales a la medida y acompañamiento durante todo el
+  proyecto") y "+ 6 líneas adicionales" como enlace a Servicios. La foto nueva
+  va en otra rama cuando lleguen las de Javier.
 - **07/oct/2026** — Formulario con Resend + Turnstile en una Pages Function.
   Resend porque autentica un subdominio propio sin tocar el SPF/DMARC estricto
   del correo de GoDaddy, y tiene plan gratuito suficiente. La lógica vive en
