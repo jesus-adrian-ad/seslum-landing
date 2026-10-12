@@ -670,6 +670,9 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **12/oct/2026** — Por qué SESLUM: "trabajar con un integrador" pasa a
+  "trabajar con Grupo SESLUM", también en el encabezado de la tabla (y en las
+  tarjetas de móvil) y en su `caption`.
 - **12/oct/2026** — Servicios (observaciones de la junta): subtítulo nuevo de
   marketing; "Control de acceso e intercomunicación" (con biométricos),
   "Alarma e intrusión", fibra óptica y charola en Voz y datos, UPS en
