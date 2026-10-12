@@ -7,7 +7,7 @@ const data: ContactSubmission = {
   company: "",
   email: "ana@industrias.mx",
   phone: "",
-  service: "Control de acceso",
+  service: "Control de acceso e intercomunicación",
   message: "Hola <script>alert(1)</script>\nSegunda línea",
 };
 
@@ -37,7 +37,7 @@ describe("buildContactEmail", () => {
 
   it("marca los campos opcionales vacíos", () => {
     expect(email.text).toContain("Empresa: No lo indicó");
-    expect(email.text).toContain("Servicio de interés: Control de acceso");
+    expect(email.text).toContain("Servicio de interés: Control de acceso e intercomunicación");
   });
 
   it("escapa el mensaje en el HTML y conserva los saltos de línea", () => {
