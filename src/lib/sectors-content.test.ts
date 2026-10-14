@@ -8,6 +8,7 @@ const sector = (id: string, icon = "industrial"): SectorItem<string> => ({
   name: "Nombre",
   summary: "Resumen",
   description: "Descripción",
+  image: { src: "/a-800.webp", srcSet: "/a-800.webp 800w", width: 800, height: 600 },
 });
 
 const base: SectorsContent<string> = {
@@ -16,6 +17,7 @@ const base: SectorsContent<string> = {
   title: "Título",
   lead: "Entrada",
   tabsLabel: "Sectores",
+  imageSizes: "100vw",
   sectors: [sector("industrial"), sector("salud", "health")],
 };
 

@@ -101,24 +101,24 @@ export interface LinkAction {
   readonly href: string;
 }
 
-export interface HeroImageFile {
+export interface ImageFile {
   readonly src: string;
   readonly width: number;
   readonly height: number;
 }
 
-export interface HeroResponsiveImage extends HeroImageFile {
+export interface ResponsiveImage extends ImageFile {
   readonly srcSet: string;
 }
 
 export interface HeroPortraitImages {
-  readonly phone: HeroImageFile;
-  readonly tablet: HeroImageFile;
+  readonly phone: ImageFile;
+  readonly tablet: ImageFile;
 }
 
 export interface HeroSlide {
   readonly id: string;
-  readonly landscape: HeroResponsiveImage;
+  readonly landscape: ResponsiveImage;
   readonly portrait: HeroPortraitImages;
 }
 
@@ -199,6 +199,7 @@ export interface SectorItem<Icon extends string = SectorIconName> {
   readonly name: string;
   readonly summary: string;
   readonly description: string;
+  readonly image: ResponsiveImage;
 }
 
 export interface SectorsContent<Icon extends string = SectorIconName> {
@@ -207,6 +208,7 @@ export interface SectorsContent<Icon extends string = SectorIconName> {
   readonly title: string;
   readonly lead: string;
   readonly tabsLabel: string;
+  readonly imageSizes: string;
   readonly sectors: readonly SectorItem<Icon>[];
 }
 

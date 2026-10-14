@@ -2,6 +2,11 @@
  * Sectores: fondo alterno, tira de pestañas deslizable en móvil y, desde 900 px,
  * lista vertical junto al panel de detalle. El panel activo entra con un leve
  * desplazamiento y su ícono se vuelve a dibujar cada vez que cambia el sector.
+ *
+ * El panel lleva una foto de obra a sangre con el tinte de marca y un velo que
+ * oscurece hacia abajo, donde va el texto. Como la foto cubriría el borde y las
+ * esquinas biseladas de .chamfer-frame, el marco se vuelve a pintar encima con
+ * ::after usando sus mismas variables.
  */
 
 .sectors {
@@ -103,13 +108,63 @@
 }
 
 .panelFrame {
+  position: relative;
+  display: grid;
   min-width: 0;
-  padding: var(--card-padding);
   background-color: var(--color-surface);
+}
+
+.panelFrame::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  background-image: var(--frame-corner), var(--frame-corner);
+  background-position: top left, bottom right;
+  background-size: var(--frame-cut) var(--frame-cut);
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 var(--border-width) var(--frame-color);
+  pointer-events: none;
+}
+
+.panel {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: var(--sector-panel-min-height);
+  padding: var(--card-padding);
+  overflow: hidden;
+}
+
+.panel[hidden] {
+  display: none;
 }
 
 .panel:not([hidden]) {
   animation: panel-in var(--duration-reveal) var(--ease-out) both;
+}
+
+.panelImage {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.panel:not([hidden]) .panelImage {
+  animation: photo-in var(--duration-reveal) var(--ease-out) both;
+}
+
+.panelVeil {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-tint);
+  background-image: var(--veil-panel);
 }
 
 .panel:focus-visible {
@@ -143,7 +198,7 @@
 }
 
 .panelName {
-  font-size: var(--fs-h3);
+  font-size: var(--fs-feature-title);
   font-weight: var(--fw-bold);
   line-height: var(--lh-heading);
   letter-spacing: -0.012em;
@@ -152,15 +207,15 @@
 .panelSummary {
   margin-top: var(--space-1);
   color: var(--color-accent);
-  font-size: var(--fs-small);
+  font-size: var(--fs-feature-body);
   font-weight: var(--fw-semibold);
 }
 
 .panelDescription {
   max-width: var(--measure);
   margin-top: var(--space-5);
-  color: var(--color-text-muted);
-  font-size: var(--fs-body);
+  color: var(--color-text);
+  font-size: var(--fs-feature-body);
   line-height: var(--lh-relaxed);
 }
 
@@ -215,7 +270,7 @@
     transform: translateY(var(--indicator-y, 0));
   }
 
-  .panelFrame {
+  .panel {
     padding: var(--space-8);
   }
 }
@@ -224,6 +279,12 @@
   from {
     opacity: 0;
     transform: translateY(var(--enter-offset));
+  }
+}
+
+@keyframes photo-in {
+  from {
+    opacity: 0;
   }
 }
 

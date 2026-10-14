@@ -43,6 +43,7 @@
   --color-scan: rgb(35 181 233 / 0.14);
 
   --veil-horizontal: linear-gradient(90deg, rgb(11 17 32 / 0.93) 0%, rgb(11 17 32 / 0.74) 46%, rgb(11 17 32 / 0.4) 100%);
+  --veil-panel: linear-gradient(180deg, rgb(11 17 32 / 0.25) 0%, rgb(11 17 32 / 0.7) 45%, rgb(11 17 32 / 0.95) 100%);
   --veil-vertical: linear-gradient(180deg, rgb(11 17 32 / 0.6) 0%, rgb(11 17 32 / 0.82) 45%, rgb(11 17 32 / 0.94) 100%);
   --color-error: #ff8a80;
   --color-success: #7ee2a8;
@@ -54,6 +55,8 @@
   --fs-h3: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
   --fs-lead: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
   --fs-body: 1rem;
+  --fs-feature-title: clamp(1.625rem, 1.3rem + 1.2vw, 2rem);
+  --fs-feature-body: 1.125rem;
   --fs-small: 0.875rem;
   --fs-eyebrow: 0.875rem;
   --fs-menu: clamp(1.75rem, 1.35rem + 2vw, 2.5rem);
@@ -112,6 +115,7 @@
   --brand-card-height: 7.5rem;
   --brand-logo-max-height: 3rem;
   --icon-lg: 2.125rem;
+  --sector-panel-min-height: 28rem;
   --card-padding: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem);
   --burger-gap: 0.375rem;
   --burger-gap-hover: 0.4375rem;

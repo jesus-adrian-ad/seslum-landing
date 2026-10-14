@@ -4,55 +4,98 @@
   "title": "Conocemos la operación que está protegiendo",
   "lead": "Un hospital no se protege como una planta ni como una residencia. Diseñamos cada sistema según el riesgo real de su industria.",
   "tabsLabel": "Sectores",
+  "imageSizes": "(min-width: 1182px) 680px, (min-width: 900px) 58vw, 100vw",
   "sectors": [
     {
       "id": "industrial",
       "icon": "industrial",
       "name": "Industrial",
       "summary": "Plantas y parques industriales",
-      "description": "Perímetros extensos que vigilar y operación que no se detiene. Integramos videovigilancia perimetral, control de accesos vehiculares para embarques y detección de incendios en naves de alto riesgo. El mantenimiento se programa fuera de horarios productivos para no interrumpir la línea."
+      "description": "Perímetros extensos que vigilar y operación que no se detiene. Integramos videovigilancia perimetral, control de accesos vehiculares para embarques y detección de incendios en naves de alto riesgo. El mantenimiento se programa fuera de horarios productivos para no interrumpir la línea.",
+      "image": {
+        "src": "/images/sectores/industrial-800.webp",
+        "srcSet": "/images/sectores/industrial-480.webp 480w, /images/sectores/industrial-800.webp 800w, /images/sectores/industrial-1200.webp 1200w",
+        "width": 1200,
+        "height": 900
+      }
     },
     {
       "id": "corporativo",
       "icon": "corporate",
       "name": "Corporativo",
       "summary": "Oficinas y torres empresariales",
-      "description": "Alto flujo de personal y visitantes, con áreas restringidas por piso. Control de accesos peatonales con niveles de permiso, videovigilancia interior, megafonía de evacuación e infraestructura de voz y datos para todo el inmueble."
+      "description": "Alto flujo de personal y visitantes, con áreas restringidas por piso. Control de accesos peatonales con niveles de permiso, videovigilancia interior, megafonía de evacuación e infraestructura de voz y datos para todo el inmueble.",
+      "image": {
+        "src": "/images/sectores/corporativo-800.webp",
+        "srcSet": "/images/sectores/corporativo-480.webp 480w, /images/sectores/corporativo-800.webp 800w, /images/sectores/corporativo-1200.webp 1200w",
+        "width": 1200,
+        "height": 900
+      }
     },
     {
       "id": "bancario",
       "icon": "banking",
       "name": "Bancario",
       "summary": "Sucursales y áreas de valores",
-      "description": "El entorno con mayor exigencia normativa y de auditoría. Videovigilancia con retención de video, control de accesos a bóveda y áreas restringidas, detección de intrusión y sistemas de alarma con protocolos de respuesta documentados."
+      "description": "El entorno con mayor exigencia normativa y de auditoría. Videovigilancia con retención de video, control de accesos a bóveda y áreas restringidas, detección de intrusión y sistemas de alarma con protocolos de respuesta documentados.",
+      "image": {
+        "src": "/images/sectores/bancario-800.webp",
+        "srcSet": "/images/sectores/bancario-480.webp 480w, /images/sectores/bancario-800.webp 800w, /images/sectores/bancario-1200.webp 1200w",
+        "width": 1200,
+        "height": 900
+      }
     },
     {
       "id": "hotelero",
       "icon": "hospitality",
       "name": "Hotelero",
       "summary": "Cadenas y desarrollos turísticos",
-      "description": "Huéspedes que no conocen el inmueble y áreas comunes en uso permanente. Detección de incendios por habitación, megafonía de evacuación, videovigilancia de accesos y áreas comunes, y control de accesos a zonas de servicio."
+      "description": "Huéspedes que no conocen el inmueble y áreas comunes en uso permanente. Detección de incendios por habitación, megafonía de evacuación, videovigilancia de accesos y áreas comunes, y control de accesos a zonas de servicio.",
+      "image": {
+        "src": "/images/sectores/hotelero-800.webp",
+        "srcSet": "/images/sectores/hotelero-480.webp 480w, /images/sectores/hotelero-800.webp 800w, /images/sectores/hotelero-1200.webp 1200w",
+        "width": 1200,
+        "height": 900
+      }
     },
     {
       "id": "salud",
       "icon": "health",
       "name": "Salud",
       "summary": "Hospitales y clínicas",
-      "description": "Continuidad operativa sin margen de interrupción. Protección de áreas críticas —quirófanos, farmacia, archivo clínico—, detección temprana por aspiración en zonas sensibles y climatización de precisión para equipo médico y site."
+      "description": "Continuidad operativa sin margen de interrupción. Protección de áreas críticas —quirófanos, farmacia, archivo clínico—, detección temprana por aspiración en zonas sensibles y climatización de precisión para equipo médico y site.",
+      "image": {
+        "src": "/images/sectores/salud-800.webp",
+        "srcSet": "/images/sectores/salud-480.webp 480w, /images/sectores/salud-800.webp 800w, /images/sectores/salud-1200.webp 1200w",
+        "width": 1200,
+        "height": 900
+      }
     },
     {
       "id": "retail",
       "icon": "retail",
       "name": "Retail",
       "summary": "Plazas y comercio minorista",
-      "description": "Alto flujo de personas y exposición a pérdidas. Videovigilancia con monitoreo centralizado, sistemas antihurto, control de accesos a bodegas y áreas administrativas, y detección de incendios en locales y pasillos."
+      "description": "Alto flujo de personas y exposición a pérdidas. Videovigilancia con monitoreo centralizado, sistemas antihurto, control de accesos a bodegas y áreas administrativas, y detección de incendios en locales y pasillos.",
+      "image": {
+        "src": "/images/sectores/retail-800.webp",
+        "srcSet": "/images/sectores/retail-480.webp 480w, /images/sectores/retail-800.webp 800w, /images/sectores/retail-1197.webp 1197w",
+        "width": 1197,
+        "height": 897
+      }
     },
     {
       "id": "residencial-plus",
       "icon": "residential",
       "name": "Residencial Plus",
       "summary": "Residencias de alta gama",
-      "description": "Residencias y desarrollos privados donde la seguridad no puede notarse. Videovigilancia perimetral discreta, control de accesos, detección de intrusión y automatización, con instalación cuidada que respeta la arquitectura y los acabados del inmueble."
+      "description": "Residencias y desarrollos privados donde la seguridad no puede notarse. Videovigilancia perimetral discreta, control de accesos, detección de intrusión y automatización, con instalación cuidada que respeta la arquitectura y los acabados del inmueble.",
+      "image": {
+        "src": "/images/sectores/residencial-plus-800.webp",
+        "srcSet": "/images/sectores/residencial-plus-480.webp 480w, /images/sectores/residencial-plus-800.webp 800w, /images/sectores/residencial-plus-1200.webp 1200w",
+        "width": 1200,
+        "height": 900
+      }
     }
   ]
 }
