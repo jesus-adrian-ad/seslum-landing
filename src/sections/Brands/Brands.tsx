@@ -3,12 +3,14 @@
  * se trabaja y, en texto, las que todavía no tienen logo.
  *
  * Una marca pasa de texto a logo cambiando solo brands.json. Los logos van en
- * sus colores originales sobre tarjetas blancas. Desde 860 px, texto y respaldos a la
- * izquierda y alianzas a la derecha.
+ * sus colores originales sobre tarjetas blancas; los logos con el nombre bajo el
+ * símbolo (casi cuadrados) llevan más altura para que su texto se lea. Desde
+ * 860 px, texto y respaldos a la izquierda y alianzas a la derecha.
  */
 
 import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
+import { isStackedLogo } from "@/lib/brands-content";
 import type { BrandsContent } from "@/types/content";
 import styles from "./Brands.module.css";
 
@@ -44,7 +46,7 @@ export function Brands({ content }: BrandsProps) {
             {content.partners.map(({ id, logo }) => (
               <li key={id} className={`chamfer-frame ${styles.partner}`} data-reveal="">
                 <img
-                  className={styles.logo}
+                  className={isStackedLogo(logo) ? `${styles.logo} ${styles.logoStacked}` : styles.logo}
                   src={logo.src}
                   alt={logo.alt}
                   width={logo.width}

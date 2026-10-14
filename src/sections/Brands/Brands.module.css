@@ -90,6 +90,10 @@
   max-height: var(--brand-logo-max-height);
 }
 
+.logoStacked {
+  max-height: var(--brand-logo-stacked-max-height);
+}
+
 .alsoTitle {
   color: var(--color-accent);
   font-size: var(--fs-eyebrow);
