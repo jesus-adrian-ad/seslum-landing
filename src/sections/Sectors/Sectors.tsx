@@ -23,7 +23,7 @@ export function Sectors({ content }: SectorsProps) {
     <section id={content.id} className={styles.sectors} aria-labelledby={titleId}>
       <div className="container">
         <SectionHeading titleId={titleId} eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
-        <SectorTabs idPrefix={content.id} label={content.tabsLabel} sectors={content.sectors} />
+        <SectorTabs idPrefix={content.id} label={content.tabsLabel} sectors={content.sectors} imageSizes={content.imageSizes} />
       </div>
       <ScrollReveal rootId={content.id} />
     </section>

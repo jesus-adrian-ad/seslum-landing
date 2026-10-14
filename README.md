@@ -269,6 +269,17 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   hacia la pestaña activa, y al cambiar de sector el panel entra con un leve
   desplazamiento y su ícono se vuelve a dibujar. Todo con transiciones y
   animaciones CSS; con movimiento reducido el cambio es instantáneo.
+- Cada panel tiene de fondo una foto de obra propia (13/oct), con el tinte de
+  marca y un velo que oscurece hacia abajo; nombre (26–32 px), subtítulo y
+  descripción (18 px) van abajo, sobre la zona oscura. La foto es decorativa
+  (`alt=""`) y lleva `loading="lazy"`: solo se descarga la del sector abierto
+  y las demás al cambiar de pestaña. Variantes 480/800/1200 px
+  (`node scripts/optimize-image.mjs assets-src/sectores/<id>.jpg
+  public/images/sectores/<id> 480,800,1200 --brand --quality=50`). Recortes
+  4:3 en `assets-src/sectores/`; la de Hotelero va aclarada. Las de Hotelero y
+  Salud no muestran un hotel ni un hospital: si SESLUM manda fotos de esos
+  sectores, se cambian sin tocar código.
+- El borde biselado del panel se repinta encima de la foto con `::after`.
 - Íconos de línea unificados en `LineIcon`; cada sección conserva solo su
   catálogo (`ServiceIcon`, `SectorIcon`).
 - Contenido en `src/content/sections/sectors.json`, validado en el build

@@ -9,6 +9,10 @@
  * activo se muestra. En móvil la lista es una tira horizontal deslizable que
  * centra la pestaña elegida; desde 900 px es una columna junto al panel.
  *
+ * Cada panel lleva de fondo una foto de obra decorativa (alt vacío) con
+ * loading="lazy": como los paneles ocultos no se renderizan, el navegador solo
+ * descarga la foto del sector abierto y pide las demás al cambiar de pestaña.
+ *
  * El indicador se posiciona con propiedades CSS escritas desde JavaScript y se
  * mueve con transiciones CSS, así no depende de GSAP ni viola la CSP.
  */
@@ -27,9 +31,10 @@ export interface SectorTabsProps {
   readonly idPrefix: string;
   readonly label: string;
   readonly sectors: readonly SectorItem[];
+  readonly imageSizes: string;
 }
 
-export function SectorTabs({ idPrefix, label, sectors }: SectorTabsProps) {
+export function SectorTabs({ idPrefix, label, sectors, imageSizes }: SectorTabsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const isVertical = useMediaQuery(VERTICAL_QUERY);
   const reducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
@@ -142,6 +147,18 @@ export function SectorTabs({ idPrefix, label, sectors }: SectorTabsProps) {
             tabIndex={0}
             hidden={index !== activeIndex}
           >
+            <img
+              className={styles.panelImage}
+              src={sector.image.src}
+              srcSet={sector.image.srcSet}
+              sizes={imageSizes}
+              width={sector.image.width}
+              height={sector.image.height}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <span className={styles.panelVeil} aria-hidden="true" />
             <div className={styles.panelHead}>
               <SectorIcon name={sector.icon} className={styles.panelIcon} />
               <div>
