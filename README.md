@@ -703,6 +703,14 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **14/oct/2026** — Build compatible con Next.js 16.4: `scripts/defer-hydration.mjs`
+  exigía el arranque como `<script id="_R_" src=...>`; desde 16.4.0 ese id va en
+  un `<script>` en línea que registra los chunks de Turbopack y el chunk de
+  entrada ya no lo lleva, así que el build de auditoría fallaba en `404.html`.
+  El script acepta los dos formatos (sigue fallando si no encuentra ninguno).
+  Verificado con 16.4.0: la página hidrata, las pestañas responden y axe queda
+  sin violaciones. La subida de `next` y `eslint-config-next` a 16.4.0 llega por
+  el PR de Dependabot.
 - **14/oct/2026** — Alianzas: se suma JAM Electroservicios con logo (el cliente
   lo entregó como JPG de 302 × 309 px, sin vector). Se recortó a su contenido, el
   fondo gris (#F8F8F8) se llevó a blanco para que no se note sobre la tarjeta y
