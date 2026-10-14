@@ -12,7 +12,6 @@
  */
 
 import { ComparisonIcon } from "@/components/ComparisonIcon/ComparisonIcon";
-import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import type { WhySeslumContent } from "@/types/content";
 import styles from "./WhySeslum.module.css";
@@ -77,7 +76,6 @@ export function WhySeslum({ content }: WhySeslumProps) {
           </table>
         </div>
       </div>
-      <ScrollReveal rootId={content.id} />
     </section>
   );
 }

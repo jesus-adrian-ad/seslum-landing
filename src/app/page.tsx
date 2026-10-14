@@ -1,7 +1,10 @@
 /**
- * Página principal: compone las secciones en el orden del mapa del SPEC.
+ * Página principal: compone las secciones en el orden del mapa del SPEC y monta
+ * una sola vez la entrada al hacer scroll de las que la usan (Proyectos la resuelve
+ * con CSS, por eso no está en la lista).
  */
 
+import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat/WhatsAppFloat";
 import { serviceOptions } from "@/lib/contact-form";
 import { brands, contact, contactForm, faq, footer, hero, navbar, projects, sectors, services, site, whySeslum } from "@/lib/content";
@@ -16,6 +19,8 @@ import { Projects } from "@/sections/Projects/Projects";
 import { Sectors } from "@/sections/Sectors/Sectors";
 import { Services } from "@/sections/Services/Services";
 import { WhySeslum } from "@/sections/WhySeslum/WhySeslum";
+
+const REVEAL_ROOT_IDS = [services.id, sectors.id, whySeslum.id, brands.id, faq.id, contact.id, footer.id];
 
 export default function HomePage() {
   return (
@@ -40,6 +45,7 @@ export default function HomePage() {
       </main>
       <Footer content={footer} site={site} navigation={navbar.links} services={services} logo={navbar.logo} />
       <WhatsAppFloat whatsapp={site.contact.whatsapp} label={contact.floatingLabel} newTabHint={contact.newTabHint} />
+      <ScrollReveal rootIds={REVEAL_ROOT_IDS} />
     </>
   );
 }

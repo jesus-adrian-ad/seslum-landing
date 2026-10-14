@@ -6,7 +6,6 @@
  * añade la entrada en cascada y el dibujo de los íconos cuando GSAP ya cargó.
  */
 
-import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import { ServiceIcon } from "@/components/ServiceIcon/ServiceIcon";
 import type { ServiceItem, ServicesContent } from "@/types/content";
@@ -80,7 +79,6 @@ export function Services({ content }: ServicesProps) {
         </div>
       </div>
 
-      <ScrollReveal rootId={content.id} />
     </section>
   );
 }

@@ -8,7 +8,6 @@
  * 860 px, texto y respaldos a la izquierda y alianzas a la derecha.
  */
 
-import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import { isStackedLogo } from "@/lib/brands-content";
 import type { BrandsContent } from "@/types/content";
@@ -81,7 +80,6 @@ export function Brands({ content }: BrandsProps) {
           </div>
         </div>
       </div>
-      <ScrollReveal rootId={content.id} />
     </section>
   );
 }
