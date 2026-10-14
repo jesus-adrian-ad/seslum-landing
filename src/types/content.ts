@@ -146,12 +146,10 @@ export interface HeroContent {
 export const SERVICE_ICON_NAMES = [
   "cctv",
   "access-control",
-  "intrusion",
   "fire-detection",
   "fire-suppression",
   "structured-cabling",
   "electrical",
-  "precision-cooling",
   "engineering",
   "maintenance",
 ] as const;

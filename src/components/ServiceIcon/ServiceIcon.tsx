@@ -19,10 +19,6 @@ const ICONS: Readonly<Record<ServiceIconName, readonly LineShape[]>> = {
     { kind: "path", d: "M23 12v-2a4 4 0 018 0v2" },
     { kind: "rect", x: 23, y: 12, width: 8, height: 7, rx: 1.2 },
   ],
-  intrusion: [
-    { kind: "path", d: "M16 3l11 4v9c0 7-4.6 11.8-11 13.6C9.6 27.8 5 23 5 16V7z" },
-    { kind: "path", d: "M11 16l3.5 3.5L21 13" },
-  ],
   "fire-detection": [
     { kind: "circle", cx: 16, cy: 13, r: 6 },
     { kind: "circle", cx: 16, cy: 13, r: 2, dot: true },
@@ -43,14 +39,6 @@ const ICONS: Readonly<Record<ServiceIconName, readonly LineShape[]>> = {
     { kind: "path", d: "M16 9a5 5 0 00-5-5" },
   ],
   electrical: [{ kind: "path", d: "M18 3L8 18h7l-1 11 10-15h-7z" }],
-  "precision-cooling": [
-    { kind: "rect", x: 4, y: 6, width: 24, height: 12, rx: 2 },
-    { kind: "path", d: "M8 11h16" },
-    { kind: "path", d: "M8 14.5h10" },
-    { kind: "path", d: "M10 22c0 2-2 2-2 4" },
-    { kind: "path", d: "M16 22c0 2-2 2-2 4" },
-    { kind: "path", d: "M22 22c0 2-2 2-2 4" },
-  ],
   engineering: [
     { kind: "path", d: "M16 3l11 6.5v13L16 29 5 22.5v-13z" },
     { kind: "circle", cx: 16, cy: 16, r: 3.5 },

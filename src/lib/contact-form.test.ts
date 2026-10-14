@@ -25,8 +25,8 @@ const valid: ContactSubmission = {
 const withValue = (field: keyof ContactSubmission, value: string): ContactSubmission => ({ ...valid, [field]: value });
 
 describe("serviceOptions", () => {
-  it("lista las 10 capacidades de services.json y cierra con «Otro»", () => {
-    expect(allowed).toHaveLength(11);
+  it("lista las 8 capacidades de services.json y cierra con «Otro»", () => {
+    expect(allowed).toHaveLength(9);
     expect(allowed[0]).toBe("Videovigilancia");
     expect(allowed.at(-1)).toBe(OTHER_SERVICE);
     expect(new Set(allowed).size).toBe(allowed.length);

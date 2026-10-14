@@ -39,7 +39,7 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 0 | Fundaciones | `foundations` | Next.js estático, tokens, layout, SEO, GTM + Consent Mode, CSP, CI, deploy | Publicado |
 | 1 | Navbar | `navbar` | Barra fija, logo, 5 enlaces (≥ 1180 px), CTA, menú hamburguesa animado (< 1180 px) | Publicado |
 | 2 | Encabezado | `hero` | Foto de obra a pantalla completa, título, 2 CTA, panel "Líneas integradas" | Publicado |
-| 3 | Servicios | `services` | 3 especialidades + 2 servicios transversales (10 capacidades) | Publicado |
+| 3 | Servicios | `services` | 3 especialidades de 2 líneas cada una + 2 servicios transversales (8 capacidades) | Publicado |
 | 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable | Publicado |
 | 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | Publicado |
 | 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | En espera de datos reales |

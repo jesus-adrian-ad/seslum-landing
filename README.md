@@ -231,7 +231,10 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 
 - `#servicios`: encabezado "Qué hacemos", tres tarjetas por especialidad
   (seguridad electrónica, protección contra incendios, infraestructura) y una
-  franja con los dos servicios que aplican a todas las líneas: diez en total.
+  franja con los dos servicios que aplican a todas las líneas: ocho en total.
+- Nombres de las seis líneas = títulos de las carpetas de fotos de SESLUM
+  (13/oct). "Alarma e intrusión" y "Clima de precisión" se quitaron (decisión
+  de Adrián, 13/oct); también salen del formulario y del panel del Hero.
 - Una columna en móvil y tres desde 900 px; la franja pasa a dos columnas desde
   768 px. Tarjetas con la esquina biselada y su borde completo (`.chamfer-frame`).
 - Entrada al hacer scroll (`ScrollReveal`, reutilizable por las siguientes
@@ -358,7 +361,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   `#contacto` (`#formulario`): Nombre, Empresa, Correo corporativo, Teléfono,
   Servicio de interés y Mensaje. Obligatorios: nombre, correo, servicio de
   interés y mensaje (el servicio pasó a obligatorio en la junta del 08/oct). Una columna en móvil, dos desde 700 px.
-- Servicio de interés: las 10 capacidades de `services.json` + "Otro / varios"
+- Servicio de interés: las 8 capacidades de `services.json` + "Otro / varios"
   (`serviceOptions()`), sin duplicar textos.
 - Reglas compartidas por navegador y servidor en `src/lib/contact-form.ts`:
   longitudes, formato de correo y teléfono (≥ 8 dígitos), servicio de la lista,
