@@ -138,7 +138,7 @@
   --enter-distance: 1.5rem;
   --duration-reveal: 900ms;
   --duration-zoom: 2200ms;
-  --hero-slide-step: 4s;
+  --hero-slide-step: 6s;
   --hero-slide-fade: 1s;
   --hero-slide-cycle: calc(var(--hero-slide-step) * 6);
   --hero-slide-zoom: 1.06;

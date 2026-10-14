@@ -201,8 +201,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   se desvanece) es GSAP con carga diferida.
 - Fondo en carrusel de 6 fotos de obra reales, una por línea de servicio
   (videovigilancia, control de acceso, detección, extinción, voz y datos,
-  instalaciones eléctricas): 4 s cada una con 1 s de fundido y un zoom lento,
-  en CSS puro (ciclo de 24 s). La primera queda fija debajo y las demás entran
+  instalaciones eléctricas): 6 s cada una con 1 s de fundido y un zoom lento,
+  en CSS puro (ciclo de 36 s). La primera queda fija debajo y las demás entran
   encima; la última se desvanece y deja ver la primera, sin saltos. Igual en
   escritorio y en celular. Con `prefers-reduced-motion` solo se ve la primera
   y las demás ni se descargan.

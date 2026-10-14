@@ -6,9 +6,9 @@
  * Carrusel: la primera foto queda fija debajo y las otras cinco entran encima
  * con un fundido, una tras otra; la última se desvanece y deja ver otra vez la
  * primera, así la secuencia cierra sin saltos y el LCP nunca arranca invisible.
- * Los porcentajes de los keyframes salen de 6 fotos de 4 s con 1 s de fundido
- * (ciclo de 24 s): un fundido es 1/24 (4.1667 %), una foto 4/24 (16.6667 %) y
- * una foto más el fundido de la siguiente 5/24 (20.8333 %). hero-content.ts
+ * Los porcentajes de los keyframes salen de 6 fotos de 6 s con 1 s de fundido
+ * (ciclo de 36 s): un fundido es 1/36 (2.7778 %), una foto 6/36 (16.6667 %) y
+ * una foto más el fundido de la siguiente 7/36 (19.4444 %). hero-content.ts
  * exige las 6 fotos; si cambia el número o los tiempos, se recalculan aquí y en
  * los tokens --hero-slide-*. Con movimiento reducido solo se ve la primera.
  */
@@ -311,16 +311,16 @@
     transform: scale(1);
   }
 
-  4.1667% {
+  2.7778% {
     opacity: 1;
   }
 
-  20.8333% {
+  19.4444% {
     opacity: 1;
     transform: scale(var(--hero-slide-zoom));
   }
 
-  20.8334%,
+  19.4445%,
   100% {
     opacity: 0;
     transform: scale(1);
@@ -333,17 +333,17 @@
     transform: scale(1);
   }
 
-  4.1667%,
+  2.7778%,
   16.6667% {
     opacity: 1;
   }
 
-  20.8333% {
+  19.4444% {
     opacity: 0;
     transform: scale(var(--hero-slide-zoom));
   }
 
-  20.8334%,
+  19.4445%,
   100% {
     opacity: 0;
     transform: scale(1);
