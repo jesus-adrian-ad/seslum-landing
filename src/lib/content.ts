@@ -21,6 +21,7 @@ import siteJson from "@/content/site.json";
 import { parseBrandsContent } from "@/lib/brands-content";
 import { parseContactContent } from "@/lib/contact-links";
 import { parseFaqContent } from "@/lib/faq-content";
+import { parseHeroContent } from "@/lib/hero-content";
 import { parseSectorsContent } from "@/lib/sectors-content";
 import { parseServicesContent } from "@/lib/services-content";
 import { parseSiteContent } from "@/lib/site-content";
@@ -44,7 +45,7 @@ export const site: SiteContent = parseSiteContent(siteJson);
 
 export const navbar: NavbarContent = navbarJson;
 
-export const hero: HeroContent = heroJson;
+export const hero: HeroContent = parseHeroContent(heroJson);
 
 export const services: ServicesContent = parseServicesContent(servicesJson);
 

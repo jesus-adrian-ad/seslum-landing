@@ -4,7 +4,8 @@
  * 1200 × 630 px en JPG, sin metadatos y por debajo de 300 KB, que es el límite
  * práctico de WhatsApp para mostrarla.
  *
- * Arma la composición en HTML con la foto del encabezado, el logo, el eyebrow y
+ * Arma la composición en HTML con la primera foto del carrusel del encabezado
+ * (su recorte horizontal en assets-src/hero/), el logo, el eyebrow y
  * el título de hero.json, y el dominio de site.json; la renderiza con Chromium
  * (Playwright) y la comprime con sharp. Todo va centrado porque WhatsApp, en su
  * vista pequeña, recorta la imagen a un cuadrado desde el centro.
@@ -30,7 +31,8 @@ const escapeHtml = (text) => text.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<"
 
 const hero = JSON.parse(await readFile("src/content/sections/hero.json", "utf8"));
 const site = JSON.parse(await readFile("src/content/site.json", "utf8"));
-const photo = await dataUri("assets-src/foto-hero.jpg", "image/jpeg");
+const [firstSlide] = hero.media.slides;
+const photo = await dataUri(`assets-src/hero/${firstSlide.id}-horizontal.jpg`, "image/jpeg");
 const logo = await dataUri("public/images/brand/logo-seslum.svg", "image/svg+xml");
 const font = await dataUri("src/fonts/SourceSans3-Variable-latin.woff2", "font/woff2");
 

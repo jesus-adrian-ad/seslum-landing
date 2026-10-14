@@ -177,4 +177,4 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [ ] Opcional: vectores oficiales de Kidde Commercial (MyEDDIE) y Tiandy para sustituir los trazados de capturas.
 - [ ] Perfil de LinkedIn.
 - [x] Vista previa al compartir (Open Graph), resuelta en `feat/brand-logo`.
-- [x] Foto del encabezado: se queda la actual (decisión del cliente, 30/sep).
+- [x] Foto del encabezado: carrusel de 6 fotos propias de obra, una por línea de servicio, 4 s cada una e igual en escritorio y celular (decisión de Adrián tras la junta del 08/oct, 13/oct). Sustituye la foto de banco.

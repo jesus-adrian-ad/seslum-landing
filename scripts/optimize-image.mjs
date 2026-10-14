@@ -19,7 +19,7 @@
  * cada KB de la imagen LCP retrasa su pintado en móvil.
  *
  *   node scripts/optimize-image.mjs <entrada> <salida-sin-extensión> [anchos] [--brand] [--quality=N]
- *   node scripts/optimize-image.mjs assets-src/foto-hero.jpg public/images/hero/obra-contra-incendio 480,768,1000 --brand --quality=40
+ *   node scripts/optimize-image.mjs assets-src/hero/videovigilancia-horizontal.jpg public/images/hero/videovigilancia-horizontal 768,1280,1920 --brand --quality=40
  */
 
 import { mkdir } from "node:fs/promises";

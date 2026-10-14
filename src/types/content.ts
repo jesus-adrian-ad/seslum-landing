@@ -101,6 +101,33 @@ export interface LinkAction {
   readonly href: string;
 }
 
+export interface HeroImageFile {
+  readonly src: string;
+  readonly width: number;
+  readonly height: number;
+}
+
+export interface HeroResponsiveImage extends HeroImageFile {
+  readonly srcSet: string;
+}
+
+export interface HeroPortraitImages {
+  readonly phone: HeroImageFile;
+  readonly tablet: HeroImageFile;
+}
+
+export interface HeroSlide {
+  readonly id: string;
+  readonly landscape: HeroResponsiveImage;
+  readonly portrait: HeroPortraitImages;
+}
+
+export interface HeroMedia {
+  readonly alt: string;
+  readonly sizes: string;
+  readonly slides: readonly HeroSlide[];
+}
+
 export interface HeroContent {
   readonly id: string;
   readonly eyebrow: string;
@@ -108,7 +135,7 @@ export interface HeroContent {
   readonly lead: readonly string[];
   readonly primaryCta: LinkAction;
   readonly secondaryCta: LinkAction;
-  readonly image: ImageAsset;
+  readonly media: HeroMedia;
   readonly panel: {
     readonly title: string;
     readonly lines: readonly string[];
