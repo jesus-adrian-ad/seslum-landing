@@ -40,9 +40,9 @@
       "answer": "No, pero sí recomendable. Un sistema de seguridad solo vale lo que vale el día que se necesita, y los componentes requieren revisión periódica."
     },
     {
-      "id": "precios",
-      "question": "¿Manejan precios de lista?",
-      "answer": "No. Cada proyecto se cotiza a la medida, porque el equipo y la complejidad de instalación cambian por completo entre una nave industrial y una sucursal bancaria."
+      "id": "cotizacion",
+      "question": "¿Pueden cotizar una solución de acuerdo con mis necesidades?",
+      "answer": "Sí. Cada proyecto se cotiza a la medida, considerando las necesidades del cliente, los equipos requeridos, el alcance de los trabajos y la complejidad de la instalación, para ofrecer una propuesta técnica y económica acorde con cada proyecto."
     }
   ]
 }
