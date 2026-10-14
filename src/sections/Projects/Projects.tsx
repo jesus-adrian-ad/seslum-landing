@@ -3,11 +3,12 @@
  * destacado a todo el ancho y los demás en rejilla; cada tarjeta muestra el
  * ícono y el nombre del sector y los sistemas instalados como etiquetas.
  *
- * Se renderiza en el servidor y se ve completa sin JavaScript. ScrollReveal
- * añade la entrada en cascada y el dibujo de los íconos.
+ * Se renderiza en el servidor y no carga JavaScript propio: la entrada al hacer
+ * scroll es CSS con animation-timeline (Projects.module.css). Con ScrollReveal,
+ * esta sección sumaba un ciclo más de lectura y escritura de layout tras la
+ * hidratación y el reflow forzado pasaba los 30 ms que tolera Lighthouse.
  */
 
-import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import { SectorIcon } from "@/components/SectorIcon/SectorIcon";
 import type { ProjectCard, ProjectsContent } from "@/types/content";
@@ -23,7 +24,7 @@ function ProjectTile({ card, systemsLabel, featuredLabel }: ProjectTileProps) {
   const featured = featuredLabel !== undefined;
   return (
     <li className={`chamfer-frame ${styles.card} ${featured ? styles.featured : ""}`} data-reveal="">
-      <SectorIcon name={card.icon} className={styles.icon} draw />
+      <SectorIcon name={card.icon} className={styles.icon} />
       <div className={styles.body}>
         {featured ? <p className={styles.badge}>{featuredLabel}</p> : null}
         <h3 className={styles.name}>{card.name}</h3>
@@ -57,7 +58,6 @@ export function Projects({ content }: ProjectsProps) {
           ))}
         </ul>
       </div>
-      <ScrollReveal rootId={content.id} />
     </section>
   );
 }
