@@ -233,7 +233,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 ### 4 · Sectores
 
 - `#sectores` sobre el fondo alterno: encabezado "A quién servimos" y siete
-  pestañas (Industrial, Corporativo, Bancario, Hotelero, Salud, Comercial,
+  pestañas (Industrial, Corporativo, Bancario, Hotelero, Salud, Retail,
   Residencial Plus) con su panel de detalle.
 - Patrón WAI-ARIA Tabs: una sola parada de Tab en la lista, flechas en ambos
   ejes, Inicio y Fin, activación automática y `aria-orientation` según el ancho.
@@ -670,6 +670,8 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **13/oct/2026** — El sector "Comercial" pasa a "Retail" (observación de la
+  junta; también su id). "Alianzas comerciales" no cambia: es otro concepto.
 - **12/oct/2026** — Formulario y Contacto (observaciones de la junta): el
   servicio de interés pasa a obligatorio (navegador y servidor, con la misma
   regla) y las tres tarjetas de Contacto llevan la misma nota de horario,

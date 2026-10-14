@@ -41,9 +41,9 @@
       "description": "Continuidad operativa sin margen de interrupción. Protección de áreas críticas —quirófanos, farmacia, archivo clínico—, detección temprana por aspiración en zonas sensibles y climatización de precisión para equipo médico y site."
     },
     {
-      "id": "comercial",
+      "id": "retail",
       "icon": "retail",
-      "name": "Comercial",
+      "name": "Retail",
       "summary": "Plazas y comercio minorista",
       "description": "Alto flujo de personas y exposición a pérdidas. Videovigilancia con monitoreo centralizado, sistemas antihurto, control de accesos a bodegas y áreas administrativas, y detección de incendios en locales y pasillos."
     },
