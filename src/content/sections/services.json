@@ -1,7 +1,7 @@
 {
   "id": "servicios",
   "eyebrow": "Qué hacemos",
-  "title": "Diez capacidades, un solo responsable",
+  "title": "Ocho capacidades, un solo responsable",
   "lead": "Diseñamos, suministramos, instalamos y damos mantenimiento a cada una de nuestras soluciones, desarrollando proyectos de acuerdo con los requerimientos específicos de cada sistema y, cuando el proyecto lo requiere, considerando su integración con otras soluciones.",
   "groups": [
     {
@@ -18,11 +18,6 @@
           "icon": "access-control",
           "name": "Control de acceso e intercomunicación",
           "description": "Accesos vehiculares y peatonales, biométricos, torniquetes, rayos X y detección de metales."
-        },
-        {
-          "icon": "intrusion",
-          "name": "Alarma e intrusión",
-          "description": "Alarmas, sensores perimetrales y sistemas de aviso temprano."
         }
       ]
     },
@@ -33,12 +28,12 @@
       "items": [
         {
           "icon": "fire-detection",
-          "name": "Detección de incendios",
+          "name": "Sistemas de detección y alarma de incendios",
           "description": "Detectores, paneles de alarma, megafonía de evacuación y detección por aspiración."
         },
         {
           "icon": "fire-suppression",
-          "name": "Extinción de incendios",
+          "name": "Sistemas de extinción de incendios",
           "description": "Supresión por agentes limpios, redes de agua, bombas contra incendio e hidrantes."
         }
       ]
@@ -50,18 +45,13 @@
       "items": [
         {
           "icon": "structured-cabling",
-          "name": "Voz y datos",
-          "description": "Cableado estructurado, fibra óptica, racks, charola y canalización."
+          "name": "Voz, datos y fibra óptica",
+          "description": "Cableado estructurado, racks, charola y canalización."
         },
         {
           "icon": "electrical",
-          "name": "Instalaciones eléctricas",
+          "name": "Instalaciones eléctricas e infraestructura",
           "description": "Acometidas, tableros, canalización, UPS y alimentación de los sistemas instalados."
-        },
-        {
-          "icon": "precision-cooling",
-          "name": "Clima de precisión",
-          "description": "Climatización para site y centros de datos, con control continuo."
         }
       ]
     }

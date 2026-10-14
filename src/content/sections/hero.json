@@ -151,11 +151,11 @@
     "lines": [
       "Videovigilancia",
       "Control de acceso e intercomunicación",
-      "Detección de incendios",
-      "Voz y datos"
+      "Sistemas de detección y alarma de incendios",
+      "Voz, datos y fibra óptica"
     ],
     "more": {
-      "label": "+ 6 líneas adicionales",
+      "label": "+ 4 líneas adicionales",
       "href": "#servicios"
     }
   }
