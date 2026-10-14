@@ -12,6 +12,7 @@ import contactJson from "@/content/sections/contact.json";
 import faqJson from "@/content/sections/faq.json";
 import footerJson from "@/content/sections/footer.json";
 import heroJson from "@/content/sections/hero.json";
+import projectsJson from "@/content/sections/projects.json";
 import privacyJson from "@/content/pages/privacy.json";
 import navbarJson from "@/content/sections/navbar.json";
 import sectorsJson from "@/content/sections/sectors.json";
@@ -22,6 +23,7 @@ import { parseBrandsContent } from "@/lib/brands-content";
 import { parseContactContent } from "@/lib/contact-links";
 import { parseFaqContent } from "@/lib/faq-content";
 import { parseHeroContent } from "@/lib/hero-content";
+import { parseProjectsContent } from "@/lib/projects-content";
 import { parseSectorsContent } from "@/lib/sectors-content";
 import { parseServicesContent } from "@/lib/services-content";
 import { parseSiteContent } from "@/lib/site-content";
@@ -35,6 +37,7 @@ import type {
   HeroContent,
   NavbarContent,
   PrivacyContent,
+  ProjectsContent,
   SectorsContent,
   ServicesContent,
   SiteContent,
@@ -50,6 +53,8 @@ export const hero: HeroContent = parseHeroContent(heroJson);
 export const services: ServicesContent = parseServicesContent(servicesJson);
 
 export const sectors: SectorsContent = parseSectorsContent(sectorsJson);
+
+export const projects: ProjectsContent = parseProjectsContent(projectsJson, sectors);
 
 export const whySeslum: WhySeslumContent = whySeslumJson;
 

@@ -22,7 +22,7 @@ y sistemas para tu negocio.
 | 3 | Servicios | `feature/services` | ✅ Publicado | #10 |
 | 4 | Sectores | `feature/sectors` | ✅ Publicado | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
-| 6 | Proyectos | `feature/projects` | ⏸️ En espera de datos reales del cliente | — |
+| 6 | Proyectos | `feature/projects` | 🔨 En PR (textos a revisión de Danna) | — |
 | 7 | Alianzas comerciales | `feature/brands` | ✅ Publicado (textos en revisión) | — |
 | 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
 | 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
@@ -30,7 +30,7 @@ y sistemas para tu negocio.
 | 11 | Pie de página | `feature/footer` | ✅ Publicado (textos en revisión) | — |
 | 12 | Consentimiento | `feature/consent-banner` | ✅ Publicado (textos en revisión) | — |
 
-**Siguiente bloque:** Proyectos (6), cuando lleguen los datos reales del cliente.
+**Siguiente bloque:** Alianzas (7), cuando lleguen las marcas nuevas.
 
 ---
 
@@ -703,6 +703,12 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **14/oct/2026** — Proyectos (bloque 6) por sector y sin fotos (decisión de
+  Adrián): la carpeta de obra está organizada por sistema y ninguna foto muestra
+  de qué sector es, así que cada tarjeta lleva solo el ícono y el nombre del
+  sector (tomados de Sectores) y los sistemas instalados como etiquetas, sin
+  cifras ni nombres de clientes. Industrial va como destacado. Las etiquetas se
+  derivan de los textos aprobados de Sectores, sin las líneas retiradas.
 - **13/oct/2026** — El sector "Comercial" pasa a "Retail" (observación de la
   junta; también su id). "Alianzas comerciales" no cambia: es otro concepto.
 - **12/oct/2026** — Formulario y Contacto (observaciones de la junta): el

@@ -4,7 +4,7 @@
 
 import { WhatsAppFloat } from "@/components/WhatsAppFloat/WhatsAppFloat";
 import { serviceOptions } from "@/lib/contact-form";
-import { brands, contact, contactForm, faq, footer, hero, navbar, sectors, services, site, whySeslum } from "@/lib/content";
+import { brands, contact, contactForm, faq, footer, hero, navbar, projects, sectors, services, site, whySeslum } from "@/lib/content";
 import { buildEnv } from "@/lib/env";
 import { Brands } from "@/sections/Brands/Brands";
 import { Contact } from "@/sections/Contact/Contact";
@@ -12,6 +12,7 @@ import { Faq } from "@/sections/Faq/Faq";
 import { Footer } from "@/sections/Footer/Footer";
 import { Hero } from "@/sections/Hero/Hero";
 import { Navbar } from "@/sections/Navbar/Navbar";
+import { Projects } from "@/sections/Projects/Projects";
 import { Sectors } from "@/sections/Sectors/Sectors";
 import { Services } from "@/sections/Services/Services";
 import { WhySeslum } from "@/sections/WhySeslum/WhySeslum";
@@ -25,6 +26,7 @@ export default function HomePage() {
         <Services content={services} />
         <Sectors content={sectors} />
         <WhySeslum content={whySeslum} />
+        <Projects content={projects} />
         <Brands content={brands} />
         <Faq content={faq} />
         <Contact

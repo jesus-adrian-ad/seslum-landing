@@ -212,6 +212,39 @@ export interface SectorsContent<Icon extends string = SectorIconName> {
   readonly sectors: readonly SectorItem<Icon>[];
 }
 
+export interface ProjectSectorEntry {
+  readonly sector: string;
+  readonly systems: readonly string[];
+}
+
+export interface ProjectsSource {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly featuredLabel: string;
+  readonly systemsLabel: string;
+  readonly items: readonly ProjectSectorEntry[];
+}
+
+export interface ProjectCard {
+  readonly id: string;
+  readonly icon: SectorIconName;
+  readonly name: string;
+  readonly systems: readonly string[];
+}
+
+export interface ProjectsContent {
+  readonly id: string;
+  readonly eyebrow: string;
+  readonly title: string;
+  readonly lead: string;
+  readonly featuredLabel: string;
+  readonly systemsLabel: string;
+  readonly featured: ProjectCard;
+  readonly others: readonly ProjectCard[];
+}
+
 export interface ComparisonRow {
   readonly criterion: string;
   readonly integrator: string;

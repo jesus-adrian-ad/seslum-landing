@@ -1,0 +1,125 @@
+/**
+ * Proyectos: tarjetas por sector en una columna, dos desde 600 px y tres desde
+ * 900 px. El destacado ocupa la fila completa y, desde 600 px, pone el ícono a
+ * la izquierda del nombre y las etiquetas. El contenido de cada tarjeta va
+ * arriba para que no queden huecos entre el ícono y el texto.
+ *
+ * Todo lo marcado con data-reveal (encabezado y tarjetas) entra al acercarse al
+ * viewport con una animación ligada al scroll, sin JavaScript. Solo se aplica si
+ * el navegador soporta animation-timeline y no se pidió reducir el movimiento;
+ * en otro caso se ve completo desde el inicio.
+ */
+
+.projects {
+  padding-block: var(--space-section);
+  background-color: var(--color-bg-alt);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-8) var(--card-padding);
+  background-color: var(--color-surface);
+}
+
+.featured {
+  grid-column: 1 / -1;
+  background-image:
+    var(--frame-corner), var(--frame-corner),
+    linear-gradient(120deg, var(--color-surface-hover), var(--color-surface));
+  background-position: top left, bottom right, 0 0;
+  background-size: var(--frame-cut) var(--frame-cut), var(--frame-cut) var(--frame-cut), 100% 100%;
+}
+
+.icon {
+  flex: none;
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+  color: var(--color-accent);
+}
+
+.featured .icon {
+  width: var(--icon-xl);
+  height: var(--icon-xl);
+}
+
+.badge {
+  margin-bottom: var(--space-2);
+  color: var(--color-accent);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.name {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+}
+
+.featured .name {
+  font-size: var(--fs-feature-title);
+}
+
+.systems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.system {
+  padding: var(--space-1) var(--space-3);
+  color: var(--color-text);
+  font-size: var(--fs-small);
+  border: var(--border-width) solid var(--color-line-strong);
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .featured {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-8);
+    padding: var(--space-10);
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@keyframes project-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .projects [data-reveal] {
+      animation: project-in linear both;
+      animation-timing-function: var(--ease-out);
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+  }
+}
