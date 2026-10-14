@@ -42,7 +42,7 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 3 | Servicios | `services` | 3 especialidades de 2 líneas cada una + 2 servicios transversales (8 capacidades) | Publicado |
 | 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable; foto de obra de fondo por sector | Publicado |
 | 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | Publicado |
-| 6 | Proyectos | `projects` | Destacado + rejilla por sector, con y sin foto | En espera de datos reales |
+| 6 | Proyectos | `projects` | Destacado + rejilla de 6, una tarjeta por sector con ícono, nombre y sistemas instalados | En PR |
 | 7 | Alianzas comerciales | `brands` | Logos de Edwards, Kidde Commercial, Honeywell, Sectrol y Tiandy; LenelS2, Onity, Supra, NOTIFIER, System Sensor, Fire-Lite y Silent Knight en texto | En PR |
 | 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | Publicado |
 | 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp, siempre visible | Publicado (pruebas de correo iCloud pendientes) |
@@ -64,7 +64,7 @@ de cada bloque.
 | Logo SVG | Equipo de diseño de SESLUM | ✅ Tablero de marca recibido el 29/sep; horizontal claro e isotipo extraídos (`public/images/brand/`) |
 | Fotografías | Banco de imágenes (hero, cuarto de bombas, proyecto) | ✅ Foto del hero aprobada y definitiva (1000×520) |
 | Logotipos de marcas autorizadas | Cliente | ✅ Edwards, Kidde Commercial y Sectrol (con Vo.Bo.), Honeywell y Tiandy · marcas de Honeywell en texto |
-| Datos reales de proyectos | Cliente | ⏳ Solicitados el 01/oct |
+| Datos reales de proyectos | Cliente | ✅ Sistemas por sector (14/oct); ⏳ fotos por sector, si llegan |
 | Datos de contacto y horario | Cliente | ✅ (`src/content/site.json`) |
 | Aviso de privacidad | YiSoft con Adrián | ✅ Borrador publicado en `/aviso-privacidad` (07/oct); ⏳ revisión legal de SESLUM |
 | Perfil de LinkedIn | Cliente | ⏳ Se enlaza cuando exista |
@@ -166,7 +166,8 @@ Consent Mode v2: todo denegado por defecto salvo `functionality_storage` y
 - [ ] Pruebas de correo desde iCloud (rebote *bare CR* de GoDaddy, ajeno al sitio).
 - [ ] Enlace al aviso de privacidad en el pie de página (bloque 10).
 - [x] Margen de LCP en Lighthouse CI: hidratación diferida al primer pintado y foto del hero más ligera (05/oct). LCP 1.44–1.53 s.
-- [ ] Datos reales de proyectos y logotipos de marcas (bloques 6 y 7).
+- [x] Proyectos por sector, sin fotos (14/oct).
+- [ ] Logotipos de marcas nuevas (bloque 7).
 - [x] Aviso de privacidad — borrador publicado (07/oct). Pendiente: revisión legal de SESLUM (incluye el domicilio que pide la ley).
 - [x] Servicio de envío de correo del formulario — Resend, desde `mail.seslum.com.mx` (07/oct).
 - [ ] Regla de rate limiting para `/api/contact` al conectar el dominio.
