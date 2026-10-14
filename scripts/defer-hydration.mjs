@@ -14,7 +14,9 @@
  *
  * Corre antes de scripts/csp-hashes.mjs, que calcula el hash del cargador.
  * Falla el build si no encuentra los chunks o el script de arranque (id="_R_"),
- * para no publicar una página que nunca hidrate.
+ * para no publicar una página que nunca hidrate. Next marca ese arranque en el
+ * chunk de entrada (hasta 16.3) o en un <script> en línea que registra los
+ * chunks de Turbopack (desde 16.4); se aceptan los dos formatos.
  */
 
 import { readdir, readFile, writeFile } from "node:fs/promises";
@@ -22,6 +24,7 @@ import path from "node:path";
 
 const OUT_DIR = path.resolve(process.argv[2] ?? "out");
 const CHUNK_TAG = /<script src="(\/_next\/static\/chunks\/[^"]+)"( id="_R_")? async=""><\/script>/g;
+const INLINE_BOOT_TAG = /<script id="_R_">/;
 const BODY_END = "</body>";
 
 async function listHtmlFiles(dir) {
@@ -52,7 +55,7 @@ async function main() {
     const html = await readFile(file, "utf8");
     const chunks = [...html.matchAll(CHUNK_TAG)].map(([, src, id]) => (id ? { src, id: "_R_" } : { src }));
     if (chunks.length === 0) continue;
-    if (!chunks.some((chunk) => chunk.id === "_R_")) {
+    if (!chunks.some((chunk) => chunk.id === "_R_") && !INLINE_BOOT_TAG.test(html)) {
       throw new Error(`${path.relative(OUT_DIR, file)}: no encontré el script de arranque de Next (id="_R_").`);
     }
     if (html.split(BODY_END).length !== 2) {
