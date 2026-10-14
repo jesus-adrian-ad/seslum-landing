@@ -6,11 +6,20 @@
  * al menos una alianza con logo, ids únicos, logos servidos desde
  * /images/brands/ con texto alternativo y medidas, y que ninguna marca aparezca
  * a la vez como logo y como texto ni repetida.
+ *
+ * isStackedLogo decide qué logos van más altos: los casi cuadrados o verticales
+ * llevan el nombre bajo el símbolo, y a la altura de un logo horizontal su
+ * texto quedaría ilegible.
  */
 
-import type { BrandsContent } from "@/types/content";
+import type { BrandsContent, ImageAsset } from "@/types/content";
 
 const LOGO_PREFIX = "/images/brands/";
+const STACKED_MAX_ASPECT_RATIO = 1.5;
+
+export function isStackedLogo(logo: Pick<ImageAsset, "width" | "height">): boolean {
+  return logo.width / logo.height < STACKED_MAX_ASPECT_RATIO;
+}
 
 function assertUnique(values: readonly string[], what: string): void {
   const seen = new Set<string>();

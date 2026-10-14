@@ -703,6 +703,14 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **14/oct/2026** — Alianzas: se suma JAM Electroservicios con logo (el cliente
+  lo entregó como JPG de 302 × 309 px, sin vector). Se recortó a su contenido, el
+  fondo gris (#F8F8F8) se llevó a blanco para que no se note sobre la tarjeta y
+  se guardó como WebP sin pérdida (22 KB, 266 × 299 px; fuente en
+  `assets-src/marcas/`). Es casi cuadrado, así que a la altura estándar de 3 rem su
+  nombre no se leía: los logos con proporción menor a 1.5 (`isStackedLogo`)
+  usan hasta 5 rem, que es el máximo que cabe en la tarjeta. Con 6 logos la
+  rejilla queda completa en 3 × 2. Si llega el vector, se sustituye el WebP.
 - **14/oct/2026** — FAQ (observación de SESLUM): la última pregunta, "¿Manejan
   precios de lista?", pasa a "¿Pueden cotizar una solución de acuerdo con mis
   necesidades?", con la respuesta que dictó el cliente. El id pasa de `precios`

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { BrandPartner, BrandsContent } from "@/types/content";
-import { parseBrandsContent } from "./brands-content";
+import { isStackedLogo, parseBrandsContent } from "./brands-content";
 
 const partner = (id: string, src = `/images/brands/${id}.svg`): BrandPartner => ({
   id,
@@ -59,5 +59,18 @@ describe("parseBrandsContent", () => {
       ],
     };
     expect(() => parseBrandsContent(repetida)).toThrow(/"tiandy" está repetido/);
+  });
+});
+
+describe("isStackedLogo", () => {
+  it("marca como apilados los logos casi cuadrados o verticales", () => {
+    expect(isStackedLogo({ width: 266, height: 299 })).toBe(true);
+    expect(isStackedLogo({ width: 100, height: 100 })).toBe(true);
+    expect(isStackedLogo({ width: 100, height: 140 })).toBe(true);
+  });
+
+  it("deja los logos horizontales a la altura estándar", () => {
+    expect(isStackedLogo({ width: 1304, height: 448 })).toBe(false);
+    expect(isStackedLogo({ width: 150, height: 100 })).toBe(false);
   });
 });

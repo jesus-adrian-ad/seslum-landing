@@ -43,7 +43,7 @@ Orden de construcción. Una fila = una rama = un PR contra `develop`.
 | 4 | Sectores | `sectors` | 7 sectores en pestañas accesibles; en móvil, tira horizontal deslizable; foto de obra de fondo por sector | Publicado |
 | 5 | Por qué SESLUM | `why-seslum` | Tabla comparativa integrador vs. proveedores separados; en móvil, tarjetas por criterio | Publicado |
 | 6 | Proyectos | `projects` | Destacado + rejilla de 6, una tarjeta por sector con ícono, nombre y sistemas instalados | En PR |
-| 7 | Alianzas comerciales | `brands` | Logos de Edwards, Kidde Commercial, Honeywell, Sectrol y Tiandy; LenelS2, Onity, Supra, NOTIFIER, System Sensor, Fire-Lite y Silent Knight en texto | En PR |
+| 7 | Alianzas comerciales | `brands` | Logos de Edwards, Kidde Commercial, Honeywell, Sectrol, Tiandy y JAM Electroservicios; LenelS2, Onity, Supra, NOTIFIER, System Sensor, Fire-Lite y Silent Knight en texto | En PR |
 | 8 | Preguntas frecuentes | `faq` | Acordeón de 8 preguntas (una abierta a la vez) + JSON-LD `FAQPage` | Publicado |
 | 9 | Contacto | `contact` | 3 vías (WhatsApp, correo, llamada) + botón flotante de WhatsApp, siempre visible | Publicado (pruebas de correo iCloud pendientes) |
 | 10 | Formulario | `contact-form` | Formulario + Pages Function + Turnstile + honeypot + Resend + `generate_lead` + aviso de privacidad | En PR |
