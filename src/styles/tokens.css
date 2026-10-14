@@ -138,6 +138,10 @@
   --enter-distance: 1.5rem;
   --duration-reveal: 900ms;
   --duration-zoom: 2200ms;
+  --hero-slide-step: 6s;
+  --hero-slide-fade: 1s;
+  --hero-slide-cycle: calc(var(--hero-slide-step) * 6);
+  --hero-slide-zoom: 1.06;
   --duration-pulse: 2400ms;
   --float-delay: 600ms;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);

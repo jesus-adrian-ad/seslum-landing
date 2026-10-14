@@ -1,7 +1,16 @@
 /**
- * Encabezado: foto a sangre con tinte y velo de marca, copia a la izquierda y
- * panel de líneas integradas a la derecha desde 1024 px. La entrada es CSS puro
- * (sin esperar hidratación); el parallax lo aplica HeroScrollEffects.
+ * Encabezado: carrusel de fotos a sangre con tinte y velo de marca, copia a la
+ * izquierda y panel de líneas integradas a la derecha desde 1024 px. La entrada
+ * es CSS puro (sin esperar hidratación); el parallax lo aplica HeroScrollEffects.
+ *
+ * Carrusel: la primera foto queda fija debajo y las otras cinco entran encima
+ * con un fundido, una tras otra; la última se desvanece y deja ver otra vez la
+ * primera, así la secuencia cierra sin saltos y el LCP nunca arranca invisible.
+ * Los porcentajes de los keyframes salen de 6 fotos de 6 s con 1 s de fundido
+ * (ciclo de 36 s): un fundido es 1/36 (2.7778 %), una foto 6/36 (16.6667 %) y
+ * una foto más el fundido de la siguiente 7/36 (19.4444 %). hero-content.ts
+ * exige las 6 fotos; si cambia el número o los tiempos, se recalculan aquí y en
+ * los tokens --hero-slide-*. Con movimiento reducido solo se ve la primera.
  */
 
 .hero {
@@ -22,11 +31,39 @@
   will-change: transform;
 }
 
+.slides {
+  position: absolute;
+  inset: 0;
+  animation: hero-zoom var(--duration-zoom) var(--ease-out) both;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: block;
+  animation: hero-slide var(--hero-slide-cycle) linear infinite both;
+  animation-delay: calc(var(--slide-index) * var(--hero-slide-step) - var(--hero-slide-fade));
+}
+
+.slide:nth-child(1) {
+  animation-name: hero-slide-first;
+  animation-delay: 0s;
+}
+
+.slide:nth-child(2) { --slide-index: 1; }
+.slide:nth-child(3) { --slide-index: 2; }
+.slide:nth-child(4) { --slide-index: 3; }
+.slide:nth-child(5) { --slide-index: 4; }
+
+.slide:nth-child(6) {
+  --slide-index: 5;
+  animation-name: hero-slide-last;
+}
+
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  animation: hero-zoom var(--duration-zoom) var(--ease-out) both;
 }
 
 .tint,
@@ -218,6 +255,12 @@
   color: var(--color-accent-hover);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .slide:not(:first-child) {
+    display: none;
+  }
+}
+
 @media (min-width: 768px) {
   .grid {
     padding-block: var(--space-16);
@@ -244,6 +287,66 @@
 @keyframes hero-zoom {
   from {
     transform: scale(var(--hero-zoom-from));
+  }
+}
+
+@keyframes hero-slide-first {
+  0% {
+    transform: scale(1);
+  }
+
+  16.6667% {
+    transform: scale(var(--hero-slide-zoom));
+  }
+
+  16.6668%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-slide {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  2.7778% {
+    opacity: 1;
+  }
+
+  19.4444% {
+    opacity: 1;
+    transform: scale(var(--hero-slide-zoom));
+  }
+
+  19.4445%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-slide-last {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  2.7778%,
+  16.6667% {
+    opacity: 1;
+  }
+
+  19.4444% {
+    opacity: 0;
+    transform: scale(var(--hero-slide-zoom));
+  }
+
+  19.4445%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
   }
 }
 

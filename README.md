@@ -199,14 +199,33 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - La entrada es CSS puro: se ve animada desde el primer pintado, sin esperar a
   JavaScript. El parallax al hacer scroll (la foto baja más lento y el contenido
   se desvanece) es GSAP con carga diferida.
-- La foto es el LCP: se precarga con `fetchpriority="high"` y `srcset`
-  (480/768/1000 px, WebP). Altura del bloque acotada entre 36 y 64 rem.
-- Contenido en `src/content/sections/hero.json`. Original de la foto en
-  `assets-src/foto-hero.jpg`; variantes con `node scripts/optimize-image.mjs
-  assets-src/foto-hero.jpg public/images/hero/obra-contra-incendio 480,768,1000 --brand`.
-- La foto de banco (1000×520) se sustituirá por fotos propias que enviará
-  Javier (observación de la junta del 08/oct), en una rama aparte. Se regeneran
-  las variantes con el mismo comando, sin tocar código, y luego `npm run og:image`.
+- Fondo en carrusel de 6 fotos de obra reales, una por línea de servicio
+  (videovigilancia, control de acceso, detección, extinción, voz y datos,
+  instalaciones eléctricas): 6 s cada una con 1 s de fundido y un zoom lento,
+  en CSS puro (ciclo de 36 s). La primera queda fija debajo y las demás entran
+  encima; la última se desvanece y deja ver la primera, sin saltos. Igual en
+  escritorio y en celular. Con `prefers-reduced-motion` solo se ve la primera
+  y las demás ni se descargan.
+- Cada foto tiene un recorte horizontal (768/1280/1920 px, `srcset`) y dos
+  verticales: 430 px para teléfonos y ~900 px para tabletas, a densidad 1x a
+  propósito (van detrás del tinte y el velo; así la foto LCP en móvil pesa
+  ~13 KB). Las tres condiciones de `media` son excluyentes y cada pantalla
+  precarga solo su versión de la primera foto.
+- Solo la primera foto es el LCP y se precarga con `fetchpriority="high"`. Las
+  otras cinco salen con sus URLs en `data-deferred-*` y `HeroSlideLoader` las
+  pide al terminar la carga de la página (no con ahorro de datos ni movimiento
+  reducido); sin JavaScript, el carrusel corre sobre capas vacías y se ve la
+  primera. Altura del bloque acotada entre 36 y 64 rem.
+- `hero-content.ts` exige exactamente 6 fotos con ids únicos: los porcentajes
+  de los keyframes están calculados para ese número (ver `Hero.module.css`).
+- Contenido en `src/content/sections/hero.json` (`media.slides`). Recortes
+  originales en `assets-src/hero/<id>-horizontal.jpg` y `-vertical.jpg`, sin
+  metadatos; variantes con `node scripts/optimize-image.mjs
+  assets-src/hero/<id>-horizontal.jpg public/images/hero/<id>-horizontal
+  768,1280,1920 --brand --quality=40` (vertical: `430,900`). La vista previa
+  al compartir usa la primera foto: `npm run og:image`.
+- Fotos de la carpeta de proyectos de SESLUM (13/oct). Se evitaron las que
+  muestran el rostro de técnicos.
 
 ### 3 · Servicios
 

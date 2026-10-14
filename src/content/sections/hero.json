@@ -14,13 +14,137 @@
     "label": "Ver proyectos",
     "href": "#proyectos"
   },
-  "image": {
-    "src": "/images/hero/obra-contra-incendio-1000.webp",
-    "srcSet": "/images/hero/obra-contra-incendio-480.webp 480w, /images/hero/obra-contra-incendio-768.webp 768w, /images/hero/obra-contra-incendio-1000.webp 1000w",
+  "media": {
+    "alt": "Obras de Grupo SESLUM: videovigilancia, control de acceso, detección y extinción de incendios, voz y datos e instalaciones eléctricas",
     "sizes": "100vw",
-    "alt": "Instalación de sistema de protección contra incendios",
-    "width": 1000,
-    "height": 520
+    "slides": [
+      {
+        "id": "videovigilancia",
+        "landscape": {
+          "src": "/images/hero/videovigilancia-horizontal-1280.webp",
+          "srcSet": "/images/hero/videovigilancia-horizontal-768.webp 768w, /images/hero/videovigilancia-horizontal-1280.webp 1280w, /images/hero/videovigilancia-horizontal-1920.webp 1920w",
+          "width": 1920,
+          "height": 1079
+        },
+        "portrait": {
+          "phone": {
+            "src": "/images/hero/videovigilancia-vertical-430.webp",
+            "width": 430,
+            "height": 932
+          },
+          "tablet": {
+            "src": "/images/hero/videovigilancia-vertical-900.webp",
+            "width": 900,
+            "height": 1950
+          }
+        }
+      },
+      {
+        "id": "control-acceso",
+        "landscape": {
+          "src": "/images/hero/control-acceso-horizontal-1280.webp",
+          "srcSet": "/images/hero/control-acceso-horizontal-768.webp 768w, /images/hero/control-acceso-horizontal-1280.webp 1280w, /images/hero/control-acceso-horizontal-1920.webp 1920w",
+          "width": 1920,
+          "height": 1080
+        },
+        "portrait": {
+          "phone": {
+            "src": "/images/hero/control-acceso-vertical-430.webp",
+            "width": 430,
+            "height": 932
+          },
+          "tablet": {
+            "src": "/images/hero/control-acceso-vertical-900.webp",
+            "width": 900,
+            "height": 1950
+          }
+        }
+      },
+      {
+        "id": "deteccion-incendios",
+        "landscape": {
+          "src": "/images/hero/deteccion-incendios-horizontal-1280.webp",
+          "srcSet": "/images/hero/deteccion-incendios-horizontal-768.webp 768w, /images/hero/deteccion-incendios-horizontal-1280.webp 1280w, /images/hero/deteccion-incendios-horizontal-1920.webp 1920w",
+          "width": 1920,
+          "height": 1080
+        },
+        "portrait": {
+          "phone": {
+            "src": "/images/hero/deteccion-incendios-vertical-430.webp",
+            "width": 430,
+            "height": 932
+          },
+          "tablet": {
+            "src": "/images/hero/deteccion-incendios-vertical-900.webp",
+            "width": 900,
+            "height": 1950
+          }
+        }
+      },
+      {
+        "id": "extincion-incendios",
+        "landscape": {
+          "src": "/images/hero/extincion-incendios-horizontal-1280.webp",
+          "srcSet": "/images/hero/extincion-incendios-horizontal-768.webp 768w, /images/hero/extincion-incendios-horizontal-1280.webp 1280w, /images/hero/extincion-incendios-horizontal-1920.webp 1920w",
+          "width": 1920,
+          "height": 1080
+        },
+        "portrait": {
+          "phone": {
+            "src": "/images/hero/extincion-incendios-vertical-430.webp",
+            "width": 430,
+            "height": 932
+          },
+          "tablet": {
+            "src": "/images/hero/extincion-incendios-vertical-858.webp",
+            "width": 858,
+            "height": 1860
+          }
+        }
+      },
+      {
+        "id": "voz-datos",
+        "landscape": {
+          "src": "/images/hero/voz-datos-horizontal-1280.webp",
+          "srcSet": "/images/hero/voz-datos-horizontal-768.webp 768w, /images/hero/voz-datos-horizontal-1280.webp 1280w, /images/hero/voz-datos-horizontal-1920.webp 1920w",
+          "width": 1920,
+          "height": 1079
+        },
+        "portrait": {
+          "phone": {
+            "src": "/images/hero/voz-datos-vertical-430.webp",
+            "width": 430,
+            "height": 932
+          },
+          "tablet": {
+            "src": "/images/hero/voz-datos-vertical-900.webp",
+            "width": 900,
+            "height": 1950
+          }
+        }
+      },
+      {
+        "id": "instalaciones-electricas",
+        "landscape": {
+          "src": "/images/hero/instalaciones-electricas-horizontal-1280.webp",
+          "srcSet": "/images/hero/instalaciones-electricas-horizontal-768.webp 768w, /images/hero/instalaciones-electricas-horizontal-1280.webp 1280w, /images/hero/instalaciones-electricas-horizontal-1920.webp 1920w",
+          "width": 1920,
+          "height": 1079
+        },
+        "portrait": {
+          "phone": {
+            "src": "/images/hero/instalaciones-electricas-vertical-430.webp",
+            "width": 430,
+            "height": 932
+          },
+          "tablet": {
+            "src": "/images/hero/instalaciones-electricas-vertical-900.webp",
+            "width": 900,
+            "height": 1950
+          }
+        }
+      }
+    ]
   },
   "panel": {
     "title": "Líneas integradas",

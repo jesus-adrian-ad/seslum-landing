@@ -1,49 +1,113 @@
 /**
- * Encabezado: foto de obra a pantalla completa con el tratamiento de color de la
- * marca, título, descripción (una frase por línea), llamadas a la acción y el
- * panel de líneas integradas, cuyo pie enlaza a Servicios.
+ * Encabezado: carrusel de fotos de obra a pantalla completa con el tratamiento
+ * de color de la marca, título, descripción (una frase por línea), llamadas a
+ * la acción y el panel de líneas integradas, cuyo pie enlaza a Servicios.
  *
- * Se renderiza en el servidor. La entrada es CSS puro, así se ve animada desde
- * el primer pintado sin esperar a JavaScript; solo el parallax del scroll vive
- * en HeroScrollEffects. La foto se precarga con prioridad alta porque es el LCP.
+ * Se renderiza en el servidor. La entrada y el carrusel son CSS puro, así se
+ * ven animados desde el primer pintado sin esperar a JavaScript; solo el
+ * parallax del scroll vive en HeroScrollEffects.
+ *
+ * Cada foto trae un recorte horizontal (srcset por ancho) y dos verticales: uno
+ * de 430 px para teléfonos y uno mayor para tabletas. Los verticales van a
+ * densidad 1x a propósito: la foto queda detrás del tinte y el velo oscuros, la
+ * diferencia no se ve y la foto LCP en móvil pesa una fracción. Las tres
+ * condiciones de media son excluyentes para que cada pantalla precargue una
+ * sola foto. Solo la primera se precarga, con prioridad alta, porque es el LCP;
+ * las demás salen con sus URLs en los atributos de lib/deferred-media y las
+ * carga HeroSlideLoader al terminar la carga de la página. Llevan alt vacío
+ * porque la primera describe la secuencia.
  */
 
 import { Fragment } from "react";
 import { preload } from "react-dom";
 import { ButtonLink } from "@/components/ButtonLink/ButtonLink";
-import type { HeroContent } from "@/types/content";
+import type { HeroContent, HeroSlide } from "@/types/content";
 import styles from "./Hero.module.css";
 import { HeroScrollEffects } from "./HeroScrollEffects";
+import { HeroSlideLoader } from "./HeroSlideLoader";
+
+const PHONE_MEDIA = "(orientation: portrait) and (max-width: 480px)";
+const TABLET_MEDIA = "(orientation: portrait) and (min-width: 481px)";
+const LANDSCAPE_MEDIA = "(orientation: landscape)";
+
+function preloadFirstSlide(slide: HeroSlide, sizes: string): void {
+  const { landscape, portrait } = slide;
+  preload(landscape.src, { as: "image", fetchPriority: "high", imageSrcSet: landscape.srcSet, imageSizes: sizes, media: LANDSCAPE_MEDIA });
+  preload(portrait.phone.src, { as: "image", fetchPriority: "high", media: PHONE_MEDIA });
+  preload(portrait.tablet.src, { as: "image", fetchPriority: "high", media: TABLET_MEDIA });
+}
+
+interface HeroSlidePictureProps {
+  readonly slide: HeroSlide;
+  readonly sizes: string;
+  readonly alt: string;
+  readonly deferred: boolean;
+}
+
+function HeroSlidePicture({ slide, sizes, alt, deferred }: HeroSlidePictureProps) {
+  const { landscape, portrait } = slide;
+  const now = (value: string) => (deferred ? undefined : value);
+  const later = (value: string) => (deferred ? value : undefined);
+  return (
+    <picture className={styles.slide}>
+      <source
+        media={PHONE_MEDIA}
+        srcSet={now(portrait.phone.src)}
+        data-deferred-srcset={later(portrait.phone.src)}
+        width={portrait.phone.width}
+        height={portrait.phone.height}
+      />
+      <source
+        media={TABLET_MEDIA}
+        srcSet={now(portrait.tablet.src)}
+        data-deferred-srcset={later(portrait.tablet.src)}
+        width={portrait.tablet.width}
+        height={portrait.tablet.height}
+      />
+      <img
+        className={styles.image}
+        src={now(landscape.src)}
+        srcSet={now(landscape.srcSet)}
+        data-deferred-src={later(landscape.src)}
+        data-deferred-srcset={later(landscape.srcSet)}
+        sizes={sizes}
+        alt={alt}
+        width={landscape.width}
+        height={landscape.height}
+        fetchPriority={deferred ? "low" : "high"}
+        decoding="async"
+      />
+    </picture>
+  );
+}
 
 export interface HeroProps {
   readonly content: HeroContent;
 }
 
 export function Hero({ content }: HeroProps) {
-  const { image, panel } = content;
+  const { media, panel } = content;
+  const [first] = media.slides;
   const words = content.title.split(" ");
 
-  preload(image.src, {
-    as: "image",
-    fetchPriority: "high",
-    ...(image.srcSet ? { imageSrcSet: image.srcSet } : {}),
-    ...(image.sizes ? { imageSizes: image.sizes } : {}),
-  });
+  if (first) {
+    preloadFirstSlide(first, media.sizes);
+  }
 
   return (
     <section id={content.id} className={styles.hero} aria-labelledby={`${content.id}-title`}>
       <div className={styles.media} data-hero-media>
-        <img
-          className={styles.image}
-          src={image.src}
-          srcSet={image.srcSet}
-          sizes={image.sizes}
-          alt={image.alt}
-          width={image.width}
-          height={image.height}
-          fetchPriority="high"
-          decoding="async"
-        />
+        <div className={styles.slides}>
+          {media.slides.map((slide, index) => (
+            <HeroSlidePicture
+              key={slide.id}
+              slide={slide}
+              sizes={media.sizes}
+              alt={index === 0 ? media.alt : ""}
+              deferred={index > 0}
+            />
+          ))}
+        </div>
         <span className={styles.tint} aria-hidden="true" />
         <span className={styles.veil} aria-hidden="true" />
       </div>
@@ -96,6 +160,7 @@ export function Hero({ content }: HeroProps) {
       </div>
 
       <HeroScrollEffects sectionId={content.id} />
+      <HeroSlideLoader sectionId={content.id} />
     </section>
   );
 }
