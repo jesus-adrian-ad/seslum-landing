@@ -1,7 +1,16 @@
 "use client";
 
 /**
- * Entrada al hacer scroll para cualquier sección.
+ * Entrada al hacer scroll para las secciones que se le indican.
+ *
+ * Se monta una sola vez en la página y recibe los ids de las secciones. Mide
+ * todas antes de modificar ninguna, crea los disparadores (uno por sección, para
+ * que el escalonado de un salto largo no se acumule) mientras el layout sigue
+ * limpio y solo al final marca los elementos. No anima nada durante la carga: el estado oculto lo pone el CSS global (base.css) a
+ * partir de data-reveal-state="pending". GSAP interviene cuando cada elemento
+ * entra en pantalla, con fromTo. Si ocultara con gsap.set, GSAP leería y
+ * escribiría el transform de cada elemento al iniciar, y esas decenas de
+ * recálculos de estilo forzados son lo que Lighthouse penaliza (reflow forzado).
  *
  * La sección marca con data-reveal lo que debe entrar y con data-draw los
  * íconos cuyo trazo se dibuja. El contenido se renderiza visible: este
@@ -37,7 +46,7 @@ const DOT_AFTER_STROKE_RATIO = 0.6;
 const BATCH_STEP_S = 0.12;
 
 export interface ScrollRevealProps {
-  readonly rootId: string;
+  readonly rootIds: readonly string[];
 }
 
 function drawIcons(motion: MotionModule, element: Element, timeline: gsap.core.Timeline): void {
@@ -47,15 +56,17 @@ function drawIcons(motion: MotionModule, element: Element, timeline: gsap.core.T
     const strokes = icon.querySelectorAll(STROKE_SELECTOR);
     const dots = icon.querySelectorAll(DOT_SELECTOR);
     if (strokes.length > 0) {
-      timeline.to(
+      timeline.fromTo(
         strokes,
+        { strokeDasharray: 1, strokeDashoffset: 1 },
         { strokeDashoffset: 0, duration: MOTION.durationSlow, ease: MOTION.easeInOut, stagger: MOTION.stagger },
         at,
       );
     }
     if (dots.length > 0) {
-      timeline.to(
+      timeline.fromTo(
         dots,
+        { opacity: 0, scale: 0, transformOrigin: "50% 50%" },
         { opacity: 1, scale: 1, duration: MOTION.durationFast, ease: MOTION.easeOut },
         at + MOTION.durationSlow * DOT_AFTER_STROKE_RATIO,
       );
@@ -63,60 +74,56 @@ function drawIcons(motion: MotionModule, element: Element, timeline: gsap.core.T
   });
 }
 
-function hideIcons(motion: MotionModule, element: Element): void {
-  const { gsap } = motion;
-  const strokes = element.querySelectorAll(`${ICON_SELECTOR} ${STROKE_SELECTOR}`);
-  const dots = element.querySelectorAll(`${ICON_SELECTOR} ${DOT_SELECTOR}`);
-  if (strokes.length > 0) {
-    gsap.set(strokes, { strokeDasharray: 1, strokeDashoffset: 1 });
-  }
-  if (dots.length > 0) {
-    gsap.set(dots, { opacity: 0, scale: 0, transformOrigin: "50% 50%" });
-  }
-}
-
-export function ScrollReveal({ rootId }: ScrollRevealProps): null {
+export function ScrollReveal({ rootIds }: ScrollRevealProps): null {
   const motion = useMotionModule();
 
   useEffect(() => {
-    const root = document.getElementById(rootId);
-    if (!motion || !root) {
+    const roots = rootIds.flatMap((id) => {
+      const root = document.getElementById(id);
+      return root ? [root] : [];
+    });
+    if (!motion || roots.length === 0) {
       return undefined;
     }
     const { gsap, ScrollTrigger, MOTION, MOTION_CONDITIONS } = motion;
+    const enter = (batch: Element[]): void => {
+      batch.forEach((element, index) => {
+        element.setAttribute(REVEAL_STATE_ATTRIBUTE, "revealed");
+        const timeline = gsap.timeline({ delay: index * BATCH_STEP_S });
+        timeline.fromTo(
+          element,
+          { opacity: 0, y: ENTER_DISTANCE_PX },
+          { opacity: 1, y: 0, duration: MOTION.durationSlow, ease: MOTION.easeOut },
+          0,
+        );
+        drawIcons(motion, element, timeline);
+      });
+    };
     const context = gsap.context(() => {
       gsap.matchMedia().add(MOTION_CONDITIONS.motionOk, () => {
-        const candidates = gsap.utils.toArray<HTMLElement>(REVEAL_SELECTOR, root);
-        const pending = pendingReveals(candidates, (element) => element.getBoundingClientRect().top, window.innerHeight);
-        if (pending.length === 0) {
+        const topOf = (element: HTMLElement): number => element.getBoundingClientRect().top;
+        const groups = roots
+          .map((root) => pendingReveals(gsap.utils.toArray<HTMLElement>(REVEAL_SELECTOR, root), topOf, window.innerHeight))
+          .filter((group) => group.length > 0);
+        if (groups.length === 0) {
           return;
         }
-        gsap.set(pending, { opacity: 0, y: ENTER_DISTANCE_PX });
+        for (const group of groups) {
+          ScrollTrigger.batch(group, { start: REVEAL_START, once: true, onEnter: enter });
+        }
+        const pending = groups.flat();
         for (const element of pending) {
           element.setAttribute(REVEAL_STATE_ATTRIBUTE, "pending");
-          hideIcons(motion, element);
         }
-        ScrollTrigger.batch(pending, {
-          start: REVEAL_START,
-          once: true,
-          onEnter: (batch) => {
-            batch.forEach((element, index) => {
-              element.setAttribute(REVEAL_STATE_ATTRIBUTE, "revealed");
-              const timeline = gsap.timeline({ delay: index * BATCH_STEP_S });
-              timeline.to(element, { opacity: 1, y: 0, duration: MOTION.durationSlow, ease: MOTION.easeOut }, 0);
-              drawIcons(motion, element, timeline);
-            });
-          },
-        });
         return () => {
           for (const element of pending) {
             element.removeAttribute(REVEAL_STATE_ATTRIBUTE);
           }
         };
       });
-    }, root);
+    });
     return () => context.revert();
-  }, [motion, rootId]);
+  }, [motion, rootIds]);
 
   return null;
 }

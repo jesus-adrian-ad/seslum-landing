@@ -6,7 +6,6 @@
  * hacer scroll y el dibujo de los íconos de las pestañas.
  */
 
-import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import type { SectorsContent } from "@/types/content";
 import { SectorTabs } from "./SectorTabs";
@@ -25,7 +24,6 @@ export function Sectors({ content }: SectorsProps) {
         <SectionHeading titleId={titleId} eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
         <SectorTabs idPrefix={content.id} label={content.tabsLabel} sectors={content.sectors} imageSizes={content.imageSizes} />
       </div>
-      <ScrollReveal rootId={content.id} />
     </section>
   );
 }

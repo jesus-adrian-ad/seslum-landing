@@ -12,7 +12,6 @@
 
 import { ContactIcon } from "@/components/ContactIcon/ContactIcon";
 import { LineIcon, type LineShape } from "@/components/LineIcon/LineIcon";
-import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { ANALYTICS_EVENTS, trackingAttributes } from "@/lib/analytics";
 import { CONSENT_OPEN_ATTRIBUTE } from "@/lib/consent-runtime";
 import { emailHref, phoneHref, whatsappHref } from "@/lib/contact-links";
@@ -160,7 +159,6 @@ export function Footer({ content, site, navigation, services, logo }: FooterProp
           </p>
         </div>
       </div>
-      <ScrollReveal rootId={content.id} />
     </footer>
   );
 }

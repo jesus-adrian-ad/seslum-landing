@@ -10,7 +10,6 @@
  */
 
 import { LineIcon, type LineShape } from "@/components/LineIcon/LineIcon";
-import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import type { FaqContent } from "@/types/content";
 import styles from "./Faq.module.css";
@@ -51,7 +50,6 @@ export function Faq({ content }: FaqProps) {
           ))}
         </div>
       </div>
-      <ScrollReveal rootId={content.id} />
     </section>
   );
 }

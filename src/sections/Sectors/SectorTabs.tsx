@@ -14,7 +14,9 @@
  * descarga la foto del sector abierto y pide las demás al cambiar de pestaña.
  *
  * El indicador se posiciona con propiedades CSS escritas desde JavaScript y se
- * mueve con transiciones CSS, así no depende de GSAP ni viola la CSP.
+ * mueve con transiciones CSS, así no depende de GSAP ni viola la CSP. Las
+ * medidas se leen todas antes de escribir ninguna: intercalar lecturas y
+ * escrituras obliga al navegador a recalcular el layout en cada lectura.
  */
 
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
@@ -49,10 +51,11 @@ export function SectorTabs({ idPrefix, label, sectors, imageSizes }: SectorTabsP
     if (!tab || !indicator) {
       return;
     }
-    indicator.style.setProperty("--indicator-x", `${tab.offsetLeft}px`);
-    indicator.style.setProperty("--indicator-y", `${tab.offsetTop}px`);
-    indicator.style.setProperty("--indicator-width", `${tab.offsetWidth}px`);
-    indicator.style.setProperty("--indicator-height", `${tab.offsetHeight}px`);
+    const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = tab;
+    indicator.style.setProperty("--indicator-x", `${offsetLeft}px`);
+    indicator.style.setProperty("--indicator-y", `${offsetTop}px`);
+    indicator.style.setProperty("--indicator-width", `${offsetWidth}px`);
+    indicator.style.setProperty("--indicator-height", `${offsetHeight}px`);
     indicator.dataset.ready = "true";
   }, [activeIndex]);
 

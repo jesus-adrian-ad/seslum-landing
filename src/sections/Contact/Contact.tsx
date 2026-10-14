@@ -10,7 +10,6 @@
  */
 
 import { ContactIcon } from "@/components/ContactIcon/ContactIcon";
-import { ScrollReveal } from "@/components/ScrollReveal/ScrollReveal";
 import { SectionHeading } from "@/components/SectionHeading/SectionHeading";
 import { trackingAttributes } from "@/lib/analytics";
 import { buildContactChannels } from "@/lib/contact-links";
@@ -64,7 +63,6 @@ export function Contact({ content, contact, location, form, services, turnstileS
 
         <ContactForm content={form} services={services} turnstileSiteKey={turnstileSiteKey} />
       </div>
-      <ScrollReveal rootId={content.id} />
     </section>
   );
 }

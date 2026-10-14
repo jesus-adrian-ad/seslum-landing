@@ -237,8 +237,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   de Adrián, 13/oct); también salen del formulario y del panel del Hero.
 - Una columna en móvil y tres desde 900 px; la franja pasa a dos columnas desde
   768 px. Tarjetas con la esquina biselada y su borde completo (`.chamfer-frame`).
-- Entrada al hacer scroll (`ScrollReveal`, reutilizable por las siguientes
-  secciones): el encabezado y las tarjetas entran en cascada y el trazo de cada
+- Entrada al hacer scroll (`ScrollReveal`, que se monta una sola vez en
+  `page.tsx` con los ids de las secciones que la usan): el encabezado y las tarjetas entran en cascada y el trazo de cada
   ícono se dibuja fila por fila. Es mejora progresiva: el HTML sale visible y solo
   se oculta para animarse lo que aún no está en pantalla cuando GSAP carga. Sin
   JavaScript o con movimiento reducido, la sección se ve completa.
@@ -303,7 +303,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   aparecen al final, tenues. Al pasar el cursor se resalta la fila.
 - `ScrollReveal` marca cada elemento con `data-reveal-state` (`pending` /
   `revealed`) para que las secciones encadenen efectos en CSS; sin el atributo,
-  todo se ve en su estado final.
+  todo se ve en su estado final. El aspecto de `pending` (opacidad 0, desplazado
+  y con los trazos de los íconos sin dibujar) lo declara `src/styles/base.css`.
 - Contenido en `src/content/sections/why-seslum.json`. Textos aprobados por marketing.
 
 ### 8 · Preguntas frecuentes
@@ -703,6 +704,21 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **14/oct/2026** — Reflow forzado de `ScrollReveal` resuelto de raíz. El audit
+  `forced-reflow-insight` de Lighthouse fallaba de forma intermitente en el CI.
+  Con trazas de Chrome se vio que no era la cantidad de secciones: al ocultar con
+  `gsap.set`, GSAP lee y escribe el `transform` de cada elemento al iniciar, y
+  eso forzaba un recálculo de estilo por elemento (unos 57 con 49 elementos).
+  Ahora el estado oculto lo declara el CSS (`base.css`), `ScrollReveal` solo marca
+  `data-reveal-state="pending"` y GSAP anima con `fromTo` cuando cada elemento
+  entra en pantalla. Además: un solo `ScrollReveal` en `page.tsx` (ya no uno por
+  sección), disparadores creados antes de marcar los elementos y lectura previa a
+  escritura en el indicador de `SectorTabs`. Medido con la configuración del CI,
+  5 corridas por versión: el audit pasa 5 de 5 (antes fallaba 5 de 5) y
+  Performance sube de 93 a 95 de mediana. Con CPU 4× el forced style/layout bajó
+  de 74 a 26 ms de mediana. Mismo comportamiento: los 49 elementos se revelan, los
+  72 trazos se dibujan, el salto por ancla no deja nada oculto y con movimiento
+  reducido todo se ve de inicio.
 - **14/oct/2026** — Build compatible con Next.js 16.4: `scripts/defer-hydration.mjs`
   exigía el arranque como `<script id="_R_" src=...>`; desde 16.4.0 ese id va en
   un `<script>` en línea que registra los chunks de Turbopack y el chunk de
