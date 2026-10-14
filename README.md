@@ -703,6 +703,10 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **14/oct/2026** — FAQ (observación de SESLUM): la última pregunta, "¿Manejan
+  precios de lista?", pasa a "¿Pueden cotizar una solución de acuerdo con mis
+  necesidades?", con la respuesta que dictó el cliente. El id pasa de `precios`
+  a `cotizacion`; el JSON-LD `FAQPage` toma el texto nuevo del mismo JSON.
 - **14/oct/2026** — Proyectos (bloque 6) por sector y sin fotos (decisión de
   Adrián): la carpeta de obra está organizada por sistema y ninguna foto muestra
   de qué sector es, así que cada tarjeta lleva solo el ícono y el nombre del
