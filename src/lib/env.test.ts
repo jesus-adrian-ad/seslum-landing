@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { parseDeployUrl, resolveBuildEnv, resolvePublicUrl, resolveTurnstileSiteKey, TURNSTILE_TEST_SITE_KEY } from "./env";
+import {
+  isIndexable,
+  parseDeployUrl,
+  resolveBuildEnv,
+  resolvePublicUrl,
+  resolveTurnstileSiteKey,
+  TURNSTILE_TEST_SITE_KEY,
+} from "./env";
 
 const CANONICAL = "https://seslum.com.mx";
+const PRODUCTION = { NEXT_PUBLIC_SITE_ENV: "production", NEXT_PUBLIC_TURNSTILE_SITE_KEY: "0x4AAAAAAA" };
 
 describe("parseDeployUrl", () => {
   it("acepta el origen https del alias de la rama", () => {
@@ -48,5 +56,31 @@ describe("resolveTurnstileSiteKey", () => {
 
   it("en producción falla el build si no hay clave", () => {
     expect(() => resolveTurnstileSiteKey("", "production")).toThrow(/NEXT_PUBLIC_TURNSTILE_SITE_KEY/);
+  });
+});
+
+describe("modo del sitio", () => {
+  it("publica el sitio completo si no se indica otro modo", () => {
+    expect(resolveBuildEnv({}).siteMode).toBe("live");
+    expect(resolveBuildEnv({ NEXT_PUBLIC_SITE_MODE: "live" }).siteMode).toBe("live");
+    expect(resolveBuildEnv({ NEXT_PUBLIC_SITE_MODE: "otro" }).siteMode).toBe("live");
+  });
+
+  it("reconoce el modo en construcción aunque traiga espacios", () => {
+    expect(resolveBuildEnv({ NEXT_PUBLIC_SITE_MODE: " coming-soon " }).siteMode).toBe("coming-soon");
+  });
+});
+
+describe("isIndexable", () => {
+  it("solo indexa producción con el sitio completo", () => {
+    expect(isIndexable(resolveBuildEnv(PRODUCTION))).toBe(true);
+  });
+
+  it("no indexa producción mientras el sitio está en construcción", () => {
+    expect(isIndexable(resolveBuildEnv({ ...PRODUCTION, NEXT_PUBLIC_SITE_MODE: "coming-soon" }))).toBe(false);
+  });
+
+  it("nunca indexa staging", () => {
+    expect(isIndexable(resolveBuildEnv({}))).toBe(false);
   });
 });
