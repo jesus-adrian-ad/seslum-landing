@@ -5,10 +5,16 @@
  * parámetros. GA4, Google Ads o cualquier otra etiqueta se conectan desde GTM.
  * Los enlaces medidos se marcan con trackingAttributes() y los lee ClickTracker
  * con un solo listener, así siguen siendo HTML estático.
+ *
+ * virtual_page_view es una página vista que no cambia la URL: el formulario la
+ * publica con la ruta /gracias junto con generate_lead, para que marketing pueda
+ * medir el agradecimiento como si fuera una página. Esa ruta no existe en el
+ * sitio, así que no se puede abrir, recargar ni contar dos veces.
  */
 
 export const ANALYTICS_EVENTS = {
   lead: "generate_lead",
+  virtualPageView: "virtual_page_view",
   whatsappClick: "click_whatsapp",
   phoneClick: "click_phone",
   emailClick: "click_email",
@@ -20,6 +26,8 @@ export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTIC
 export const EVENT_SOURCES = ["header", "hero", "contact", "footer", "floating", "form"] as const;
 
 export type EventSource = (typeof EVENT_SOURCES)[number];
+
+export const THANK_YOU_VIRTUAL_PATH = "/gracias";
 
 export const TRACK_EVENT_ATTRIBUTE = "data-track-event";
 export const TRACK_SOURCE_ATTRIBUTE = "data-track-source";
@@ -60,6 +68,10 @@ export function parseTrackedClick(event: string | null, source: string | null): 
 
 export function buildEvent(name: AnalyticsEventName, params: EventParams = {}): DataLayerEvent {
   return { ...params, event: name };
+}
+
+export function virtualPageViewParams(path: string, title: string, origin: string): EventParams {
+  return { page_path: path, page_title: title, page_location: `${origin}${path}` };
 }
 
 export function ensureDataLayer(target: Window): DataLayer {
