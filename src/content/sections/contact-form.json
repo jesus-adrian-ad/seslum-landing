@@ -55,7 +55,7 @@
   "success": {
     "title": "Recibimos su solicitud",
     "body": "Gracias. Le responderemos en un máximo de 24 horas hábiles con los siguientes pasos.",
-    "again": "Enviar otra solicitud"
+    "close": "Cerrar"
   },
   "privacy": {
     "before": "Al enviar acepta nuestro ",
