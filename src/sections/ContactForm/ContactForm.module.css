@@ -164,35 +164,6 @@ textarea.control {
   color: var(--color-accent);
 }
 
-.success {
-  text-align: center;
-}
-
-.success .title {
-  margin-bottom: var(--space-3);
-  font-size: var(--fs-h3);
-}
-
-.successBody {
-  max-width: var(--measure);
-  margin: 0 auto;
-  color: var(--color-text-muted);
-}
-
-.again {
-  min-height: var(--tap-target-min);
-  margin-top: var(--space-4);
-  padding: 0 var(--space-4);
-  border: 0;
-  background: none;
-  color: var(--color-accent);
-  font: inherit;
-  font-size: var(--fs-small);
-  font-weight: var(--fw-semibold);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
 @media (min-width: 700px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

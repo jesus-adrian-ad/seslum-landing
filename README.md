@@ -382,8 +382,12 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   caracteres de control. Se rechaza lo que no cuadra; no se "limpia".
 - Errores bajo cada campo con `aria-describedby` y `aria-invalid`; al fallar,
   el foco va al primer campo con error y una línea de estado (`role="status"`)
-  lo anuncia. Con éxito, la tarjeta cambia por la confirmación y su título
-  recibe el foco.
+  lo anuncia. Con éxito se abre una ventana de confirmación (`SuccessDialog`,
+  `<dialog>` nativo modal): el foco entra en "Cerrar", se cierra con Esc, con la
+  equis o con un clic fuera, y al cerrarse el foco vuelve al título del
+  formulario, que queda vacío y con un token de Turnstile nuevo. El ícono dibuja
+  el círculo, luego la palomita y al final se rellena (solo CSS; con movimiento
+  reducido aparece completo).
 - **Envío:** `POST /api/contact` → Pages Function `functions/api/contact.ts`,
   que solo enlaza con `src/server/contact-handler.ts`. Orden: mismo origen,
   `Content-Type: application/json`, cuerpo ≤ 16 KB, honeypot, validación,
@@ -722,6 +726,13 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **15/oct/2026** — La confirmación del formulario pasa de reemplazar la tarjeta
+  a una ventana emergente (pedido de marketing; diseño aprobado por Adrián con la
+  vista previa sobre el sitio). Como el formulario ya no se desmonta, Turnstile se
+  reinicia tras cada envío exitoso para que el siguiente lleve un token nuevo
+  (cada token sirve una vez). Verificado en navegador con Turnstile y el endpoint
+  simulados: foco, Esc, clic fuera, segundo envío con token nuevo, eventos una
+  vez por envío y axe sin violaciones dentro de la ventana.
 - **15/oct/2026** — Página vista virtual `/gracias` tras un envío exitoso del
   formulario (pedido de marketing: medir el agradecimiento por URL sin contar
   envíos incompletos). Se descartó cambiar la URL de verdad (`pushState`) o crear

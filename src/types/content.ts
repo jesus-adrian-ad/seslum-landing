@@ -405,7 +405,7 @@ export interface ContactFormContent {
   readonly success: {
     readonly title: string;
     readonly body: string;
-    readonly again: string;
+    readonly close: string;
   };
   readonly privacy: {
     readonly before: string;

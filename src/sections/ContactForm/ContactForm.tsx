@@ -13,7 +13,12 @@
  * así que el widget se reinicia después de cada intento. Con el envío exitoso
  * publica generate_lead con source "form" y el servicio elegido (obligatorio), y
  * después la página vista virtual /gracias; ninguno se publica si falta un dato
- * o el servidor rechaza el envío.
+ * o el servidor rechaza el envío. La confirmación aparece en una ventana
+ * (SuccessDialog); el formulario queda vacío detrás y con un token de Turnstile
+ * nuevo, listo para otra solicitud. Al cerrarla, el foco vuelve al título del
+ * formulario: el botón de enviar estaba deshabilitado durante el envío y no hay
+ * otro lugar al que el navegador pueda regresarlo (un campo abriría el teclado
+ * en el celular).
  *
  * El honeypot es un campo invisible que una persona no ve ni alcanza con el
  * teclado, pero que sí viaja en el formulario; si llega lleno, el servidor descarta el envío en silencio.
@@ -40,6 +45,7 @@ import { PRIVACY_PATH } from "@/lib/privacy";
 import { loadTurnstile, type TurnstileApi } from "@/lib/turnstile-client";
 import type { ContactFormContent } from "@/types/content";
 import styles from "./ContactForm.module.css";
+import { SuccessDialog } from "./SuccessDialog";
 
 const LOAD_MARGIN = "600px 0px";
 
@@ -57,8 +63,8 @@ export function ContactForm({ content, services, turnstileSiteKey }: ContactForm
   const [status, setStatus] = useState<FormStatus>("idle");
   const [token, setToken] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const widgetRef = useRef<HTMLDivElement>(null);
-  const successRef = useRef<HTMLHeadingElement>(null);
   const turnstileRef = useRef<{ api: TurnstileApi; id: string } | null>(null);
   const fieldRefs = useRef<Partial<Record<ContactField, FieldElement | null>>>({});
   const baseId = useId();
@@ -71,7 +77,7 @@ export function ContactForm({ content, services, turnstileSiteKey }: ContactForm
   useEffect(() => {
     const container = widgetRef.current;
     const form = formRef.current;
-    if (!container || !form || succeeded) {
+    if (!container || !form) {
       return undefined;
     }
     let cancelled = false;
@@ -119,13 +125,7 @@ export function ContactForm({ content, services, turnstileSiteKey }: ContactForm
       turnstileRef.current = null;
       widget?.api.remove(widget.id);
     };
-  }, [succeeded, turnstileSiteKey]);
-
-  useEffect(() => {
-    if (succeeded) {
-      successRef.current?.focus();
-    }
-  }, [succeeded]);
+  }, [turnstileSiteKey]);
 
   const resetTurnstile = (): void => {
     setToken(null);
@@ -183,6 +183,7 @@ export function ContactForm({ content, services, turnstileSiteKey }: ContactForm
           virtualPageViewParams(THANK_YOU_VIRTUAL_PATH, content.success.title, window.location.origin),
         );
         setValues(emptySubmission());
+        resetTurnstile();
         setStatus("success");
         return;
       }
@@ -229,99 +230,99 @@ export function ContactForm({ content, services, turnstileSiteKey }: ContactForm
     ) : null;
   };
 
-  if (succeeded) {
-    return (
-      <div id={content.id} className={`chamfer-frame ${styles.card} ${styles.success}`} role="status">
-        <h3 className={styles.title} ref={successRef} tabIndex={-1}>
-          {content.success.title}
-        </h3>
-        <p className={styles.successBody}>{content.success.body}</p>
-        <button type="button" className={styles.again} onClick={() => setStatus("idle")}>
-          {content.success.again}
-        </button>
-      </div>
-    );
-  }
+  const closeSuccess = (): void => {
+    setStatus("idle");
+    titleRef.current?.focus();
+  };
 
   const sending = status === "sending";
 
   return (
-    <form
-      id={content.id}
-      ref={formRef}
-      className={`chamfer-frame ${styles.card}`}
-      aria-labelledby={titleId}
-      noValidate
-      onSubmit={handleSubmit}
-    >
-      <h3 id={titleId} className={styles.title}>
-        {content.title}
-      </h3>
+    <>
+      <form
+        id={content.id}
+        ref={formRef}
+        className={`chamfer-frame ${styles.card}`}
+        aria-labelledby={titleId}
+        noValidate
+        onSubmit={handleSubmit}
+      >
+        <h3 id={titleId} ref={titleRef} className={styles.title} tabIndex={-1}>
+          {content.title}
+        </h3>
 
-      <div className={styles.grid}>
-        <div className={styles.field}>
-          {renderLabel("name")}
-          <input type="text" autoComplete="name" {...fieldProps("name")} />
-          {renderError("name")}
+        <div className={styles.grid}>
+          <div className={styles.field}>
+            {renderLabel("name")}
+            <input type="text" autoComplete="name" {...fieldProps("name")} />
+            {renderError("name")}
+          </div>
+          <div className={styles.field}>
+            {renderLabel("company")}
+            <input type="text" autoComplete="organization" {...fieldProps("company")} />
+            {renderError("company")}
+          </div>
+          <div className={styles.field}>
+            {renderLabel("email")}
+            <input type="email" autoComplete="email" inputMode="email" spellCheck={false} {...fieldProps("email")} />
+            {renderError("email")}
+          </div>
+          <div className={styles.field}>
+            {renderLabel("phone")}
+            <input type="tel" autoComplete="tel" inputMode="tel" {...fieldProps("phone")} />
+            {renderError("phone")}
+          </div>
+          <div className={`${styles.field} ${styles.wide}`}>
+            {renderLabel("service")}
+            <select {...fieldProps("service")}>
+              <option value="">{content.placeholders.service}</option>
+              {services.map((service) => (
+                <option key={service} value={service}>
+                  {service}
+                </option>
+              ))}
+            </select>
+            {renderError("service")}
+          </div>
+          <div className={`${styles.field} ${styles.wide}`}>
+            {renderLabel("message")}
+            <textarea rows={5} placeholder={content.placeholders.message} {...fieldProps("message")} />
+            {renderError("message")}
+          </div>
         </div>
-        <div className={styles.field}>
-          {renderLabel("company")}
-          <input type="text" autoComplete="organization" {...fieldProps("company")} />
-          {renderError("company")}
+
+        <div className={styles.trap} aria-hidden="true">
+          <label htmlFor={`${baseId}-${HONEYPOT_FIELD}`}>{content.honeypotLabel}</label>
+          <input id={`${baseId}-${HONEYPOT_FIELD}`} type="text" name={HONEYPOT_FIELD} tabIndex={-1} autoComplete="off" defaultValue="" />
         </div>
-        <div className={styles.field}>
-          {renderLabel("email")}
-          <input type="email" autoComplete="email" inputMode="email" spellCheck={false} {...fieldProps("email")} />
-          {renderError("email")}
-        </div>
-        <div className={styles.field}>
-          {renderLabel("phone")}
-          <input type="tel" autoComplete="tel" inputMode="tel" {...fieldProps("phone")} />
-          {renderError("phone")}
-        </div>
-        <div className={`${styles.field} ${styles.wide}`}>
-          {renderLabel("service")}
-          <select {...fieldProps("service")}>
-            <option value="">{content.placeholders.service}</option>
-            {services.map((service) => (
-              <option key={service} value={service}>
-                {service}
-              </option>
-            ))}
-          </select>
-          {renderError("service")}
-        </div>
-        <div className={`${styles.field} ${styles.wide}`}>
-          {renderLabel("message")}
-          <textarea rows={5} placeholder={content.placeholders.message} {...fieldProps("message")} />
-          {renderError("message")}
-        </div>
-      </div>
 
-      <div className={styles.trap} aria-hidden="true">
-        <label htmlFor={`${baseId}-${HONEYPOT_FIELD}`}>{content.honeypotLabel}</label>
-        <input id={`${baseId}-${HONEYPOT_FIELD}`} type="text" name={HONEYPOT_FIELD} tabIndex={-1} autoComplete="off" defaultValue="" />
-      </div>
+        <div ref={widgetRef} className={styles.widget} />
 
-      <div ref={widgetRef} className={styles.widget} />
+        <button type="submit" className={styles.submit} disabled={sending} aria-describedby={statusId}>
+          {sending ? content.sending : content.submit}
+        </button>
 
-      <button type="submit" className={styles.submit} disabled={sending} aria-describedby={statusId}>
-        {sending ? content.sending : content.submit}
-      </button>
+        <p id={statusId} className={styles.status} role="status" aria-live="polite">
+          {statusMessage(content, status)}
+        </p>
 
-      <p id={statusId} className={styles.status} role="status" aria-live="polite">
-        {statusMessage(content, status)}
-      </p>
+        <p className={styles.privacy}>
+          {content.privacy.before}
+          <a href={PRIVACY_PATH}>{content.privacy.link}</a>
+          {content.privacy.after}
+        </p>
 
-      <p className={styles.privacy}>
-        {content.privacy.before}
-        <a href={PRIVACY_PATH}>{content.privacy.link}</a>
-        {content.privacy.after}
-      </p>
-
-      <noscript>
-        <p className={styles.noscript}>{content.noscript}</p>
-      </noscript>
-    </form>
+        <noscript>
+          <p className={styles.noscript}>{content.noscript}</p>
+        </noscript>
+      </form>
+      <SuccessDialog
+        open={succeeded}
+        title={content.success.title}
+        body={content.success.body}
+        closeLabel={content.success.close}
+        onClose={closeSuccess}
+      />
+    </>
   );
 }
