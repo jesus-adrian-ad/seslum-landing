@@ -704,6 +704,9 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **14/oct/2026** — Proyectos (observación de SESLUM): la etiqueta "Voz y datos"
+  va en los siete sectores (antes solo en Corporativo). Al final de cada lista; en
+  el destacado caben las cinco en una fila desde escritorio.
 - **14/oct/2026** — Reflow forzado de `ScrollReveal` resuelto de raíz. El audit
   `forced-reflow-insight` de Lighthouse fallaba de forma intermitente en el CI.
   Con trazas de Chrome se vio que no era la cantidad de secciones: al ocultar con

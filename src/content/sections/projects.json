@@ -6,12 +6,12 @@
   "featuredLabel": "Destacado",
   "systemsLabel": "Sistemas instalados",
   "items": [
-    { "sector": "industrial", "systems": ["Videovigilancia", "Control de acceso", "Detección de incendios", "Extinción"] },
+    { "sector": "industrial", "systems": ["Videovigilancia", "Control de acceso", "Detección de incendios", "Extinción", "Voz y datos"] },
     { "sector": "corporativo", "systems": ["Control de acceso", "Videovigilancia", "Megafonía de evacuación", "Voz y datos"] },
-    { "sector": "bancario", "systems": ["Videovigilancia", "Control de acceso"] },
-    { "sector": "hotelero", "systems": ["Detección de incendios", "Megafonía de evacuación", "Videovigilancia"] },
-    { "sector": "salud", "systems": ["Detección por aspiración", "Extinción por agentes limpios"] },
-    { "sector": "retail", "systems": ["Videovigilancia", "Control de acceso", "Detección de incendios"] },
-    { "sector": "residencial-plus", "systems": ["Videovigilancia", "Control de acceso"] }
+    { "sector": "bancario", "systems": ["Videovigilancia", "Control de acceso", "Voz y datos"] },
+    { "sector": "hotelero", "systems": ["Detección de incendios", "Megafonía de evacuación", "Videovigilancia", "Voz y datos"] },
+    { "sector": "salud", "systems": ["Detección por aspiración", "Extinción por agentes limpios", "Voz y datos"] },
+    { "sector": "retail", "systems": ["Videovigilancia", "Control de acceso", "Detección de incendios", "Voz y datos"] },
+    { "sector": "residencial-plus", "systems": ["Videovigilancia", "Control de acceso", "Voz y datos"] }
   ]
 }
