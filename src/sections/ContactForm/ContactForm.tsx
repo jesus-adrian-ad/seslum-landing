@@ -11,14 +11,16 @@
  * formulario se acerca a la vista y en modo "interaction-only": solo se ve si
  * Cloudflare necesita preguntarle algo al visitante. Cada token sirve una vez,
  * así que el widget se reinicia después de cada intento. Con el envío exitoso
- * publica generate_lead con source "form" y el servicio elegido (obligatorio).
+ * publica generate_lead con source "form" y el servicio elegido (obligatorio), y
+ * después la página vista virtual /gracias; ninguno se publica si falta un dato
+ * o el servidor rechaza el envío.
  *
  * El honeypot es un campo invisible que una persona no ve ni alcanza con el
  * teclado, pero que sí viaja en el formulario; si llega lleno, el servidor descarta el envío en silencio.
  */
 
 import { type ChangeEvent, type FormEvent, useEffect, useId, useRef, useState } from "react";
-import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
+import { ANALYTICS_EVENTS, THANK_YOU_VIRTUAL_PATH, trackEvent, virtualPageViewParams } from "@/lib/analytics";
 import {
   CONTACT_ENDPOINT,
   type ContactField,
@@ -176,6 +178,10 @@ export function ContactForm({ content, services, turnstileSiteKey }: ContactForm
       const body = (await response.json()) as ContactResponse;
       if (body.ok) {
         trackEvent(ANALYTICS_EVENTS.lead, { source: "form", service: result.data.service });
+        trackEvent(
+          ANALYTICS_EVENTS.virtualPageView,
+          virtualPageViewParams(THANK_YOU_VIRTUAL_PATH, content.success.title, window.location.origin),
+        );
         setValues(emptySubmission());
         setStatus("success");
         return;

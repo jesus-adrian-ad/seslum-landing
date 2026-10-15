@@ -528,12 +528,20 @@ desde GTM, con las cuentas a nombre de Grupo SESLUM.
 | Evento | Se dispara cuando | Parámetros |
 |---|---|---|
 | `generate_lead` | El servidor confirma el envío del formulario (evento clave en GA4) | `source` (`form`), `service` |
+| `virtual_page_view` | Justo después de `generate_lead`: página vista virtual del agradecimiento. La URL real no cambia y `/gracias` no existe como página, así que no se puede abrir, recargar ni contar dos veces | `page_path` (`/gracias`), `page_title`, `page_location` |
 | `click_whatsapp` | Clic en cualquier enlace de WhatsApp | `source` |
 | `click_phone` | Clic en un enlace `tel:` | `source` |
 | `click_email` | Clic en un enlace `mailto:` | `source` |
 
 `source`: `header`, `hero`, `contact`, `footer`, `floating` o `form`. Los eventos
 se conectan en los bloques que contienen esos enlaces.
+
+Para contar leads en GTM se usan estos eventos (disparador *Evento personalizado*),
+no los disparadores genéricos de *Envío de formulario* o *Clic*: esos se activan
+en cada intento, aunque falten datos o el envío falle. Para registrar `/gracias`
+como página en GA4: etiqueta de evento GA4 `page_view` con el disparador
+`virtual_page_view` y los parámetros `page_location`, `page_path` y `page_title`
+leídos como variables de la capa de datos.
 
 ---
 
@@ -714,6 +722,12 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **15/oct/2026** — Página vista virtual `/gracias` tras un envío exitoso del
+  formulario (pedido de marketing: medir el agradecimiento por URL sin contar
+  envíos incompletos). Se descartó cambiar la URL de verdad (`pushState`) o crear
+  una página `/gracias`: al recargar daría 404 o contaría el lead otra vez. El
+  formulario ya no envía datos incompletos (valida en navegador y servidor) y
+  `generate_lead` solo se publica con la confirmación del servidor.
 - **14/oct/2026** — Página "Sitio en construcción" para el dominio antes del
   lanzamiento, detrás de la variable `SITE_MODE` (opción elegida por Adrián frente
   a una página aparte en `main`, que habría chocado con `develop` el día del
