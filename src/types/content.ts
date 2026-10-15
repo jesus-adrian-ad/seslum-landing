@@ -432,3 +432,9 @@ export interface PrivacyContent {
   readonly backLabel: string;
   readonly sections: readonly PrivacySection[];
 }
+
+export interface ComingSoonContent {
+  readonly logo: ImageAsset;
+  readonly title: string;
+  readonly lead: string;
+}

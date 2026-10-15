@@ -5,6 +5,7 @@
  * compilador verifique que el contenido cumple su contrato.
  */
 
+import comingSoonJson from "@/content/pages/coming-soon.json";
 import brandsJson from "@/content/sections/brands.json";
 import consentJson from "@/content/sections/consent.json";
 import contactFormJson from "@/content/sections/contact-form.json";
@@ -29,6 +30,7 @@ import { parseServicesContent } from "@/lib/services-content";
 import { parseSiteContent } from "@/lib/site-content";
 import type {
   BrandsContent,
+  ComingSoonContent,
   ConsentContent,
   ContactContent,
   ContactFormContent,
@@ -71,3 +73,5 @@ export const consent: ConsentContent = consentJson;
 export const privacy: PrivacyContent = privacyJson;
 
 export const brands: BrandsContent = parseBrandsContent(brandsJson);
+
+export const comingSoon: ComingSoonContent = comingSoonJson;

@@ -5,14 +5,16 @@
  * veces en el HTML (en la etiqueta y en el payload de hidratación), y ese peso
  * retrasa la carga de la página. Este archivo lo lee
  * scripts/inline-structured-data.mjs, que inserta cada bloque ya escapado en su
- * página y después lo borra de out/.
+ * página y después lo borra de out/. Con el sitio en construcción el manifiesto
+ * sale vacío: la página no muestra el contenido que esos datos describen.
  */
 
 import { site, faq } from "@/lib/content";
+import { isComingSoon } from "@/lib/env";
 import { buildStructuredDataManifest } from "@/lib/structured-data";
 
 export const dynamic = "force-static";
 
 export function GET(): Response {
-  return Response.json(buildStructuredDataManifest(site, faq));
+  return Response.json(isComingSoon ? {} : buildStructuredDataManifest(site, faq));
 }

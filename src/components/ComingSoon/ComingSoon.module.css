@@ -1,0 +1,31 @@
+/**
+ * Página de sitio en construcción: todo centrado en la pantalla, sobre el fondo
+ * del sitio.
+ */
+
+.page {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-4);
+  min-height: 100dvh;
+  text-align: center;
+}
+
+.logo {
+  width: min(16rem, 70vw);
+  height: auto;
+  margin-block-end: var(--space-8);
+}
+
+.title {
+  font-size: var(--fs-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+}
+
+.lead {
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+}

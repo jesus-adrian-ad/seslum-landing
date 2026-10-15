@@ -13,6 +13,8 @@
 # Variables del repo: CF_PAGES_PROJECT (nombre del proyecto de Pages)
 #                     GTM_ID (contenedor de GTM; vacío mientras no exista)
 #                     TURNSTILE_SITE_KEY (clave pública del widget de Turnstile)
+#                     SITE_MODE ("coming-soon" = main publica la página de sitio
+#                     en construcción; "live" o vacío = sitio completo)
 #
 # Turnstile: el build de auditoría usa la clave de prueba de Cloudflare, porque
 # se sirve en localhost y la clave real solo acepta los dominios del sitio. Los
@@ -229,6 +231,7 @@ jobs:
       - run: npm run build
         env:
           NEXT_PUBLIC_SITE_ENV: ${{ (github.event_name == 'push' && github.ref_name == 'main') && 'production' || 'staging' }}
+          NEXT_PUBLIC_SITE_MODE: ${{ (github.event_name == 'push' && github.ref_name == 'main') && vars.SITE_MODE || 'live' }}
           NEXT_PUBLIC_GTM_ID: ${{ vars.GTM_ID }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.public-url.outputs.url }}
           NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}

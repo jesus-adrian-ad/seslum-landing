@@ -84,6 +84,7 @@ en este repo.
 | Variable | Para qué |
 |---|---|
 | `NEXT_PUBLIC_SITE_ENV` | `production` solo en `main`. Cualquier otro valor marca el sitio como no indexable. |
+| `NEXT_PUBLIC_SITE_MODE` | `coming-soon` = solo la página "Sitio en construcción" (sin secciones, sin GTM, sin banner, `noindex`). Cualquier otro valor o vacío = sitio completo. El workflow solo la toma en el push a `main`, de la variable del repo `SITE_MODE`. |
 | `NEXT_PUBLIC_GTM_ID` | Contenedor de GTM. Vacío = no se carga GTM. |
 | `NEXT_PUBLIC_SITE_URL` | Solo staging: URL del alias de la rama en Pages, base de canonical y `og:image`. La calcula el workflow; en local puede ir vacía. |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Clave pública del widget de Turnstile. Obligatoria en producción (el build falla sin ella); vacía en staging o local = clave de prueba de Cloudflare. |
@@ -591,7 +592,7 @@ los gates están en verde. Cloudflare nunca tiene acceso a este repo.
 3. En GitHub → Settings → Secrets and variables → Actions:
    - Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
    - Variables: `CF_PAGES_PROJECT=seslum-landing`, `GTM_ID` (cuando exista),
-     `TURNSTILE_SITE_KEY`.
+     `TURNSTILE_SITE_KEY` y `SITE_MODE` (`coming-soon` hasta el lanzamiento).
 4. Formulario: en Resend (cuenta con `sitioweb@`), dominio `mail.seslum.com.mx`
    verificado con sus registros en Cloudflare en *DNS only*; en Turnstile, el
    widget `seslum-landing-formulario` (hosts `seslum.com.mx` y
@@ -600,8 +601,17 @@ los gates están en verde. Cloudflare nunca tiene acceso a este repo.
 5. Al conectar el dominio: regla de rate limiting en Security → WAF para
    `/api/contact` (pocas solicitudes por minuto por IP).
 
+**Antes del lanzamiento (página en construcción):** con `SITE_MODE=coming-soon`,
+`main` tiene el mismo código que `develop` pero su build publica solo la página
+"Sitio en construcción". El dominio ya apunta a Pages y muestra esa página.
+
+**Lanzamiento:** `gh variable set SITE_MODE --body live` y volver a correr el
+último despliegue de `main` (`gh run rerun <id>`). No hay merge ni conflictos;
+los cambios posteriores siguen el flujo normal de PR de `develop` a `main`.
+
 **Rollback:** revertir el merge en `main` y hacer push, o promover un deployment
-anterior desde el panel de Pages.
+anterior desde el panel de Pages. Para volver a la página en construcción:
+`SITE_MODE=coming-soon` y volver a correr el despliegue de `main`.
 
 ---
 
@@ -704,6 +714,15 @@ anterior desde el panel de Pages.
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **14/oct/2026** — Página "Sitio en construcción" para el dominio antes del
+  lanzamiento, detrás de la variable `SITE_MODE` (opción elegida por Adrián frente
+  a una página aparte en `main`, que habría chocado con `develop` el día del
+  lanzamiento). Solo logo, título y una línea (`src/content/pages/coming-soon.json`).
+  En ese modo no se carga GTM ni el banner de cookies (sin medición no hay
+  consentimiento que pedir), la página es `noindex` y `robots.txt` cierra el
+  sitio salvo a las vistas previas de mensajería, y el JSON-LD sale vacío.
+  Verificado: ningún texto de las secciones llega a `out/`, consola y CSP limpias,
+  axe sin violaciones, y el sitio completo sigue igual.
 - **14/oct/2026** — Proyectos (observación de SESLUM): la etiqueta "Voz y datos"
   va en los siete sectores (antes solo en Corporativo). Al final de cada lista; en
   el destacado caben las cinco en una fila desde escritorio.

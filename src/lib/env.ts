@@ -11,12 +11,19 @@
  * NEXT_PUBLIC_TURNSTILE_SITE_KEY es la clave pública del widget de Turnstile. Es
  * obligatoria en producción; en staging y en local, si falta, se usa la clave de
  * prueba de Cloudflare (siempre pasa), así el build no depende de la cuenta.
+ *
+ * NEXT_PUBLIC_SITE_MODE vale "coming-soon" mientras el dominio muestra la página
+ * de sitio en construcción; cualquier otro valor (o ninguno) publica el sitio
+ * completo. En construcción el sitio no se indexa ni carga medición.
  */
 
 export type SiteEnvironment = "production" | "staging";
 
+export type SiteMode = "live" | "coming-soon";
+
 export interface BuildEnv {
   readonly siteEnv: SiteEnvironment;
+  readonly siteMode: SiteMode;
   readonly gtmId: string;
   readonly deployUrl: string | null;
   readonly turnstileSiteKey: string;
@@ -52,10 +59,15 @@ export function resolveBuildEnv(source: Readonly<Record<string, string | undefin
   const siteEnv: SiteEnvironment = source.NEXT_PUBLIC_SITE_ENV === "production" ? "production" : "staging";
   return {
     siteEnv,
+    siteMode: (source.NEXT_PUBLIC_SITE_MODE ?? "").trim() === "coming-soon" ? "coming-soon" : "live",
     gtmId: (source.NEXT_PUBLIC_GTM_ID ?? "").trim(),
     deployUrl: parseDeployUrl(source.NEXT_PUBLIC_SITE_URL),
     turnstileSiteKey: resolveTurnstileSiteKey(source.NEXT_PUBLIC_TURNSTILE_SITE_KEY, siteEnv),
   };
+}
+
+export function isIndexable(env: BuildEnv): boolean {
+  return env.siteEnv === "production" && env.siteMode === "live";
 }
 
 export function resolvePublicUrl(canonicalUrl: string, env: BuildEnv): string {
@@ -64,9 +76,12 @@ export function resolvePublicUrl(canonicalUrl: string, env: BuildEnv): string {
 
 export const buildEnv: BuildEnv = resolveBuildEnv({
   NEXT_PUBLIC_SITE_ENV: process.env.NEXT_PUBLIC_SITE_ENV,
+  NEXT_PUBLIC_SITE_MODE: process.env.NEXT_PUBLIC_SITE_MODE,
   NEXT_PUBLIC_GTM_ID: process.env.NEXT_PUBLIC_GTM_ID,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
 });
 
 export const isProduction: boolean = buildEnv.siteEnv === "production";
+
+export const isComingSoon: boolean = buildEnv.siteMode === "coming-soon";
