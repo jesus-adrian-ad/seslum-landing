@@ -39,8 +39,8 @@
       "summary": "Sucursales y áreas de valores",
       "description": "El entorno con mayor exigencia normativa y de auditoría. Videovigilancia con retención de video, control de accesos a bóveda y áreas restringidas, detección de intrusión y sistemas de alarma con protocolos de respuesta documentados.",
       "image": {
-        "src": "/images/sectores/bancario-800.webp",
-        "srcSet": "/images/sectores/bancario-480.webp 480w, /images/sectores/bancario-800.webp 800w, /images/sectores/bancario-1200.webp 1200w",
+        "src": "/images/sectores/bancario-cajero-800.webp",
+        "srcSet": "/images/sectores/bancario-cajero-480.webp 480w, /images/sectores/bancario-cajero-800.webp 800w, /images/sectores/bancario-cajero-1200.webp 1200w",
         "width": 1200,
         "height": 900
       }
