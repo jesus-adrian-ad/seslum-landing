@@ -726,6 +726,10 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **16/oct/2026** — Sectores · Bancario (observación de SESLUM): la foto del
+  monitor se sustituye por la puerta de un cajero automático abierta, enviada por
+  el cliente. Mismo recorte 4:3 y mismas variantes (`--brand --quality=50`); el
+  JSON no cambia. La de 1200 px baja de 80 KB a 17 KB.
 - **16/oct/2026** — Logo del navbar en escritorio de 36 a 46 px de alto (166 px
   de ancho; observación de SESLUM: se veía pequeño en PC). Cabe en el encabezado
   compacto (57 px) y a 1180 px quedan 194 px libres hasta el primer enlace. En
