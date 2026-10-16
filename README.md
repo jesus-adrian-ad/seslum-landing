@@ -279,7 +279,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   public/images/sectores/<id> 480,800,1200 --brand --quality=50`). Recortes
   4:3 en `assets-src/sectores/`; la de Hotelero va aclarada. Las de Hotelero y
   Salud no muestran un hotel ni un hospital: si SESLUM manda fotos de esos
-  sectores, se cambian sin tocar código.
+  sectores, se cambian con un nombre de archivo nuevo y sus rutas en
+  `sectors.json` (ver "Reemplazar una imagen" en Mantenimiento).
 - El borde biselado del panel se repinta encima de la foto con `::after`.
 - Íconos de línea unificados en `LineIcon`; cada sección conserva solo su
   catálogo (`ServiceIcon`, `SectorIcon`).
@@ -630,6 +631,11 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
 ## Mantenimiento
 
 - **Cambiar un texto o un dato de contacto:** `src/content/`. No hace falta tocar código.
+- **Reemplazar una imagen:** la nueva lleva un nombre de archivo distinto y se
+  actualizan sus rutas en el JSON. Las imágenes se sirven con
+  `Cache-Control: max-age=2592000` (30 días): con el mismo nombre, quien ya visitó
+  el sitio sigue viendo la anterior hasta que expire. El CSS y el JavaScript no
+  tienen este problema porque Next les pone un hash en el nombre.
 - **Cambiar el aviso de privacidad:** `src/content/pages/privacy.json` (y su
   fecha `updated`).
 - **Rotar una clave del formulario:** crear la nueva en Resend o Turnstile,
@@ -726,6 +732,10 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **16/oct/2026** — Las variantes de Bancario se renombran a
+  `bancario-cajero-*.webp`. Con el mismo nombre, el navegador seguía mostrando la
+  foto del monitor desde su caché de 30 días en `develop` (en el preview del PR se
+  veía bien porque es otro dominio). Queda como regla en Mantenimiento.
 - **16/oct/2026** — Sectores · Bancario (observación de SESLUM): la foto del
   monitor se sustituye por la puerta de un cajero automático abierta, enviada por
   el cliente. Mismo recorte 4:3 y mismas variantes (`--brand --quality=50`); el
