@@ -726,6 +726,10 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **16/oct/2026** — Logo del navbar en escritorio de 36 a 46 px de alto (166 px
+  de ancho; observación de SESLUM: se veía pequeño en PC). Cabe en el encabezado
+  compacto (57 px) y a 1180 px quedan 194 px libres hasta el primer enlace. En
+  celular no cambia.
 - **15/oct/2026** — La confirmación del formulario pasa de reemplazar la tarjeta
   a una ventana emergente (pedido de marketing; diseño aprobado por Adrián con la
   vista previa sobre el sitio). Como el formulario ya no se desmonta, Turnstile se
