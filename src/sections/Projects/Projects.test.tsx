@@ -5,6 +5,7 @@ import { Projects } from "./Projects";
 
 const markup = renderToStaticMarkup(<Projects content={projects} />);
 const count = (pattern: RegExp) => markup.match(pattern)?.length ?? 0;
+const photos = projects.services.flatMap((service) => service.photos);
 
 describe("Projects", () => {
   it("abre en el ancla que enlazan el menú y el encabezado", () => {
@@ -12,16 +13,30 @@ describe("Projects", () => {
     expect(markup).toContain('aria-labelledby="proyectos-title"');
   });
 
-  it("muestra una tarjeta por sector y marca solo la primera como destacada", () => {
-    const total = projects.others.length + 1;
-    expect(count(/<h3 /g)).toBe(total);
-    expect(count(new RegExp(`>${projects.featuredLabel}<`, "g"))).toBe(1);
-    expect(markup.indexOf(projects.featuredLabel)).toBeLessThan(markup.indexOf(`>${projects.featured.name}<`));
+  it("tiene una pestaña por línea de servicio y solo la primera seleccionada", () => {
+    expect(count(/role="tab"/g)).toBe(projects.services.length);
+    expect(count(/aria-selected="true"/g)).toBe(1);
+    expect(markup).toContain(`aria-label="${projects.tabsLabel}"`);
+    projects.services.forEach((service) => {
+      expect(markup).toContain(`aria-controls="proyectos-panel-${service.id}"`);
+      expect(markup).toContain(`>${service.label}</span>`);
+    });
   });
 
-  it("lista los sistemas de cada tarjeta con su etiqueta accesible", () => {
-    const systems = [projects.featured, ...projects.others].reduce((sum, card) => sum + card.systems.length, 0);
-    expect(count(new RegExp(`aria-label="${projects.systemsLabel}"`, "g"))).toBe(projects.others.length + 1);
-    expect(count(/<li class="[^"]*system[^"]*">/g)).toBe(systems);
+  it("deja todos los paneles en el HTML y oculta los que no están activos", () => {
+    expect(count(/role="tabpanel"/g)).toBe(projects.services.length);
+    expect(count(/<div[^>]*role="tabpanel"[^>]*hidden=""/g)).toBe(projects.services.length - 1);
+    projects.services.forEach((service) => expect(markup).toContain(`>${service.name}</h3>`));
+  });
+
+  it("carga las fotos en diferido, sin precargar ninguna, con su pie como nombre del botón", () => {
+    expect(count(/<img [^>]*loading="lazy"/g)).toBe(photos.length);
+    expect(markup).not.toContain('rel="preload"');
+    expect(count(/aria-haspopup="dialog"/g)).toBe(photos.length);
+    photos.forEach((photo) => expect(markup).toContain(`${photo.caption}</span>`));
+  });
+
+  it("no pide ninguna imagen para la ventana hasta abrirla", () => {
+    expect(markup).toMatch(/<dialog [^>]*>\s*<figure[^>]*><\/figure><\/dialog>/);
   });
 });

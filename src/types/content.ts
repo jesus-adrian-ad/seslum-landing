@@ -223,9 +223,25 @@ export interface SectorsContent<Icon extends string = SectorIconName> {
   readonly sectors: readonly SectorItem<Icon>[];
 }
 
-export interface ProjectSectorEntry {
-  readonly sector: string;
-  readonly systems: readonly string[];
+export interface ProjectPhotoSource {
+  readonly file: string;
+  readonly widths: readonly number[];
+  readonly width: number;
+  readonly height: number;
+  readonly caption: string;
+}
+
+export interface ProjectServiceSource {
+  readonly service: string;
+  readonly label: string;
+  readonly photos: readonly ProjectPhotoSource[];
+}
+
+export interface ProjectsLightboxLabels {
+  readonly previousLabel: string;
+  readonly nextLabel: string;
+  readonly closeLabel: string;
+  readonly counter: string;
 }
 
 export interface ProjectsSource {
@@ -233,16 +249,26 @@ export interface ProjectsSource {
   readonly eyebrow: string;
   readonly title: string;
   readonly lead: string;
-  readonly featuredLabel: string;
-  readonly systemsLabel: string;
-  readonly items: readonly ProjectSectorEntry[];
+  readonly tabsLabel: string;
+  readonly enlargeHint: string;
+  readonly lightbox: ProjectsLightboxLabels;
+  readonly services: readonly ProjectServiceSource[];
 }
 
-export interface ProjectCard {
-  readonly id: string;
-  readonly icon: SectorIconName;
+export interface ProjectPhoto {
+  readonly src: string;
+  readonly srcSet: string;
+  readonly width: number;
+  readonly height: number;
+  readonly caption: string;
+}
+
+export interface ProjectService {
+  readonly id: ServiceIconName;
+  readonly icon: ServiceIconName;
+  readonly label: string;
   readonly name: string;
-  readonly systems: readonly string[];
+  readonly photos: readonly ProjectPhoto[];
 }
 
 export interface ProjectsContent {
@@ -250,10 +276,10 @@ export interface ProjectsContent {
   readonly eyebrow: string;
   readonly title: string;
   readonly lead: string;
-  readonly featuredLabel: string;
-  readonly systemsLabel: string;
-  readonly featured: ProjectCard;
-  readonly others: readonly ProjectCard[];
+  readonly tabsLabel: string;
+  readonly enlargeHint: string;
+  readonly lightbox: ProjectsLightboxLabels;
+  readonly services: readonly ProjectService[];
 }
 
 export interface ComparisonRow {
