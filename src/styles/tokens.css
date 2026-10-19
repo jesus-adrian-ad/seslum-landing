@@ -114,6 +114,8 @@
   --icon-sm: 1.25rem;
   --icon-md: 1.625rem;
   --float-size: 3.5rem;
+  --float-text-width-sm: 9.5rem;
+  --float-text-width-lg: 18rem;
   --brand-card-height: 7.5rem;
   --brand-logo-max-height: 3rem;
   --brand-logo-stacked-max-height: 5rem;

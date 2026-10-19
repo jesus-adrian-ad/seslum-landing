@@ -362,9 +362,12 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   validan en el build (`src/lib/contact-links.ts`): tipo conocido, sin repetir y
   al menos una.
 - Botón flotante de WhatsApp abajo a la derecha, visible desde la carga
-  (decisión de Adrián). Solo ícono; la etiqueta "Escríbanos por WhatsApp" es su
-  nombre accesible y se muestra al pasar el cursor o con foco. Respeta el área
-  segura de los teléfonos.
+  (decisión de Adrián). Al entrar se muestra extendido con "¿Tiene dudas?
+  Escríbanos por mensaje" (dos líneas en móvil, una en escritorio); con el primer
+  desplazamiento de más de 48 px se recoge al ícono y no vuelve a extenderse al
+  regresar arriba. Recogido, el texto reaparece al pasar el cursor o con foco. El
+  nombre accesible es el texto más "(WhatsApp)" y el aviso de pestaña nueva.
+  Respeta el área segura de los teléfonos.
 - Mensaje precargado ("Hola, me interesa cotizar un proyecto con Grupo
   SESLUM.") en `site.json`, aprobado por marketing como definitivo (05/oct).
 - WhatsApp abre en otra pestaña con `noopener noreferrer` y lo anuncia a lectores
@@ -383,7 +386,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   no aparece.
 - Animación: las tarjetas entran en cascada y su ícono se dibuja; al pasar el
   cursor se tiñen borde y fondo y el ícono sube. El flotante entra con una escala
-  suave y un anillo que pulsa tres veces. Con movimiento reducido, nada se anima.
+  suave y se recoge con una transición de ancho. Con movimiento reducido, nada se anima.
 - Textos aprobados por marketing (05/oct). Funcionamiento validado en PC y
   celular; el correo enviado desde iCloud rebota en el servidor de GoDaddy
   (*552 5.2.0 bare CR*), ajeno al sitio: el enlace es un `mailto:` sin cuerpo.
@@ -783,6 +786,13 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **19/oct/2026** — Botón flotante de WhatsApp más visible (pedido de SESLUM),
+  propuesta 2 de Adrián: extendido con "¿Tiene dudas? Escríbanos por mensaje" al
+  entrar y solo ícono desde el primer scroll. Se descartaron el borde (seguía
+  confundiéndose con los demás elementos azules) y el verde de WhatsApp (fuera de
+  la paleta). Se quita el anillo que pulsaba: el texto cumple esa función. El
+  componente pasa a cliente solo para escribir `data-collapsed`; lee `scrollY` y
+  no fuerza layout.
 - **19/oct/2026** — Por qué SESLUM (observación de SESLUM): subtítulo nuevo,
   "Un sistema mal diseñado puede terminar costando el doble…", que cambia la
   invitación a ver la tabla por el compromiso de diseñar bien desde el inicio.

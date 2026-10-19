@@ -309,6 +309,7 @@ export interface ContactContent<Kind extends string = ContactChannelKind> {
   readonly headquartersLabel: string;
   readonly officesLabel: string;
   readonly floatingLabel: string;
+  readonly floatingChannelHint: string;
   readonly newTabHint: string;
 }
 
