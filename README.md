@@ -817,6 +817,12 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **19/oct/2026** — Proyectos (pedido de SESLUM): la pestaña de eléctricas dice
+  "Inst. eléctricas e infraestructura". Las pestañas van siempre en una sola
+  fila (decisión de SESLUM, sin dos renglones): con el texto completo faltaban
+  20 px y abreviado sobran 35 px a 1200 px. Desde 1200 px las seis se reparten
+  en el ancho con menos relleno; por debajo siguen en la tira deslizable. El
+  texto alternativo de la foto del encabezado también menciona infraestructura.
 - **19/oct/2026** — Proyectos pasa de sectores a líneas de servicio (pedido de
   SESLUM, opción A de tres prototipos: pestañas con galería, frente a tarjetas
   con ventana y mosaico con filtros). Así entran las fotos de obra, que están
