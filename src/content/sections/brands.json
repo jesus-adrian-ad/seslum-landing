@@ -72,6 +72,33 @@
         "width": 266,
         "height": 299
       }
+    },
+    {
+      "id": "avigilon",
+      "logo": {
+        "src": "/images/brands/avigilon.webp",
+        "alt": "Avigilon",
+        "width": 811,
+        "height": 120
+      }
+    },
+    {
+      "id": "motorola-solutions",
+      "logo": {
+        "src": "/images/brands/motorola-solutions.webp",
+        "alt": "Motorola Solutions",
+        "width": 252,
+        "height": 220
+      }
+    },
+    {
+      "id": "adises",
+      "logo": {
+        "src": "/images/brands/adises.webp",
+        "alt": "ADISES Advanced Integrated Security Solutions",
+        "width": 385,
+        "height": 120
+      }
     }
   ],
   "alsoTitle": "También trabajamos con",
