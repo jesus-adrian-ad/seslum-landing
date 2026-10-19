@@ -109,7 +109,7 @@ Turnstile siempre pasa; sin clave de Resend la Function responde 503.
 ```
 src/
 ├── app/                    # rutas de Next: layout, página, 404, robots, sitemap, ícono
-├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, LineIcon y sus catálogos ServiceIcon/SectorIcon/ComparisonIcon, TagManager, StructuredData)
+├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, LineIcon y sus catálogos ServiceIcon/SectorIcon/ComparisonIcon, StructuredData)
 ├── content/site.json       # datos del cliente: nombre, contacto, horario, SEO
 ├── fonts/                  # Source Sans 3 variable (OFL)
 ├── lib/                    # lógica pura y probada: medición, consentimiento, GTM, SEO, JSON-LD, entrada al scroll, teclado de pestañas, media queries, validación de contenido
@@ -137,8 +137,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Layout base con `lang="es-MX"`, enlace para saltar al contenido, metadatos,
   canonical, Open Graph, JSON-LD `LocalBusiness`, `robots.txt` y `sitemap.xml`.
   En staging el sitio es no indexable.
-- Google Tag Manager con Consent Mode v2: todo denegado por defecto. El contenedor
-  se descarga cuando la página terminó de cargar y el hilo principal está libre.
+- Google Tag Manager con Consent Mode v2: todo denegado por defecto. Desde el
+  18/oct se instala con los fragmentos oficiales de Google (ver *Medición*).
 - Helper `trackEvent` para los eventos de conversión (`src/lib/analytics.ts`).
 - CSP estricta con hashes calculados en cada build y página 404 propia.
 - Workflow de CI con los gates y despliegue por Direct Upload.
@@ -508,8 +508,9 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   (`seslum.consent.v1`), publica `consent update` de Consent Mode v2 y el evento
   `consent_update` con `analytics` y `advertising`. Sin almacenamiento disponible,
   vale para la visita. La lógica pura (vencimiento, formato, mapeo a Consent
-  Mode) está en `src/lib/consent.ts`; el lado del navegador, compartido con
-  `TagManager`, en `src/lib/consent-runtime.ts`.
+  Mode) está en `src/lib/consent.ts`; el lado del navegador, en
+  `src/lib/consent-runtime.ts`; el consentimiento por defecto, antes de GTM, en
+  `src/lib/consent-bootstrap.ts`.
 - Animación: la tarjeta entra deslizándose desde abajo y el panel de
   preferencias con un leve desplazamiento; el interruptor desliza su perilla.
   Con movimiento reducido, nada se anima.
@@ -545,7 +546,34 @@ para tarjetas con borde, `.chamfer-frame` (dibuja también la línea del bisel).
 ## Medición
 
 GTM es la única etiqueta de medición en el código. GA4 y Google Ads se configuran
-desde GTM, con las cuentas a nombre de Grupo SESLUM.
+desde GTM, con las cuentas a nombre de Grupo SESLUM. Las etiquetas, activadores y
+eventos los administra marketing de SESLUM en GTM; el código solo publica los
+avisos del `dataLayer` de la tabla.
+
+Instalación, igual que la indica GTM. Los fragmentos no pasan por React:
+`src/app/gtm.json/route.ts` genera el manifiesto (`src/lib/gtm-manifest.ts`) y
+`scripts/inline-gtm.mjs` los inserta después del build en cada página, antes de
+calcular los hashes de la CSP:
+
+1. Justo después del `<meta charset>`, el consentimiento por defecto (`src/lib/consent-bootstrap.ts`):
+   denegado, o la decisión guardada si sigue vigente. Va antes de GTM para que
+   ninguna etiqueta se dispare sin estado de consentimiento.
+2. Enseguida, el fragmento oficial de Google (`buildGtmHeadSnippet` en
+   `src/lib/gtm.ts`), idéntico al que entrega GTM salvo el ID.
+3. Al inicio del `<body>`, el `<noscript>` oficial. Solo se carga sin JavaScript,
+   donde no hay banner: va sin consentimiento (decisión de Adrián, a petición de
+   marketing). El `style` en línea de Google se cambia por `hidden`, porque la CSP
+   no permite estilos en línea.
+
+Con el sitio en construcción o sin `NEXT_PUBLIC_GTM_ID` válido no se instala nada.
+
+Qué permite la CSP en GTM:
+
+| En GTM | ¿Funciona? |
+|---|---|
+| Etiquetas de plantilla de GA4 y Google Ads | Sí |
+| Etiquetas de HTML personalizado | No: la CSP bloquea scripts en línea sin hash |
+| Pixeles o scripts de otros dominios (Meta, Hotjar, TikTok…) | No, hasta agregar su dominio a `public/_headers` en un PR |
 
 | Evento | Se dispara cuando | Parámetros |
 |---|---|---|
@@ -678,7 +706,7 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Google Fonts, quita dos entradas de la CSP y mejora el LCP.
 - **28/sep/2026** — GTM se descarga después de la carga, en tiempo ocioso. La
   medición no le cuesta rendimiento al visitante; el consentimiento por defecto se
-  declara antes.
+  declara antes. Reemplazado el 18/oct por los fragmentos oficiales.
 - **28/sep/2026** — Lighthouse audita un build de producción. En staging el sitio
   es no indexable y SEO siempre saldría en rojo; el build desplegado solo difiere
   en `robots`.
@@ -750,6 +778,19 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **18/oct/2026** — GTM con los fragmentos oficiales de Google (decisión de
+  Adrián, para seguir el procedimiento de marketing). Se elimina `TagManager`.
+  Se insertan después del build, como el JSON-LD: desde React exigían
+  `dangerouslySetInnerHTML` (regla de Semgrep) y su texto viajaba dos veces en el
+  HTML (etiqueta y payload de hidratación). El
+  consentimiento por defecto pasa a un script en línea antes del fragmento: el
+  fragmento corre al leer el `<head>`, antes de React, y sin ese script GTM
+  arrancaría sin estado de consentimiento. El script elige entre los cuatro
+  estados que calcula `buildConsentDefault` en el build, así el mapeo a Consent
+  Mode sigue en un solo lugar; una prueba compara su lectura de `localStorage`
+  contra `parseStoredConsent`. Costo: `gtm.js` baja desde el inicio en lugar de en
+  tiempo ocioso; Lighthouse lo vigila en cada PR. Ganancia: se cuentan las visitas
+  que salen en el primer segundo.
 - **18/oct/2026** — Mensaje del director en el encabezado (pedido de SESLUM),
   opción C de las tres propuestas: tarjeta con miniatura que abre el video en una
   ventana. El cierre con clic fuera pasa a `src/lib/dialog.ts`, compartido con la
