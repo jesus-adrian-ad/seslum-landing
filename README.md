@@ -22,7 +22,7 @@ y sistemas para tu negocio.
 | 3 | Servicios | `feature/services` | ✅ Publicado | #10 |
 | 4 | Sectores | `feature/sectors` | ✅ Publicado | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
-| 6 | Proyectos | `feature/projects` | 🔨 En PR (textos a revisión de Danna) | — |
+| 6 | Proyectos | `feature/projects` → `content/proyectos-por-servicio` | ✅ Publicado (pies de foto a revisión de SESLUM) | — |
 | 7 | Alianzas comerciales | `feature/brands` | ✅ Publicado (textos en revisión) | — |
 | 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
 | 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
@@ -327,6 +327,31 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   todo se ve en su estado final. El aspecto de `pending` (opacidad 0, desplazado
   y con los trazos de los íconos sin dibujar) lo declara `src/styles/base.css`.
 - Contenido en `src/content/sections/why-seslum.json`. Textos aprobados por marketing.
+
+### 6 · Proyectos
+
+- `#proyectos`, después de Por qué SESLUM. Desde el 19/oct va **por línea de
+  servicio** (pedido de SESLUM): seis pestañas (patrón WAI-ARIA Tabs, como
+  Sectores) con ícono y etiqueta corta; el nombre completo del panel se toma de
+  Servicios por el ícono (`service` en `projects.json`).
+- Cinco fotos de obra por línea, de la carpeta "FOTOS PROYECTOS" de SESLUM: en
+  móvil una a todo el ancho y cuatro en 2 × 2; desde 860 px una grande que ocupa
+  dos filas y cuatro chicas a su derecha. Cada foto lleva un pie sobre un velo.
+  `projects-content.ts` exige exactamente cinco por línea, un servicio que
+  exista y no se repita, y nombres, anchos y medidas coherentes.
+- Cada foto es un botón que abre un `<dialog>` con la foto completa, el pie y
+  la posición ("3 de 5"); flechas del teclado y botones para recorrer la línea,
+  Esc o clic fuera para cerrar, y el foco vuelve a la foto.
+- Rendimiento: los seis paneles están en el HTML pero los ocultos no
+  descargan nada (`loading="lazy"`); la ventana no pide imagen hasta abrirse.
+  Las medidas de la tira de pestañas solo se leen tras una elección del
+  visitante. Entrada al hacer scroll con `animation-timeline`, sin ScrollReveal.
+- Fotos: originales reducidos a 1600 px en `assets-src/proyectos/` y variantes
+  WebP de 480, 800 y 1200 px (`scripts/optimize-image.mjs`, calidad 62, sin
+  `--brand` para conservar el color real de la obra). Dos fotos de WhatsApp
+  solo llegan a 344 y 357 px de ancho: van en posiciones chicas.
+- Se evitaron fotos con rostros de técnicos. Los pies los propuso YiSoft según
+  lo que se ve en cada foto; ⏳ revisión de SESLUM.
 
 ### 8 · Preguntas frecuentes
 
@@ -792,6 +817,11 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **19/oct/2026** — Proyectos pasa de sectores a líneas de servicio (pedido de
+  SESLUM, opción A de tres prototipos: pestañas con galería, frente a tarjetas
+  con ventana y mosaico con filtros). Así entran las fotos de obra, que están
+  organizadas por sistema y no muestran el sector. Se retiran las tarjetas por
+  sector, el destacado y las etiquetas de sistemas.
 - **19/oct/2026** — Alianzas: se suman Avigilon, Motorola Solutions y ADISES con
   logo (pedido de SESLUM). Llegaron como JPG pequeños con artefactos; se limpiaron
   sin redibujarlos, que es lo que permite la calidad de origen. Con nueve logos la

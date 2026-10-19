@@ -56,7 +56,7 @@ export const services: ServicesContent = parseServicesContent(servicesJson);
 
 export const sectors: SectorsContent = parseSectorsContent(sectorsJson);
 
-export const projects: ProjectsContent = parseProjectsContent(projectsJson, sectors);
+export const projects: ProjectsContent = parseProjectsContent(projectsJson, services);
 
 export const whySeslum: WhySeslumContent = whySeslumJson;
 

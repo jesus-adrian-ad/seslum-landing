@@ -2,16 +2,261 @@
   "id": "proyectos",
   "eyebrow": "Proyectos",
   "title": "Obra ejecutada, no promesas",
-  "lead": "Una muestra de proyectos entregados por sector.",
-  "featuredLabel": "Destacado",
-  "systemsLabel": "Sistemas instalados",
-  "items": [
-    { "sector": "industrial", "systems": ["Videovigilancia", "Control de acceso", "Detección de incendios", "Extinción", "Voz y datos"] },
-    { "sector": "corporativo", "systems": ["Control de acceso", "Videovigilancia", "Megafonía de evacuación", "Voz y datos"] },
-    { "sector": "bancario", "systems": ["Videovigilancia", "Control de acceso", "Voz y datos"] },
-    { "sector": "hotelero", "systems": ["Detección de incendios", "Megafonía de evacuación", "Videovigilancia", "Voz y datos"] },
-    { "sector": "salud", "systems": ["Detección por aspiración", "Extinción por agentes limpios", "Voz y datos"] },
-    { "sector": "retail", "systems": ["Videovigilancia", "Control de acceso", "Detección de incendios", "Voz y datos"] },
-    { "sector": "residencial-plus", "systems": ["Videovigilancia", "Control de acceso", "Voz y datos"] }
+  "lead": "Una muestra de instalaciones entregadas por línea de servicio.",
+  "tabsLabel": "Líneas de servicio",
+  "enlargeHint": "Ampliar foto:",
+  "lightbox": {
+    "previousLabel": "Foto anterior",
+    "nextLabel": "Foto siguiente",
+    "closeLabel": "Cerrar",
+    "counter": "{current} de {total}"
+  },
+  "services": [
+    {
+      "service": "cctv",
+      "label": "Videovigilancia",
+      "photos": [
+        {
+          "file": "camara-ptz-nave",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 1600,
+          "caption": "Cámara PTZ en nave industrial"
+        },
+        {
+          "file": "centro-monitoreo",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 900,
+          "caption": "Centro de monitoreo"
+        },
+        {
+          "file": "poste-solar",
+          "widths": [357],
+          "width": 357,
+          "height": 474,
+          "caption": "Poste autónomo con panel solar"
+        },
+        {
+          "file": "domo-fachada",
+          "widths": [480, 800, 900],
+          "width": 900,
+          "height": 1600,
+          "caption": "Domo en fachada"
+        },
+        {
+          "file": "gabinete-grabacion",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 900,
+          "caption": "Gabinete de grabación"
+        }
+      ]
+    },
+    {
+      "service": "access-control",
+      "label": "Control de acceso",
+      "photos": [
+        {
+          "file": "torniquete",
+          "widths": [480, 720],
+          "width": 720,
+          "height": 1280,
+          "caption": "Torniquete de cuerpo completo"
+        },
+        {
+          "file": "barrera-vehicular",
+          "widths": [480, 800, 1198],
+          "width": 1198,
+          "height": 1600,
+          "caption": "Barrera vehicular"
+        },
+        {
+          "file": "lector-biometrico",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 1200,
+          "caption": "Lector biométrico"
+        },
+        {
+          "file": "controladoras-acceso",
+          "widths": [480, 800, 900],
+          "width": 900,
+          "height": 1600,
+          "caption": "Controladoras de acceso"
+        },
+        {
+          "file": "acceso-elevador",
+          "widths": [344],
+          "width": 344,
+          "height": 550,
+          "caption": "Control de acceso en elevador"
+        }
+      ]
+    },
+    {
+      "service": "fire-detection",
+      "label": "Detección de incendios",
+      "photos": [
+        {
+          "file": "panel-alarma",
+          "widths": [480, 800, 894],
+          "width": 894,
+          "height": 672,
+          "caption": "Panel de alarma"
+        },
+        {
+          "file": "detector-humo",
+          "widths": [480, 800, 900],
+          "width": 900,
+          "height": 1600,
+          "caption": "Detector de humo"
+        },
+        {
+          "file": "deteccion-aspiracion",
+          "widths": [480, 800, 1198],
+          "width": 1198,
+          "height": 1600,
+          "caption": "Detección por aspiración"
+        },
+        {
+          "file": "anunciador-remoto",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 675,
+          "caption": "Anunciador remoto"
+        },
+        {
+          "file": "panel-control",
+          "widths": [480, 800, 1198],
+          "width": 1198,
+          "height": 1600,
+          "caption": "Panel de control"
+        }
+      ]
+    },
+    {
+      "service": "fire-suppression",
+      "label": "Extinción de incendios",
+      "photos": [
+        {
+          "file": "bomba-contra-incendio",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 554,
+          "caption": "Bomba contra incendio"
+        },
+        {
+          "file": "valvula-control",
+          "widths": [480, 800, 1198],
+          "width": 1198,
+          "height": 1600,
+          "caption": "Válvula de control y manómetro"
+        },
+        {
+          "file": "agente-limpio",
+          "widths": [480, 738],
+          "width": 738,
+          "height": 1600,
+          "caption": "Supresión por agente limpio"
+        },
+        {
+          "file": "red-rociadores",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 1200,
+          "caption": "Red de rociadores"
+        },
+        {
+          "file": "hidrantes",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 899,
+          "caption": "Hidrantes en instalación"
+        }
+      ]
+    },
+    {
+      "service": "structured-cabling",
+      "label": "Voz, datos y fibra",
+      "photos": [
+        {
+          "file": "rack-comunicaciones",
+          "widths": [480, 800, 900],
+          "width": 900,
+          "height": 1600,
+          "caption": "Rack de comunicaciones"
+        },
+        {
+          "file": "patch-panels",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 1200,
+          "caption": "Patch panels y organizadores"
+        },
+        {
+          "file": "peinado-cableado",
+          "widths": [480, 633],
+          "width": 633,
+          "height": 595,
+          "caption": "Peinado de cableado"
+        },
+        {
+          "file": "charola-portacable",
+          "widths": [480, 800, 856],
+          "width": 856,
+          "height": 613,
+          "caption": "Charola portacable"
+        },
+        {
+          "file": "fusion-fibra",
+          "widths": [480, 800, 900],
+          "width": 900,
+          "height": 1600,
+          "caption": "Fusión de fibra óptica"
+        }
+      ]
+    },
+    {
+      "service": "electrical",
+      "label": "Instalaciones eléctricas",
+      "photos": [
+        {
+          "file": "centro-carga",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 675,
+          "caption": "Centro de carga"
+        },
+        {
+          "file": "contactos",
+          "widths": [480, 738],
+          "width": 738,
+          "height": 1600,
+          "caption": "Contacto y salida de datos"
+        },
+        {
+          "file": "canalizacion-registros",
+          "widths": [480, 800, 1200],
+          "width": 1200,
+          "height": 675,
+          "caption": "Canalización y registros"
+        },
+        {
+          "file": "charola-plafon",
+          "widths": [480, 800, 1096],
+          "width": 1096,
+          "height": 399,
+          "caption": "Charola en plafón"
+        },
+        {
+          "file": "tuberia-conduit",
+          "widths": [480, 738],
+          "width": 738,
+          "height": 1600,
+          "caption": "Tubería conduit"
+        }
+      ]
+    }
   ]
 }
