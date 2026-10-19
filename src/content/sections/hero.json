@@ -15,7 +15,7 @@
     "href": "#proyectos"
   },
   "video": {
-    "label": "Mensaje de nuestro director",
+    "label": "Mensaje de nuestro director comercial",
     "meta": "Video · 0:21",
     "title": "Mensaje de Carlos, cofundador y director comercial de Grupo SESLUM",
     "closeLabel": "Cerrar video",
@@ -26,7 +26,7 @@
       "height": 720
     },
     "thumbnail": {
-      "src": "/images/hero/director-miniatura-320.webp",
+      "src": "/images/hero/director-miniatura-logo-320.webp",
       "width": 320,
       "height": 180
     }
