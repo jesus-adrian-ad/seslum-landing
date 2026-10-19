@@ -1,29 +1,38 @@
 /**
- * Reglas puras para arrancar Google Tag Manager.
+ * Instalación de Google Tag Manager con los fragmentos oficiales de Google.
  *
- * Aquí solo vive lo que se puede probar sin navegador: validar el ID del
- * contenedor, armar la URL del script y el evento de arranque. Los efectos sobre
- * el DOM viven en el componente TagManager.
+ * El fragmento del `<head>` y el `<noscript>` son los mismos que entrega GTM al
+ * instalar un contenedor; solo cambia el ID. En el `<noscript>`, el `style` en
+ * línea de Google se sustituye por `hidden`, porque la CSP no permite estilos en
+ * línea. El ID se valida contra un patrón de letras, dígitos y guion antes de
+ * insertarlo, así un valor mal formado no puede inyectar código ni HTML. El
+ * consentimiento por defecto debe declararse antes de este fragmento (ver
+ * consent-bootstrap.ts).
  */
 
 const GTM_ID_PATTERN = /^GTM-[A-Z0-9]{4,12}$/;
-const GTM_SCRIPT_ORIGIN = "https://www.googletagmanager.com";
-
-export interface GtmStartEvent {
-  readonly "gtm.start": number;
-  readonly event: "gtm.js";
-}
+const GTM_ORIGIN = "https://www.googletagmanager.com";
 
 export function isValidGtmId(id: string): boolean {
   return GTM_ID_PATTERN.test(id);
 }
 
-export function buildGtmScriptUrl(id: string): string {
-  const url = new URL("/gtm.js", GTM_SCRIPT_ORIGIN);
-  url.searchParams.set("id", id);
-  return url.toString();
+function assertValidGtmId(id: string): void {
+  if (!isValidGtmId(id)) {
+    throw new Error(`ID de contenedor de GTM inválido: ${JSON.stringify(id)}`);
+  }
 }
 
-export function buildGtmStartEvent(timestamp: number): GtmStartEvent {
-  return { "gtm.start": timestamp, event: "gtm.js" };
+export function buildGtmHeadSnippet(id: string): string {
+  assertValidGtmId(id);
+  return `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'${GTM_ORIGIN}/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${id}');`;
+}
+
+export function buildGtmNoscriptHtml(id: string): string {
+  assertValidGtmId(id);
+  return `<noscript><iframe src="${GTM_ORIGIN}/ns.html?id=${id}" title="Google Tag Manager" height="0" width="0" hidden></iframe></noscript>`;
 }

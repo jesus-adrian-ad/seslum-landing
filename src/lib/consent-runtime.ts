@@ -2,7 +2,8 @@
  * Lado del navegador del consentimiento: lee y guarda la decisión y la publica
  * en el dataLayer con Consent Mode v2.
  *
- * Lo comparten TagManager (consentimiento por defecto) y el banner (actualización).
+ * Lo usa el banner para leer y actualizar la decisión; el consentimiento por
+ * defecto lo declara antes de GTM el script de consent-bootstrap.ts.
  * El almacenamiento puede fallar (modo privado, cookies bloqueadas): en ese caso
  * la decisión vale solo para esta visita y el sitio sigue funcionando. Consent
  * Mode solo reconoce los comandos publicados como objeto `arguments`; con un
