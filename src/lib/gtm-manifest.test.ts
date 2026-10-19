@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { buildConsentBootstrapScript } from "@/lib/consent-bootstrap";
-import { buildGtmNoscriptHtml, buildGtmOnLoadScript } from "@/lib/gtm";
+import { buildGtmNoscriptHtml, buildGtmDeferredScript } from "@/lib/gtm";
 import { buildGtmManifest } from "@/lib/gtm-manifest";
 
 describe("buildGtmManifest", () => {
   it("puts the consent default before Google's snippet", () => {
     const manifest = buildGtmManifest({ gtmId: "GTM-NPV6M437", comingSoon: false });
-    expect(manifest.headScripts).toEqual([buildConsentBootstrapScript(), buildGtmOnLoadScript("GTM-NPV6M437")]);
+    expect(manifest.headScripts).toEqual([buildConsentBootstrapScript(), buildGtmDeferredScript("GTM-NPV6M437")]);
     expect(manifest.bodyHtml).toBe(buildGtmNoscriptHtml("GTM-NPV6M437"));
   });
 

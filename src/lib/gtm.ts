@@ -9,9 +9,11 @@
  * consentimiento por defecto debe declararse antes de este fragmento (ver
  * consent-bootstrap.ts).
  *
- * El fragmento se ejecuta al terminar la carga de la página (evento `load`), sin
- * cambiarle una letra: desde el `<head>`, `gtm.js` competía con la foto del
- * encabezado y el LCP móvil pasaba de 2.5 s.
+ * El fragmento se ejecuta sin cambiarle una letra cuando la página terminó de
+ * cargar y el hilo principal está libre (evento `load` y después
+ * `requestIdleCallback`, con 3 s de tope). Solo con `load` no alcanzaba: la
+ * página dispara `load` antes de pintar la foto del encabezado, `gtm.js` empezaba
+ * antes del LCP y Lighthouse lo contaba dentro de él (LCP móvil arriba de 2.5 s).
  */
 
 const GTM_ID_PATTERN = /^GTM-[A-Z0-9]{4,12}$/;
@@ -36,8 +38,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${id}');`;
 }
 
-export function buildGtmOnLoadScript(id: string): string {
-  return `window.addEventListener("load",function(){${buildGtmHeadSnippet(id)}},{once:true});`;
+export const GTM_IDLE_TIMEOUT_MS = 3000;
+
+export function buildGtmDeferredScript(id: string): string {
+  return `window.addEventListener("load",function(){var r=window.requestIdleCallback||function(f){window.setTimeout(f,1);};r(function(){${buildGtmHeadSnippet(id)}},{timeout:${GTM_IDLE_TIMEOUT_MS}});},{once:true});`;
 }
 
 export function buildGtmNoscriptHtml(id: string): string {
