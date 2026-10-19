@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { runInNewContext } from "node:vm";
-import { buildGtmHeadSnippet, buildGtmNoscriptHtml, buildGtmOnLoadScript, isValidGtmId } from "@/lib/gtm";
+import { buildGtmDeferredScript, buildGtmHeadSnippet, buildGtmNoscriptHtml, GTM_IDLE_TIMEOUT_MS, isValidGtmId } from "@/lib/gtm";
 
 const GOOGLE_HEAD_SNIPPET = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -28,31 +28,63 @@ describe("buildGtmHeadSnippet", () => {
   });
 });
 
-describe("buildGtmOnLoadScript", () => {
+interface Harness {
+  readonly loadListeners: Array<{ type: string; run: () => void; once: unknown }>;
+  readonly idleCalls: Array<{ run: () => void; timeout: unknown }>;
+  readonly timeouts: Array<{ run: () => void; delay: unknown }>;
+  readonly inserted: string[];
+}
+
+function runDeferred(withIdleCallback: boolean): Harness {
+  const harness: Harness = { loadListeners: [], idleCalls: [], timeouts: [], inserted: [] };
+  const script = { async: false, src: "" };
+  const fakeWindow = {
+    addEventListener: (type: string, run: () => void, options: { once?: boolean }) =>
+      harness.loadListeners.push({ type, run, once: options.once }),
+    setTimeout: (run: () => void, delay: number) => harness.timeouts.push({ run, delay }),
+    ...(withIdleCallback
+      ? {
+          requestIdleCallback: (run: () => void, options: { timeout?: number }) =>
+            harness.idleCalls.push({ run, timeout: options.timeout }),
+        }
+      : {}),
+  };
+  const fakeDocument = {
+    createElement: () => script,
+    getElementsByTagName: () => [{ parentNode: { insertBefore: (node: typeof script) => harness.inserted.push(node.src) } }],
+  };
+  runInNewContext(buildGtmDeferredScript("GTM-NPV6M437"), { window: fakeWindow, document: fakeDocument });
+  return harness;
+}
+
+const GTM_SCRIPT_URL = "https://www.googletagmanager.com/gtm.js?id=GTM-NPV6M437";
+
+describe("buildGtmDeferredScript", () => {
   it("wraps Google's snippet unchanged", () => {
-    expect(buildGtmOnLoadScript("GTM-NPV6M437")).toContain(GOOGLE_HEAD_SNIPPET);
+    expect(buildGtmDeferredScript("GTM-NPV6M437")).toContain(GOOGLE_HEAD_SNIPPET);
   });
 
-  it("runs the snippet only once the page has loaded", () => {
-    const listeners: Array<{ type: string; run: () => void; once: unknown }> = [];
-    const inserted: string[] = [];
-    const script = { async: false, src: "" };
-    const fakeWindow = {
-      addEventListener: (type: string, run: () => void, options: { once?: boolean }) =>
-        listeners.push({ type, run, once: options.once }),
-    };
-    const fakeDocument = {
-      createElement: () => script,
-      getElementsByTagName: () => [{ parentNode: { insertBefore: (node: typeof script) => inserted.push(node.src) } }],
-    };
-    runInNewContext(buildGtmOnLoadScript("GTM-NPV6M437"), { window: fakeWindow, document: fakeDocument });
-    expect(inserted).toEqual([]);
-    expect(listeners).toHaveLength(1);
-    expect(listeners[0]?.type).toBe("load");
-    expect(listeners[0]?.once).toBe(true);
-    listeners[0]?.run();
-    expect(inserted).toEqual(["https://www.googletagmanager.com/gtm.js?id=GTM-NPV6M437"]);
-    expect(script.async).toBe(true);
+  it("waits for the load event and then for idle time before loading the container", () => {
+    const harness = runDeferred(true);
+    expect(harness.inserted).toEqual([]);
+    expect(harness.loadListeners).toHaveLength(1);
+    expect(harness.loadListeners[0]?.type).toBe("load");
+    expect(harness.loadListeners[0]?.once).toBe(true);
+    harness.loadListeners[0]?.run();
+    expect(harness.inserted).toEqual([]);
+    expect(harness.idleCalls).toHaveLength(1);
+    expect(harness.idleCalls[0]?.timeout).toBe(GTM_IDLE_TIMEOUT_MS);
+    harness.idleCalls[0]?.run();
+    expect(harness.inserted).toEqual([GTM_SCRIPT_URL]);
+  });
+
+  it("falls back to a timeout where requestIdleCallback does not exist", () => {
+    const harness = runDeferred(false);
+    harness.loadListeners[0]?.run();
+    expect(harness.inserted).toEqual([]);
+    expect(harness.timeouts).toHaveLength(1);
+    harness.timeouts[0]?.run();
+    expect(harness.inserted).toEqual([GTM_SCRIPT_URL]);
   });
 });
 

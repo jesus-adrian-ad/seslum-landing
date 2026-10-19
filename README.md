@@ -564,10 +564,10 @@ calcular los hashes de la CSP:
    denegado, o la decisión guardada si sigue vigente. Va antes de GTM para que
    ninguna etiqueta se dispare sin estado de consentimiento.
 2. Enseguida, el fragmento oficial de Google (`buildGtmHeadSnippet` en
-   `src/lib/gtm.ts`), idéntico al que entrega GTM salvo el ID. Se ejecuta al
-   terminar la carga de la página (`buildGtmOnLoadScript`, evento `load`): desde
-   el `<head>`, `gtm.js` competía con la foto del encabezado y el LCP móvil
-   pasaba de 2.5 s.
+   `src/lib/gtm.ts`), idéntico al que entrega GTM salvo el ID. Se ejecuta cuando
+   la página terminó de cargar y el hilo principal está libre
+   (`buildGtmDeferredScript`: evento `load` y después `requestIdleCallback`, con
+   3 s de tope), para que `gtm.js` no entre en el LCP.
 3. Al inicio del `<body>`, el `<noscript>` oficial. Solo se carga sin JavaScript,
    donde no hay banner: va sin consentimiento (decisión de Adrián, a petición de
    marketing). El `style` en línea de Google se cambia por `hidden`, porque la CSP
@@ -801,6 +801,14 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   al isotipo sobre navy (opción A; el logo horizontal quedaba ilegible a 104 px y
   el botón de reproducir lo tapaba). Nombre nuevo por la caché de 30 días; el
   póster dentro del video no cambia.
+- **19/oct/2026** — El fragmento de GTM espera además a tiempo ocioso
+  (`requestIdleCallback`, tope de 3 s). Solo con `load`, el PR de Por qué SESLUM
+  falló Lighthouse (LCP 2.55, 2.76 y 2.76 s): la página dispara `load` antes de
+  pintar la foto del encabezado, así que `gtm.js` empezaba antes del LCP observado
+  y la simulación de Lighthouse lo sumaba a él. Medido con Lighthouse y un
+  `gtm.js` de prueba de 95 KB: con `load` empezaba a los 151 ms con el LCP a los
+  262 ms; con tiempo ocioso, siempre después del LCP. Es el mismo momento en que
+  cargaba `TagManager` (LCP de 1.4–1.5 s); el fragmento de Google sigue sin cambios.
 - **18/oct/2026** — El fragmento de GTM corre en el evento `load` (opción A de
   Adrián). Ejecutado desde el `<head>`, el push a `develop` falló Lighthouse: LCP
   de 2.63 s (2.67, 2.63 y 2.93 en las tres corridas; con la carga diferida de
