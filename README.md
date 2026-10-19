@@ -559,7 +559,10 @@ calcular los hashes de la CSP:
    denegado, o la decisión guardada si sigue vigente. Va antes de GTM para que
    ninguna etiqueta se dispare sin estado de consentimiento.
 2. Enseguida, el fragmento oficial de Google (`buildGtmHeadSnippet` en
-   `src/lib/gtm.ts`), idéntico al que entrega GTM salvo el ID.
+   `src/lib/gtm.ts`), idéntico al que entrega GTM salvo el ID. Se ejecuta al
+   terminar la carga de la página (`buildGtmOnLoadScript`, evento `load`): desde
+   el `<head>`, `gtm.js` competía con la foto del encabezado y el LCP móvil
+   pasaba de 2.5 s.
 3. Al inicio del `<body>`, el `<noscript>` oficial. Solo se carga sin JavaScript,
    donde no hay banner: va sin consentimiento (decisión de Adrián, a petición de
    marketing). El `style` en línea de Google se cambia por `hidden`, porque la CSP
@@ -778,6 +781,13 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **18/oct/2026** — El fragmento de GTM corre en el evento `load` (opción A de
+  Adrián). Ejecutado desde el `<head>`, el push a `develop` falló Lighthouse: LCP
+  de 2.63 s (2.67, 2.63 y 2.93 en las tres corridas; con la carga diferida de
+  `TagManager` estaba en 1.4–1.5 s) y el trabajo del hilo principal en 0. El texto
+  de Google no cambia y sigue visible en el código fuente; el consentimiento por
+  defecto se declara de inmediato. Costo: no se cuentan las visitas que cierran
+  antes de que termine la carga.
 - **18/oct/2026** — GTM con los fragmentos oficiales de Google (decisión de
   Adrián, para seguir el procedimiento de marketing). Se elimina `TagManager`.
   Se insertan después del build, como el JSON-LD: desde React exigían

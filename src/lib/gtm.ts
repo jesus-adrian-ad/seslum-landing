@@ -8,6 +8,10 @@
  * insertarlo, así un valor mal formado no puede inyectar código ni HTML. El
  * consentimiento por defecto debe declararse antes de este fragmento (ver
  * consent-bootstrap.ts).
+ *
+ * El fragmento se ejecuta al terminar la carga de la página (evento `load`), sin
+ * cambiarle una letra: desde el `<head>`, `gtm.js` competía con la foto del
+ * encabezado y el LCP móvil pasaba de 2.5 s.
  */
 
 const GTM_ID_PATTERN = /^GTM-[A-Z0-9]{4,12}$/;
@@ -30,6 +34,10 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 '${GTM_ORIGIN}/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','${id}');`;
+}
+
+export function buildGtmOnLoadScript(id: string): string {
+  return `window.addEventListener("load",function(){${buildGtmHeadSnippet(id)}},{once:true});`;
 }
 
 export function buildGtmNoscriptHtml(id: string): string {
