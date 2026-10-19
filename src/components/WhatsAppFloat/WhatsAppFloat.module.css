@@ -1,21 +1,28 @@
 /**
- * Botón flotante de WhatsApp: círculo de acento con la etiqueta a su izquierda,
- * oculta hasta el hover o el foco. Respeta el área segura inferior de los
- * teléfonos y queda por encima del contenido, pero debajo del menú (que vive en
- * la capa superior como dialog modal). En móvil, mientras el banner de cookies
- * está visible, sube su alto (--consent-offset) para no quedar tapado.
+ * Botón flotante de WhatsApp: pastilla de acento con el ícono y la invitación al
+ * entrar; recogido (`data-collapsed`) queda un círculo con el ícono. El texto se
+ * oculta recortando su ancho, no con `display: none`, para que siga siendo el
+ * nombre accesible. El texto no cambia de ancho mientras se recoge (una línea en
+ * escritorio, dos de ancho fijo en móvil), así no se reacomoda. Respeta el área segura inferior de los teléfonos y queda
+ * por encima del contenido, pero debajo del menú (que vive en la capa superior
+ * como dialog modal). En móvil, mientras el banner de cookies está visible, sube
+ * su alto (--consent-offset) para no quedar tapado.
  */
 
 .float {
+  --float-padding: calc((var(--float-size) - var(--icon-md)) / 2);
+  --float-text-width: var(--float-text-width-lg);
+
   position: fixed;
   right: max(var(--space-5), env(safe-area-inset-right));
   bottom: max(var(--space-5), env(safe-area-inset-bottom));
   z-index: var(--z-floating);
-  display: grid;
-  place-items: center;
-  width: var(--float-size);
+  display: flex;
+  align-items: center;
+  min-width: var(--float-size);
   height: var(--float-size);
-  border-radius: 50%;
+  padding-inline: var(--float-padding);
+  border-radius: calc(var(--float-size) / 2);
   background-color: var(--color-accent);
   box-shadow: var(--shadow-float);
   color: var(--color-on-accent);
@@ -26,48 +33,46 @@
     bottom var(--duration-base) var(--ease-out);
 }
 
-.float::before {
-  position: absolute;
-  inset: 0;
-  border: var(--line-thick) solid var(--color-accent);
-  border-radius: inherit;
-  opacity: 0;
-  pointer-events: none;
-  content: "";
-  animation: float-ring var(--duration-pulse) var(--ease-out) calc(var(--float-delay) + var(--duration-enter)) 3;
-}
-
 .float:focus-visible {
   outline-offset: var(--focus-offset);
 }
 
 .icon {
+  flex: none;
   width: var(--icon-md);
   height: var(--icon-md);
 }
 
-.label {
-  position: absolute;
-  top: 50%;
-  right: calc(100% + var(--space-3));
-  padding: var(--space-2) var(--space-3);
-  background-color: var(--color-overlay);
-  border: var(--border-width) solid var(--color-line);
-  color: var(--color-text);
-  font-size: var(--fs-small);
-  font-weight: var(--fw-semibold);
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(var(--space-2), -50%);
+.text {
+  max-width: var(--float-text-width);
+  margin-inline-start: var(--space-2);
+  overflow: hidden;
+  opacity: 1;
   transition:
-    opacity var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
+    max-width var(--duration-base) var(--ease-out),
+    margin var(--duration-base) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
 }
 
-.float:focus-visible .label {
+.label {
+  display: block;
+  width: max-content;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  white-space: nowrap;
+}
+
+.float[data-collapsed] .text {
+  max-width: 0;
+  margin-inline-start: 0;
+  opacity: 0;
+}
+
+.float[data-collapsed]:focus-visible .text {
+  max-width: var(--float-text-width);
+  margin-inline-start: var(--space-2);
   opacity: 1;
-  transform: translate(0, -50%);
 }
 
 @media (hover: hover) {
@@ -75,13 +80,23 @@
     background-color: var(--color-accent-hover);
   }
 
-  .float:hover .label {
+  .float[data-collapsed]:hover .text {
+    max-width: var(--float-text-width);
+    margin-inline-start: var(--space-2);
     opacity: 1;
-    transform: translate(0, -50%);
   }
 }
 
 @media (max-width: 639px) {
+  .float {
+    --float-text-width: var(--float-text-width-sm);
+  }
+
+  .label {
+    width: var(--float-text-width);
+    white-space: normal;
+  }
+
   :global(:root[data-consent-banner="visible"]) .float {
     bottom: calc(max(var(--space-3), env(safe-area-inset-bottom)) + var(--consent-offset, 0px) + var(--space-3));
   }
@@ -91,17 +106,5 @@
   from {
     opacity: 0;
     transform: scale(0.6);
-  }
-}
-
-@keyframes float-ring {
-  from {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-
-  to {
-    opacity: 0;
-    transform: scale(1.6);
   }
 }
