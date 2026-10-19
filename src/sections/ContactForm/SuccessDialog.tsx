@@ -10,7 +10,8 @@
  * luego la palomita, solo con CSS; con movimiento reducido aparece completo.
  */
 
-import { type MouseEvent, useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
+import { closeOnBackdrop } from "@/lib/dialog";
 import styles from "./SuccessDialog.module.css";
 
 export interface SuccessDialogProps {
@@ -43,12 +44,6 @@ export function SuccessDialog({ open, title, body, closeLabel, onClose }: Succes
 
   const close = (): void => {
     dialogRef.current?.close();
-  };
-
-  const closeOnBackdrop = (event: MouseEvent<HTMLDialogElement>): void => {
-    if (event.target === event.currentTarget) {
-      close();
-    }
   };
 
   return (

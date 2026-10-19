@@ -128,6 +128,16 @@ export interface HeroMedia {
   readonly slides: readonly HeroSlide[];
 }
 
+export interface HeroVideo {
+  readonly label: string;
+  readonly meta: string;
+  readonly title: string;
+  readonly closeLabel: string;
+  readonly src: string;
+  readonly poster: ImageFile;
+  readonly thumbnail: ImageFile;
+}
+
 export interface HeroContent {
   readonly id: string;
   readonly eyebrow: string;
@@ -135,6 +145,7 @@ export interface HeroContent {
   readonly lead: readonly string[];
   readonly primaryCta: LinkAction;
   readonly secondaryCta: LinkAction;
+  readonly video: HeroVideo;
   readonly media: HeroMedia;
   readonly panel: {
     readonly title: string;

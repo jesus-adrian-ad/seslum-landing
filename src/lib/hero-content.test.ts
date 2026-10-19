@@ -32,4 +32,16 @@ describe("parseHeroContent", () => {
     const blank: HeroContent = { ...hero, media: { ...hero.media, alt: "  " } };
     expect(() => parseHeroContent(blank)).toThrow(/media\.alt/);
   });
+
+  it("exige que el video sea un .mp4 del propio sitio", () => {
+    const external: HeroContent = { ...hero, video: { ...hero.video, src: "https://youtu.be/abc" } };
+    const otherFolder: HeroContent = { ...hero, video: { ...hero.video, src: "/images/video.mp4" } };
+    expect(() => parseHeroContent(external)).toThrow(/video\.src/);
+    expect(() => parseHeroContent(otherFolder)).toThrow(/video\.src/);
+  });
+
+  it("rechaza textos vacíos del video, que son su nombre accesible", () => {
+    const blank: HeroContent = { ...hero, video: { ...hero.video, closeLabel: " " } };
+    expect(() => parseHeroContent(blank)).toThrow(/video\.closeLabel/);
+  });
 });

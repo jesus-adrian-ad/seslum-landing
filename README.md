@@ -227,6 +227,23 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   al compartir usa la primera foto: `npm run og:image`.
 - Fotos de la carpeta de proyectos de SESLUM (13/oct). Se evitaron las que
   muestran el rostro de técnicos.
+- **Mensaje del director** (18/oct): tarjeta debajo de las llamadas a la acción
+  con miniatura, "Mensaje de nuestro director" y la duración (`HeroVideo`). Abre
+  el video en un `<dialog>` modal, arranca dentro del mismo clic (Safari en
+  iPhone solo reproduce con sonido así) y al cerrar se detiene y vuelve al
+  inicio. No pesa en la carga: el video lleva `preload="none"`, el póster se
+  asigna al abrir y la miniatura va con `loading="lazy"` (sin eso React la
+  precarga y compite con la foto LCP). Los subtítulos vienen grabados en el
+  video. Abrirlo publica `video_start`.
+- Video en `public/videos/` (la CSP solo permite medios del propio sitio;
+  Pages admite hasta 25 MB por archivo). El original de 30 MB (`.mov` 1080p)
+  se comprimió a MP4 de unos 6 MB y se le recortaron 32 px del borde derecho,
+  que traía una franja blanca: `ffmpeg -i original.mov -map_metadata -1 -vf
+  "crop=1888:1062:0:9,scale=1920:1080:flags=lanczos" -c:v libx264 -preset slow
+  -crf 23 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 128k
+  mensaje-director-v1.mp4`. Miniatura (segundo 17) y póster en
+  `assets-src/hero/director-*.jpg`. Si cambia el video, lleva otro nombre
+  (`-v2`), por la caché de 30 días.
 
 ### 3 · Servicios
 
@@ -533,6 +550,7 @@ desde GTM, con las cuentas a nombre de Grupo SESLUM.
 | Evento | Se dispara cuando | Parámetros |
 |---|---|---|
 | `generate_lead` | El servidor confirma el envío del formulario (evento clave en GA4) | `source` (`form`), `service` |
+| `video_start` | Se abre el mensaje del director en el encabezado | `source` (`hero`), `video_title` |
 | `virtual_page_view` | Justo después de `generate_lead`: página vista virtual del agradecimiento. La URL real no cambia y `/gracias` no existe como página, así que no se puede abrir, recargar ni contar dos veces | `page_path` (`/gracias`), `page_title`, `page_location` |
 | `click_whatsapp` | Clic en cualquier enlace de WhatsApp | `source` |
 | `click_phone` | Clic en un enlace `tel:` | `source` |
@@ -732,6 +750,13 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **18/oct/2026** — Mensaje del director en el encabezado (pedido de SESLUM),
+  opción C de las tres propuestas: tarjeta con miniatura que abre el video en una
+  ventana. El cierre con clic fuera pasa a `src/lib/dialog.ts`, compartido con la
+  confirmación del formulario. Se probó un hook común para abrir las ventanas,
+  pero el React Compiler lo rechaza (trata como lectura de la ref cualquier uso
+  del objeto que la contiene) y el video necesita abrir y reproducir dentro del
+  clic, no en un efecto.
 - **16/oct/2026** — Las variantes de Bancario se renombran a
   `bancario-cajero-*.webp`. Con el mismo nombre, el navegador seguía mostrando la
   foto del monitor desde su caché de 30 días en `develop` (en el preview del PR se

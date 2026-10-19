@@ -5,7 +5,8 @@
  *
  * Se renderiza en el servidor. La entrada y el carrusel son CSS puro, así se
  * ven animados desde el primer pintado sin esperar a JavaScript; solo el
- * parallax del scroll vive en HeroScrollEffects.
+ * parallax del scroll vive en HeroScrollEffects. Debajo de las llamadas a la
+ * acción va el mensaje del director (HeroVideo), que abre el video en una ventana.
  *
  * Cada foto trae un recorte horizontal (srcset por ancho) y dos verticales: uno
  * de 430 px para teléfonos y uno mayor para tabletas. Los verticales van a
@@ -25,6 +26,7 @@ import type { HeroContent, HeroSlide } from "@/types/content";
 import styles from "./Hero.module.css";
 import { HeroScrollEffects } from "./HeroScrollEffects";
 import { HeroSlideLoader } from "./HeroSlideLoader";
+import { HeroVideo } from "./HeroVideo";
 
 const PHONE_MEDIA = "(orientation: portrait) and (max-width: 480px)";
 const TABLET_MEDIA = "(orientation: portrait) and (min-width: 481px)";
@@ -137,6 +139,9 @@ export function Hero({ content }: HeroProps) {
             <ButtonLink href={content.secondaryCta.href} variant="outline">
               {content.secondaryCta.label}
             </ButtonLink>
+          </div>
+          <div className={styles.video}>
+            <HeroVideo content={content.video} />
           </div>
         </div>
 

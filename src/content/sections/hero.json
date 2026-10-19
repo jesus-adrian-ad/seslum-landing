@@ -14,6 +14,23 @@
     "label": "Ver proyectos",
     "href": "#proyectos"
   },
+  "video": {
+    "label": "Mensaje de nuestro director",
+    "meta": "Video · 0:21",
+    "title": "Mensaje de Carlos, cofundador y director comercial de Grupo SESLUM",
+    "closeLabel": "Cerrar video",
+    "src": "/videos/mensaje-director-v1.mp4",
+    "poster": {
+      "src": "/images/hero/director-poster-1280.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "thumbnail": {
+      "src": "/images/hero/director-miniatura-320.webp",
+      "width": 320,
+      "height": 180
+    }
+  },
   "media": {
     "alt": "Obras de Grupo SESLUM: videovigilancia, control de acceso, detección y extinción de incendios, voz y datos e instalaciones eléctricas",
     "sizes": "100vw",
