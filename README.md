@@ -471,6 +471,12 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   Tiandy y Honeywell no tienen Vo.Bo.; Adrián decidió mostrarlas con logo
   (05/oct), bajo responsabilidad de SESLUM. Honeywell va con el logo de
   Honeywell Technologies (sus marcas pertenecen al grupo).
+- Avigilon, Motorola Solutions y ADISES (19/oct): logos que entregó SESLUM como
+  JPG de baja resolución (404–627 px de ancho, con artefactos de compresión). Se
+  recortaron a su contenido, se limpiaron (escala ×4, filtro bilateral, fondo
+  llevado a blanco, reducción y enfoque leve) y se guardaron como WebP calidad 90
+  (6–10 KB). Originales en `assets-src/marcas/`. Si llegan vectores oficiales, se
+  sustituyen cambiando solo el archivo y las medidas en el JSON.
 - Las marcas que todavía no tienen logo van **en texto**, agrupadas por
   especialidad ("También trabajamos con"): LenelS2, Onity, Supra, NOTIFIER,
   System Sensor, Fire-Lite y Silent Knight. Pasan a logo cambiando solo el JSON.
@@ -786,6 +792,11 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **19/oct/2026** — Alianzas: se suman Avigilon, Motorola Solutions y ADISES con
+  logo (pedido de SESLUM). Llegaron como JPG pequeños con artefactos; se limpiaron
+  sin redibujarlos, que es lo que permite la calidad de origen. Con nueve logos la
+  rejilla de escritorio queda en 3 × 3; en móvil (dos columnas) el último queda
+  solo.
 - **19/oct/2026** — Botón flotante de WhatsApp más visible (pedido de SESLUM),
   propuesta 2 de Adrián: extendido con "¿Tiene dudas? Escríbanos por mensaje" al
   entrar y solo ícono desde el primer scroll. Se descartaron el borde (seguía
