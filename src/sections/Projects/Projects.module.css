@@ -1,6 +1,7 @@
 /**
- * Proyectos: tira de pestañas deslizable (en una fila desde 860 px) y, por
- * línea, una rejilla de cinco fotos. En móvil la primera va a todo el ancho y
+ * Proyectos: las pestañas van siempre en una sola fila (decisión de SESLUM):
+ * tira deslizable hasta 1199 px y, desde 1200 px, las seis repartidas en el
+ * ancho con menos relleno. Por línea de servicio, una rejilla de cinco fotos. En móvil la primera va a todo el ancho y
  * las otras cuatro en 2 × 2; desde 860 px la primera ocupa dos filas a la
  * izquierda y las otras cuatro van en 2 × 2 a su derecha. Las fotos se recortan
  * con object-fit; el pie va sobre un velo que oscurece hacia abajo.
@@ -241,6 +242,21 @@
 @media (hover: hover) {
   .viewerButton:hover {
     border-color: var(--color-accent);
+  }
+}
+
+@media (min-width: 1200px) {
+  .list {
+    gap: var(--space-1);
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .tab {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding-inline: var(--space-3);
   }
 }
 
