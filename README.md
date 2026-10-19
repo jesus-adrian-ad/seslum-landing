@@ -783,6 +783,9 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **19/oct/2026** — Por qué SESLUM (observación de SESLUM): subtítulo nuevo,
+  "Un sistema mal diseñado puede terminar costando el doble…", que cambia la
+  invitación a ver la tabla por el compromiso de diseñar bien desde el inicio.
 - **19/oct/2026** — Mensaje del director (pedido de SESLUM): el botón dice
   "Mensaje de nuestro director comercial" y la miniatura pasa de la cara de Carlos
   al isotipo sobre navy (opción A; el logo horizontal quedaba ilegible a 104 px y

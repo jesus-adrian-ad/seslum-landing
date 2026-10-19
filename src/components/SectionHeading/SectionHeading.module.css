@@ -1,6 +1,7 @@
 /**
  * Escala del encabezado de sección: eyebrow en acento, título negro compacto y
- * entrada con medida de lectura limitada.
+ * entrada con medida de lectura limitada y sin una palabra sola en la última
+ * línea (`text-wrap: pretty`).
  */
 
 .heading {
@@ -28,6 +29,7 @@
   margin-top: var(--space-3);
   color: var(--color-text-muted);
   font-size: var(--fs-body);
+  text-wrap: pretty;
 }
 
 @media (min-width: 768px) {
