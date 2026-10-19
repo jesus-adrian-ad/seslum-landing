@@ -228,7 +228,9 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Fotos de la carpeta de proyectos de SESLUM (13/oct). Se evitaron las que
   muestran el rostro de técnicos.
 - **Mensaje del director** (18/oct): tarjeta debajo de las llamadas a la acción
-  con miniatura, "Mensaje de nuestro director" y la duración (`HeroVideo`). Abre
+  con miniatura, "Mensaje de nuestro director comercial" y la duración
+  (`HeroVideo`). La miniatura es el isotipo sobre navy
+  (`assets-src/hero/director-miniatura-logo.svg`, 320 px a calidad 70). Abre
   el video en un `<dialog>` modal, arranca dentro del mismo clic (Safari en
   iPhone solo reproduce con sonido así) y al cerrar se detiene y vuelve al
   inicio. No pesa en la carga: el video lleva `preload="none"`, el póster se
@@ -781,6 +783,11 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **19/oct/2026** — Mensaje del director (pedido de SESLUM): el botón dice
+  "Mensaje de nuestro director comercial" y la miniatura pasa de la cara de Carlos
+  al isotipo sobre navy (opción A; el logo horizontal quedaba ilegible a 104 px y
+  el botón de reproducir lo tapaba). Nombre nuevo por la caché de 30 días; el
+  póster dentro del video no cambia.
 - **18/oct/2026** — El fragmento de GTM corre en el evento `load` (opción A de
   Adrián). Ejecutado desde el `<head>`, el push a `develop` falló Lighthouse: LCP
   de 2.63 s (2.67, 2.63 y 2.93 en las tres corridas; con la carga diferida de
