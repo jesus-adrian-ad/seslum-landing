@@ -5,7 +5,8 @@ import { DEFERRED_SRC_ATTR, DEFERRED_SRCSET_ATTR } from "@/lib/deferred-media";
 import { Hero } from "./Hero";
 
 const markup = renderToStaticMarkup(<Hero content={hero} />);
-const count = (pattern: RegExp) => markup.match(pattern)?.length ?? 0;
+const backdrop = markup.slice(0, markup.indexOf("data-hero-content"));
+const count = (pattern: RegExp, source = backdrop) => source.match(pattern)?.length ?? 0;
 
 describe("Hero", () => {
   it("solo la primera foto sale con src; las demás, con los atributos que carga HeroSlideLoader", () => {
@@ -20,7 +21,7 @@ describe("Hero", () => {
     const [first] = hero.media.slides;
     expect(markup).toContain(`<source media="(orientation: portrait) and (max-width: 480px)" srcSet="${first?.portrait.phone.src}"`);
     expect(markup).toContain(`<source media="(orientation: portrait) and (min-width: 481px)" srcSet="${first?.portrait.tablet.src}"`);
-    expect(count(/<link rel="preload"/g)).toBe(3);
+    expect(count(/<link rel="preload"/g, markup)).toBe(3);
     expect(count(/<source media="\(orientation: portrait\) and \(max-width: 480px\)"/g)).toBe(hero.media.slides.length);
   });
 

@@ -149,6 +149,12 @@
   animation-delay: calc(var(--delay-enter) * 6);
 }
 
+.video {
+  margin-top: var(--space-6);
+  animation: rise var(--duration-reveal) var(--ease-out) both;
+  animation-delay: calc(var(--delay-enter) * 6.5);
+}
+
 .panel {
   position: relative;
   overflow: hidden;

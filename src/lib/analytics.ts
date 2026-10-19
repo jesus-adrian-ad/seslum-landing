@@ -15,6 +15,7 @@
 export const ANALYTICS_EVENTS = {
   lead: "generate_lead",
   virtualPageView: "virtual_page_view",
+  videoStart: "video_start",
   whatsappClick: "click_whatsapp",
   phoneClick: "click_phone",
   emailClick: "click_email",
