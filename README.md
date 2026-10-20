@@ -227,6 +227,14 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   al compartir usa la primera foto: `npm run og:image`.
 - Fotos de la carpeta de proyectos de SESLUM (13/oct). Se evitaron las que
   muestran el rostro de técnicos.
+- **Foto de videovigilancia** (20/oct, observación de SESLUM): la primera foto
+  del carrusel pasó de la cámara domo a una cámara bala en techo que entregó el
+  cliente (1523×1032, sin más resolución disponible). Por eso su horizontal
+  llega a 1523 px (768/1280/1523) y no a 1920; el teléfono usa un recorte de
+  477×1032 a 430 px y la tableta uno de 774×1032 sin ampliar
+  (`assets-src/hero/videovigilancia-{horizontal,vertical,tablet}.jpg`). Los
+  archivos llevan `camara` en el nombre porque `_headers` cachea las imágenes
+  30 días. La vista previa al compartir se regeneró con `npm run og:image`.
 - **Mensaje del director** (18/oct): tarjeta debajo de las llamadas a la acción
   con miniatura, "Mensaje de nuestro director comercial" y la duración
   (`HeroVideo`). La miniatura es el isotipo sobre navy
