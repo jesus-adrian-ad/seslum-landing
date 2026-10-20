@@ -230,9 +230,12 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - **Foto de videovigilancia** (20/oct, observación de SESLUM): la primera foto
   del carrusel pasó de la cámara domo a una cámara bala en techo que entregó el
   cliente (1523×1032, sin más resolución disponible). Por eso su horizontal
-  llega a 1523 px (768/1280/1523) y no a 1920; el teléfono usa un recorte de
-  477×1032 a 430 px y la tableta uno de 774×1032 sin ampliar
-  (`assets-src/hero/videovigilancia-{horizontal,vertical,tablet}.jpg`). Los
+  llega a 1523 px (768/1280/1523) y no a 1920; la tableta usa un recorte de
+  774×1032 sin ampliar y el teléfono una composición propia: la cámara
+  completa arriba, donde el velo es más ligero, sobre el mismo gris del techo
+  que se funde hacia abajo, para que el alto de ~1000 px del encabezado en
+  celular no la recorte a una franja
+  (`assets-src/hero/videovigilancia-{horizontal,tablet,celular}.jpg`). Los
   archivos llevan `camara` en el nombre porque `_headers` cachea las imágenes
   30 días. La vista previa al compartir se regeneró con `npm run og:image`.
 - **Mensaje del director** (18/oct): tarjeta debajo de las llamadas a la acción
