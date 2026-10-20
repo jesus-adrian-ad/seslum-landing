@@ -49,7 +49,12 @@ export default function HomePage() {
         />
       </main>
       <Footer content={footer} site={site} navigation={navbar.links} services={services} logo={navbar.logo} />
-      <WhatsAppFloat whatsapp={site.contact.whatsapp} label={contact.floatingLabel} newTabHint={contact.newTabHint} />
+      <WhatsAppFloat
+        whatsapp={site.contact.whatsapp}
+        label={contact.floatingLabel}
+        channelHint={contact.floatingChannelHint}
+        newTabHint={contact.newTabHint}
+      />
       <ScrollReveal rootIds={REVEAL_ROOT_IDS} />
     </>
   );

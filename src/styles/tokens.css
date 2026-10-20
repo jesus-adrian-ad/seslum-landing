@@ -35,6 +35,8 @@
   --color-line: rgb(255 255 255 / 0.13);
   --color-line-strong: rgb(255 255 255 / 0.3);
   --color-overlay: rgb(11 17 32 / 0.93);
+  --color-backdrop: rgb(11 17 32 / 0.78);
+  --color-thumb-veil: rgb(11 17 32 / 0.2);
   --color-overlay-strong: rgb(11 17 32 / 0.98);
   --color-glow: rgb(17 78 129 / 0.45);
   --color-panel: rgb(26 41 66 / 0.9);
@@ -98,7 +100,7 @@
   --header-height: 4.25rem;
   --header-height-compact: 3.5rem;
   --logo-height: 2.125rem;
-  --logo-height-lg: 2.25rem;
+  --logo-height-lg: 2.875rem;
 
   --chamfer-lg: 14px;
   --chamfer-md: 12px;
@@ -112,11 +114,13 @@
   --icon-sm: 1.25rem;
   --icon-md: 1.625rem;
   --float-size: 3.5rem;
+  --float-text-width-sm: 9.5rem;
+  --float-text-width-lg: 18rem;
   --brand-card-height: 7.5rem;
   --brand-logo-max-height: 3rem;
+  --project-tile-height: 13.75rem;
   --brand-logo-stacked-max-height: 5rem;
   --icon-lg: 2.125rem;
-  --icon-xl: 3.5rem;
   --sector-panel-min-height: 28rem;
   --card-padding: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem);
   --burger-gap: 0.375rem;

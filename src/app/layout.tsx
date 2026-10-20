@@ -1,8 +1,9 @@
 /**
  * Layout base del sitio: documento, fuente, metadatos y medición. Todas las
  * secciones se montan dentro de este layout. Los datos estructurados se
- * insertan después del build (ver structured-data.json/route.ts). Con el sitio
- * en construcción no se carga GTM ni el banner de cookies: sin medición no hay
+ * insertan después del build (ver structured-data.json/route.ts), igual que los
+ * fragmentos oficiales de GTM (ver gtm.json/route.ts). Con el sitio en
+ * construcción no se carga GTM ni el banner de cookies: sin medición no hay
  * consentimiento que pedir.
  */
 
@@ -11,7 +12,6 @@ import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { ClickTracker } from "@/components/ClickTracker/ClickTracker";
 import { CookieConsent } from "@/components/CookieConsent/CookieConsent";
-import { TagManager } from "@/components/TagManager";
 import { consent, site } from "@/lib/content";
 import { buildEnv, isComingSoon, isIndexable, resolvePublicUrl } from "@/lib/env";
 import { buildSiteMetadata } from "@/lib/seo";
@@ -55,7 +55,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {children}
         {isComingSoon ? null : (
           <>
-            <TagManager gtmId={buildEnv.gtmId} />
             <ClickTracker />
             <CookieConsent content={consent} />
           </>

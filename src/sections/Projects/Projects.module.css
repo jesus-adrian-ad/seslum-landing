@@ -1,10 +1,16 @@
 /**
- * Proyectos: tarjetas por sector en una columna, dos desde 600 px y tres desde
- * 900 px. El destacado ocupa la fila completa y, desde 600 px, pone el ícono a
- * la izquierda del nombre y las etiquetas. El contenido de cada tarjeta va
- * arriba para que no queden huecos entre el ícono y el texto.
+ * Proyectos: las pestañas van siempre en una sola fila (decisión de SESLUM):
+ * tira deslizable hasta 1199 px y, desde 1200 px, las seis repartidas en el
+ * ancho con menos relleno. Por línea de servicio, una rejilla de cinco fotos. En móvil la primera va a todo el ancho y
+ * las otras cuatro en 2 × 2; desde 860 px la primera ocupa dos filas a la
+ * izquierda y las otras cuatro van en 2 × 2 a su derecha. Las fotos se recortan
+ * con object-fit; el pie va sobre un velo que oscurece hacia abajo.
  *
- * Todo lo marcado con data-reveal (encabezado y tarjetas) entra al acercarse al
+ * La ventana se ajusta al ancho de la foto (sin recortarla), así un clic en el
+ * fondo de los lados la cierra; abajo lleva el pie, la posición y los controles
+ * en una barra de 44 px de alto mínimo.
+ *
+ * Todo lo marcado con data-reveal (encabezado y galería) entra al acercarse al
  * viewport con una animación ligada al scroll, sin JavaScript. Solo se aplica si
  * el navegador soporta animation-timeline y no se pidió reducir el movimiento;
  * en otro caso se ve completo desde el inicio.
@@ -15,94 +21,242 @@
   background-color: var(--color-bg-alt);
 }
 
-.grid {
-  display: grid;
-  gap: var(--space-5);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.card {
+.list {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-  padding: var(--space-8) var(--card-padding);
-  background-color: var(--color-surface);
+  gap: var(--space-2);
+  margin-inline: calc(-1 * var(--container-padding));
+  padding: 0 var(--container-padding) var(--space-3);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--container-padding);
+  scrollbar-width: none;
 }
 
-.featured {
-  grid-column: 1 / -1;
-  background-image:
-    var(--frame-corner), var(--frame-corner),
-    linear-gradient(120deg, var(--color-surface-hover), var(--color-surface));
-  background-position: top left, bottom right, 0 0;
-  background-size: var(--frame-cut) var(--frame-cut), var(--frame-cut) var(--frame-cut), 100% 100%;
+.list::-webkit-scrollbar {
+  display: none;
 }
 
-.icon {
+.tab {
+  display: flex;
   flex: none;
-  width: var(--icon-lg);
-  height: var(--icon-lg);
-  color: var(--color-accent);
-}
-
-.featured .icon {
-  width: var(--icon-xl);
-  height: var(--icon-xl);
-}
-
-.badge {
-  margin-bottom: var(--space-2);
-  color: var(--color-accent);
-  font-size: var(--fs-eyebrow);
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target-min);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-surface);
+  border: var(--border-width) solid var(--color-line);
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
   font-weight: var(--fw-bold);
-  letter-spacing: var(--ls-eyebrow);
-  text-transform: uppercase;
+  white-space: nowrap;
+  scroll-snap-align: center;
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 
-.name {
+.tab[aria-selected="true"] {
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  box-shadow: inset 0 calc(-1 * var(--line-thick)) 0 var(--color-accent);
+}
+
+.tab:focus-visible {
+  outline-offset: calc(-1 * var(--focus-offset));
+}
+
+.tabIcon {
+  flex: none;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  color: var(--color-accent);
+}
+
+.panel {
+  margin-top: var(--space-5);
+}
+
+.panelName {
+  margin-bottom: var(--space-4);
   font-size: var(--fs-h3);
   font-weight: var(--fw-bold);
   line-height: var(--lh-heading);
 }
 
-.featured .name {
-  font-size: var(--fs-feature-title);
-}
-
-.systems {
-  display: flex;
-  flex-wrap: wrap;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-2);
-  margin: var(--space-4) 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.system {
-  padding: var(--space-1) var(--space-3);
+.item:first-child {
+  grid-column: 1 / -1;
+}
+
+.tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background-color: var(--color-surface);
+  cursor: zoom-in;
+  aspect-ratio: 4 / 3;
+}
+
+.tile:focus-visible {
+  outline-offset: calc(-1 * var(--focus-offset));
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: var(--space-8) var(--space-3) var(--space-2);
+  background-image: linear-gradient(transparent, var(--color-backdrop));
   color: var(--color-text);
   font-size: var(--fs-small);
-  border: var(--border-width) solid var(--color-line-strong);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+  text-align: left;
 }
 
-@media (min-width: 600px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+@media (hover: hover) {
+  .tab:hover {
+    border-color: var(--color-accent-muted);
+    color: var(--color-text);
   }
 
-  .featured {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-8);
-    padding: var(--space-10);
+  .tile:hover .image {
+    transform: scale(1.04);
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 860px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: repeat(2, var(--project-tile-height));
+  }
+
+  .item:first-child {
+    grid-row: 1 / span 2;
+    grid-column: auto;
+  }
+
+  .tile {
+    aspect-ratio: auto;
+  }
+}
+
+.dialog {
+  width: fit-content;
+  min-width: min(28rem, calc(100vw - 2 * var(--space-4)));
+  max-width: min(68rem, calc(100vw - 2 * var(--space-4)));
+  max-height: calc(100dvh - 2 * var(--space-4));
+  padding: 0;
+  border: 0;
+  background-color: var(--color-bg-alt);
+  color: var(--color-text);
+}
+
+.dialog::backdrop {
+  background-color: var(--color-backdrop);
+  backdrop-filter: blur(4px);
+}
+
+.viewer {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.viewerImage {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100dvh - 2 * var(--space-4) - var(--tap-target-min) - 2 * var(--space-2));
+  margin-inline: auto;
+}
+
+.viewerBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+}
+
+.viewerText {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.viewerCaption {
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+.viewerCounter {
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+}
+
+.viewerButton {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  border: var(--border-width) solid var(--color-line);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.viewerButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (hover: hover) {
+  .viewerButton:hover {
+    border-color: var(--color-accent);
+  }
+}
+
+@media (min-width: 1200px) {
+  .list {
+    gap: var(--space-1);
+    margin-inline: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .tab {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding-inline: var(--space-3);
   }
 }
 

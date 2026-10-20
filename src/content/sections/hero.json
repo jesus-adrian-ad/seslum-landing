@@ -14,28 +14,45 @@
     "label": "Ver proyectos",
     "href": "#proyectos"
   },
+  "video": {
+    "label": "Mensaje de nuestro director comercial",
+    "meta": "Video · 0:21",
+    "title": "Mensaje de Carlos, cofundador y director comercial de Grupo SESLUM",
+    "closeLabel": "Cerrar video",
+    "src": "/videos/mensaje-director-v1.mp4",
+    "poster": {
+      "src": "/images/hero/director-poster-1280.webp",
+      "width": 1280,
+      "height": 720
+    },
+    "thumbnail": {
+      "src": "/images/hero/director-miniatura-logo-320.webp",
+      "width": 320,
+      "height": 180
+    }
+  },
   "media": {
-    "alt": "Obras de Grupo SESLUM: videovigilancia, control de acceso, detección y extinción de incendios, voz y datos e instalaciones eléctricas",
+    "alt": "Obras de Grupo SESLUM: videovigilancia, control de acceso, detección y extinción de incendios, voz y datos, e instalaciones eléctricas e infraestructura",
     "sizes": "100vw",
     "slides": [
       {
         "id": "videovigilancia",
         "landscape": {
-          "src": "/images/hero/videovigilancia-horizontal-1280.webp",
-          "srcSet": "/images/hero/videovigilancia-horizontal-768.webp 768w, /images/hero/videovigilancia-horizontal-1280.webp 1280w, /images/hero/videovigilancia-horizontal-1920.webp 1920w",
-          "width": 1920,
-          "height": 1079
+          "src": "/images/hero/videovigilancia-camara-horizontal-1280.webp",
+          "srcSet": "/images/hero/videovigilancia-camara-horizontal-768.webp 768w, /images/hero/videovigilancia-camara-horizontal-1280.webp 1280w, /images/hero/videovigilancia-camara-horizontal-1523.webp 1523w",
+          "width": 1523,
+          "height": 1032
         },
         "portrait": {
           "phone": {
-            "src": "/images/hero/videovigilancia-vertical-430.webp",
+            "src": "/images/hero/videovigilancia-camara-celular-430.webp",
             "width": 430,
-            "height": 932
+            "height": 930
           },
           "tablet": {
-            "src": "/images/hero/videovigilancia-vertical-900.webp",
-            "width": 900,
-            "height": 1950
+            "src": "/images/hero/videovigilancia-camara-tablet-774.webp",
+            "width": 774,
+            "height": 1032
           }
         }
       },

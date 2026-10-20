@@ -22,7 +22,7 @@ y sistemas para tu negocio.
 | 3 | Servicios | `feature/services` | ✅ Publicado | #10 |
 | 4 | Sectores | `feature/sectors` | ✅ Publicado | — |
 | 5 | Por qué SESLUM | `feature/why-seslum` | ✅ Publicado | — |
-| 6 | Proyectos | `feature/projects` | 🔨 En PR (textos a revisión de Danna) | — |
+| 6 | Proyectos | `feature/projects` → `content/proyectos-por-servicio` | ✅ Publicado (pies de foto a revisión de SESLUM) | — |
 | 7 | Alianzas comerciales | `feature/brands` | ✅ Publicado (textos en revisión) | — |
 | 8 | Preguntas frecuentes | `feature/faq` | ✅ Publicado | — |
 | 9 | Contacto | `feature/contact` | ✅ Publicado (pendiente: pruebas de correo desde iCloud) | — |
@@ -109,7 +109,7 @@ Turnstile siempre pasa; sin clave de Resend la Function responde 503.
 ```
 src/
 ├── app/                    # rutas de Next: layout, página, 404, robots, sitemap, ícono
-├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, LineIcon y sus catálogos ServiceIcon/SectorIcon/ComparisonIcon, TagManager, StructuredData)
+├── components/             # piezas reutilizables (ButtonLink, SectionHeading, ScrollReveal, LineIcon y sus catálogos ServiceIcon/SectorIcon/ComparisonIcon, StructuredData)
 ├── content/site.json       # datos del cliente: nombre, contacto, horario, SEO
 ├── fonts/                  # Source Sans 3 variable (OFL)
 ├── lib/                    # lógica pura y probada: medición, consentimiento, GTM, SEO, JSON-LD, entrada al scroll, teclado de pestañas, media queries, validación de contenido
@@ -137,8 +137,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
 - Layout base con `lang="es-MX"`, enlace para saltar al contenido, metadatos,
   canonical, Open Graph, JSON-LD `LocalBusiness`, `robots.txt` y `sitemap.xml`.
   En staging el sitio es no indexable.
-- Google Tag Manager con Consent Mode v2: todo denegado por defecto. El contenedor
-  se descarga cuando la página terminó de cargar y el hilo principal está libre.
+- Google Tag Manager con Consent Mode v2: todo denegado por defecto. Desde el
+  18/oct se instala con los fragmentos oficiales de Google (ver *Medición*).
 - Helper `trackEvent` para los eventos de conversión (`src/lib/analytics.ts`).
 - CSP estricta con hashes calculados en cada build y página 404 propia.
 - Workflow de CI con los gates y despliegue por Direct Upload.
@@ -227,6 +227,36 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   al compartir usa la primera foto: `npm run og:image`.
 - Fotos de la carpeta de proyectos de SESLUM (13/oct). Se evitaron las que
   muestran el rostro de técnicos.
+- **Foto de videovigilancia** (20/oct, observación de SESLUM): la primera foto
+  del carrusel pasó de la cámara domo a una cámara bala en techo que entregó el
+  cliente (1523×1032, sin más resolución disponible). Por eso su horizontal
+  llega a 1523 px (768/1280/1523) y no a 1920; la tableta usa un recorte de
+  774×1032 sin ampliar y el teléfono una composición propia: la cámara
+  completa arriba, donde el velo es más ligero, sobre el mismo gris del techo
+  que se funde hacia abajo, para que el alto de ~1000 px del encabezado en
+  celular no la recorte a una franja
+  (`assets-src/hero/videovigilancia-{horizontal,tablet,celular}.jpg`). Los
+  archivos llevan `camara` en el nombre porque `_headers` cachea las imágenes
+  30 días. La vista previa al compartir se regeneró con `npm run og:image`.
+- **Mensaje del director** (18/oct): tarjeta debajo de las llamadas a la acción
+  con miniatura, "Mensaje de nuestro director comercial" y la duración
+  (`HeroVideo`). La miniatura es el isotipo sobre navy
+  (`assets-src/hero/director-miniatura-logo.svg`, 320 px a calidad 70). Abre
+  el video en un `<dialog>` modal, arranca dentro del mismo clic (Safari en
+  iPhone solo reproduce con sonido así) y al cerrar se detiene y vuelve al
+  inicio. No pesa en la carga: el video lleva `preload="none"`, el póster se
+  asigna al abrir y la miniatura va con `loading="lazy"` (sin eso React la
+  precarga y compite con la foto LCP). Los subtítulos vienen grabados en el
+  video. Abrirlo publica `video_start`.
+- Video en `public/videos/` (la CSP solo permite medios del propio sitio;
+  Pages admite hasta 25 MB por archivo). El original de 30 MB (`.mov` 1080p)
+  se comprimió a MP4 de unos 6 MB y se le recortaron 32 px del borde derecho,
+  que traía una franja blanca: `ffmpeg -i original.mov -map_metadata -1 -vf
+  "crop=1888:1062:0:9,scale=1920:1080:flags=lanczos" -c:v libx264 -preset slow
+  -crf 23 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 128k
+  mensaje-director-v1.mp4`. Miniatura (segundo 17) y póster en
+  `assets-src/hero/director-*.jpg`. Si cambia el video, lleva otro nombre
+  (`-v2`), por la caché de 30 días.
 
 ### 3 · Servicios
 
@@ -279,7 +309,8 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   public/images/sectores/<id> 480,800,1200 --brand --quality=50`). Recortes
   4:3 en `assets-src/sectores/`; la de Hotelero va aclarada. Las de Hotelero y
   Salud no muestran un hotel ni un hospital: si SESLUM manda fotos de esos
-  sectores, se cambian sin tocar código.
+  sectores, se cambian con un nombre de archivo nuevo y sus rutas en
+  `sectors.json` (ver "Reemplazar una imagen" en Mantenimiento).
 - El borde biselado del panel se repinta encima de la foto con `::after`.
 - Íconos de línea unificados en `LineIcon`; cada sección conserva solo su
   catálogo (`ServiceIcon`, `SectorIcon`).
@@ -307,6 +338,31 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   todo se ve en su estado final. El aspecto de `pending` (opacidad 0, desplazado
   y con los trazos de los íconos sin dibujar) lo declara `src/styles/base.css`.
 - Contenido en `src/content/sections/why-seslum.json`. Textos aprobados por marketing.
+
+### 6 · Proyectos
+
+- `#proyectos`, después de Por qué SESLUM. Desde el 19/oct va **por línea de
+  servicio** (pedido de SESLUM): seis pestañas (patrón WAI-ARIA Tabs, como
+  Sectores) con ícono y etiqueta corta; el nombre completo del panel se toma de
+  Servicios por el ícono (`service` en `projects.json`).
+- Cinco fotos de obra por línea, de la carpeta "FOTOS PROYECTOS" de SESLUM: en
+  móvil una a todo el ancho y cuatro en 2 × 2; desde 860 px una grande que ocupa
+  dos filas y cuatro chicas a su derecha. Cada foto lleva un pie sobre un velo.
+  `projects-content.ts` exige exactamente cinco por línea, un servicio que
+  exista y no se repita, y nombres, anchos y medidas coherentes.
+- Cada foto es un botón que abre un `<dialog>` con la foto completa, el pie y
+  la posición ("3 de 5"); flechas del teclado y botones para recorrer la línea,
+  Esc o clic fuera para cerrar, y el foco vuelve a la foto.
+- Rendimiento: los seis paneles están en el HTML pero los ocultos no
+  descargan nada (`loading="lazy"`); la ventana no pide imagen hasta abrirse.
+  Las medidas de la tira de pestañas solo se leen tras una elección del
+  visitante. Entrada al hacer scroll con `animation-timeline`, sin ScrollReveal.
+- Fotos: originales reducidos a 1600 px en `assets-src/proyectos/` y variantes
+  WebP de 480, 800 y 1200 px (`scripts/optimize-image.mjs`, calidad 62, sin
+  `--brand` para conservar el color real de la obra). Dos fotos de WhatsApp
+  solo llegan a 344 y 357 px de ancho: van en posiciones chicas.
+- Se evitaron fotos con rostros de técnicos. Los pies los propuso YiSoft según
+  lo que se ve en cada foto; ⏳ revisión de SESLUM.
 
 ### 8 · Preguntas frecuentes
 
@@ -342,9 +398,12 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   validan en el build (`src/lib/contact-links.ts`): tipo conocido, sin repetir y
   al menos una.
 - Botón flotante de WhatsApp abajo a la derecha, visible desde la carga
-  (decisión de Adrián). Solo ícono; la etiqueta "Escríbanos por WhatsApp" es su
-  nombre accesible y se muestra al pasar el cursor o con foco. Respeta el área
-  segura de los teléfonos.
+  (decisión de Adrián). Al entrar se muestra extendido con "¿Tiene dudas?
+  Escríbanos por mensaje" (dos líneas en móvil, una en escritorio); con el primer
+  desplazamiento de más de 48 px se recoge al ícono y no vuelve a extenderse al
+  regresar arriba. Recogido, el texto reaparece al pasar el cursor o con foco. El
+  nombre accesible es el texto más "(WhatsApp)" y el aviso de pestaña nueva.
+  Respeta el área segura de los teléfonos.
 - Mensaje precargado ("Hola, me interesa cotizar un proyecto con Grupo
   SESLUM.") en `site.json`, aprobado por marketing como definitivo (05/oct).
 - WhatsApp abre en otra pestaña con `noopener noreferrer` y lo anuncia a lectores
@@ -363,7 +422,7 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   no aparece.
 - Animación: las tarjetas entran en cascada y su ícono se dibuja; al pasar el
   cursor se tiñen borde y fondo y el ícono sube. El flotante entra con una escala
-  suave y un anillo que pulsa tres veces. Con movimiento reducido, nada se anima.
+  suave y se recoge con una transición de ancho. Con movimiento reducido, nada se anima.
 - Textos aprobados por marketing (05/oct). Funcionamiento validado en PC y
   celular; el correo enviado desde iCloud rebota en el servidor de GoDaddy
   (*552 5.2.0 bare CR*), ajeno al sitio: el enlace es un `mailto:` sin cuerpo.
@@ -382,8 +441,12 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   caracteres de control. Se rechaza lo que no cuadra; no se "limpia".
 - Errores bajo cada campo con `aria-describedby` y `aria-invalid`; al fallar,
   el foco va al primer campo con error y una línea de estado (`role="status"`)
-  lo anuncia. Con éxito, la tarjeta cambia por la confirmación y su título
-  recibe el foco.
+  lo anuncia. Con éxito se abre una ventana de confirmación (`SuccessDialog`,
+  `<dialog>` nativo modal): el foco entra en "Cerrar", se cierra con Esc, con la
+  equis o con un clic fuera, y al cerrarse el foco vuelve al título del
+  formulario, que queda vacío y con un token de Turnstile nuevo. El ícono dibuja
+  el círculo, luego la palomita y al final se rellena (solo CSS; con movimiento
+  reducido aparece completo).
 - **Envío:** `POST /api/contact` → Pages Function `functions/api/contact.ts`,
   que solo enlaza con `src/server/contact-handler.ts`. Orden: mismo origen,
   `Content-Type: application/json`, cuerpo ≤ 16 KB, honeypot, validación,
@@ -444,6 +507,12 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   Tiandy y Honeywell no tienen Vo.Bo.; Adrián decidió mostrarlas con logo
   (05/oct), bajo responsabilidad de SESLUM. Honeywell va con el logo de
   Honeywell Technologies (sus marcas pertenecen al grupo).
+- Avigilon, Motorola Solutions y ADISES (19/oct): logos que entregó SESLUM como
+  JPG de baja resolución (404–627 px de ancho, con artefactos de compresión). Se
+  recortaron a su contenido, se limpiaron (escala ×4, filtro bilateral, fondo
+  llevado a blanco, reducción y enfoque leve) y se guardaron como WebP calidad 90
+  (6–10 KB). Originales en `assets-src/marcas/`. Si llegan vectores oficiales, se
+  sustituyen cambiando solo el archivo y las medidas en el JSON.
 - Las marcas que todavía no tienen logo van **en texto**, agrupadas por
   especialidad ("También trabajamos con"): LenelS2, Onity, Supra, NOTIFIER,
   System Sensor, Fire-Lite y Silent Knight. Pasan a logo cambiando solo el JSON.
@@ -486,8 +555,9 @@ Principio: cada archivo tiene una sola razón para cambiar. Detalle del proyecto
   (`seslum.consent.v1`), publica `consent update` de Consent Mode v2 y el evento
   `consent_update` con `analytics` y `advertising`. Sin almacenamiento disponible,
   vale para la visita. La lógica pura (vencimiento, formato, mapeo a Consent
-  Mode) está en `src/lib/consent.ts`; el lado del navegador, compartido con
-  `TagManager`, en `src/lib/consent-runtime.ts`.
+  Mode) está en `src/lib/consent.ts`; el lado del navegador, en
+  `src/lib/consent-runtime.ts`; el consentimiento por defecto, antes de GTM, en
+  `src/lib/consent-bootstrap.ts`.
 - Animación: la tarjeta entra deslizándose desde abajo y el panel de
   preferencias con un leve desplazamiento; el interruptor desliza su perilla.
   Con movimiento reducido, nada se anima.
@@ -523,17 +593,56 @@ para tarjetas con borde, `.chamfer-frame` (dibuja también la línea del bisel).
 ## Medición
 
 GTM es la única etiqueta de medición en el código. GA4 y Google Ads se configuran
-desde GTM, con las cuentas a nombre de Grupo SESLUM.
+desde GTM, con las cuentas a nombre de Grupo SESLUM. Las etiquetas, activadores y
+eventos los administra marketing de SESLUM en GTM; el código solo publica los
+avisos del `dataLayer` de la tabla.
+
+Instalación, igual que la indica GTM. Los fragmentos no pasan por React:
+`src/app/gtm.json/route.ts` genera el manifiesto (`src/lib/gtm-manifest.ts`) y
+`scripts/inline-gtm.mjs` los inserta después del build en cada página, antes de
+calcular los hashes de la CSP:
+
+1. Justo después del `<meta charset>`, el consentimiento por defecto (`src/lib/consent-bootstrap.ts`):
+   denegado, o la decisión guardada si sigue vigente. Va antes de GTM para que
+   ninguna etiqueta se dispare sin estado de consentimiento.
+2. Enseguida, el fragmento oficial de Google (`buildGtmHeadSnippet` en
+   `src/lib/gtm.ts`), idéntico al que entrega GTM salvo el ID. Se ejecuta cuando
+   la página terminó de cargar y el hilo principal está libre
+   (`buildGtmDeferredScript`: evento `load` y después `requestIdleCallback`, con
+   3 s de tope), para que `gtm.js` no entre en el LCP.
+3. Al inicio del `<body>`, el `<noscript>` oficial. Solo se carga sin JavaScript,
+   donde no hay banner: va sin consentimiento (decisión de Adrián, a petición de
+   marketing). El `style` en línea de Google se cambia por `hidden`, porque la CSP
+   no permite estilos en línea.
+
+Con el sitio en construcción o sin `NEXT_PUBLIC_GTM_ID` válido no se instala nada.
+
+Qué permite la CSP en GTM:
+
+| En GTM | ¿Funciona? |
+|---|---|
+| Etiquetas de plantilla de GA4 y Google Ads | Sí |
+| Etiquetas de HTML personalizado | No: la CSP bloquea scripts en línea sin hash |
+| Pixeles o scripts de otros dominios (Meta, Hotjar, TikTok…) | No, hasta agregar su dominio a `public/_headers` en un PR |
 
 | Evento | Se dispara cuando | Parámetros |
 |---|---|---|
 | `generate_lead` | El servidor confirma el envío del formulario (evento clave en GA4) | `source` (`form`), `service` |
+| `video_start` | Se abre el mensaje del director en el encabezado | `source` (`hero`), `video_title` |
+| `virtual_page_view` | Justo después de `generate_lead`: página vista virtual del agradecimiento. La URL real no cambia y `/gracias` no existe como página, así que no se puede abrir, recargar ni contar dos veces | `page_path` (`/gracias`), `page_title`, `page_location` |
 | `click_whatsapp` | Clic en cualquier enlace de WhatsApp | `source` |
 | `click_phone` | Clic en un enlace `tel:` | `source` |
 | `click_email` | Clic en un enlace `mailto:` | `source` |
 
 `source`: `header`, `hero`, `contact`, `footer`, `floating` o `form`. Los eventos
 se conectan en los bloques que contienen esos enlaces.
+
+Para contar leads en GTM se usan estos eventos (disparador *Evento personalizado*),
+no los disparadores genéricos de *Envío de formulario* o *Clic*: esos se activan
+en cada intento, aunque falten datos o el envío falle. Para registrar `/gracias`
+como página en GA4: etiqueta de evento GA4 `page_view` con el disparador
+`virtual_page_view` y los parámetros `page_location`, `page_path` y `page_title`
+leídos como variables de la capa de datos.
 
 ---
 
@@ -618,6 +727,11 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
 ## Mantenimiento
 
 - **Cambiar un texto o un dato de contacto:** `src/content/`. No hace falta tocar código.
+- **Reemplazar una imagen:** la nueva lleva un nombre de archivo distinto y se
+  actualizan sus rutas en el JSON. Las imágenes se sirven con
+  `Cache-Control: max-age=2592000` (30 días): con el mismo nombre, quien ya visitó
+  el sitio sigue viendo la anterior hasta que expire. El CSS y el JavaScript no
+  tienen este problema porque Next les pone un hash en el nombre.
 - **Cambiar el aviso de privacidad:** `src/content/pages/privacy.json` (y su
   fecha `updated`).
 - **Rotar una clave del formulario:** crear la nueva en Resend o Turnstile,
@@ -642,7 +756,7 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Google Fonts, quita dos entradas de la CSP y mejora el LCP.
 - **28/sep/2026** — GTM se descarga después de la carga, en tiempo ocioso. La
   medición no le cuesta rendimiento al visitante; el consentimiento por defecto se
-  declara antes.
+  declara antes. Reemplazado el 18/oct por los fragmentos oficiales.
 - **28/sep/2026** — Lighthouse audita un build de producción. En staging el sitio
   es no indexable y SEO siempre saldría en rojo; el build desplegado solo difiere
   en `robots`.
@@ -714,6 +828,97 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   Preguntas frecuentes pasa a fondo oscuro y Contacto a navy, para que con
   Proyectos la página quede navy / oscuro sin dos secciones seguidas del mismo
   fondo (el prototipo tenía Alianzas y FAQ, y Contacto y Footer, juntas).
+- **19/oct/2026** — Proyectos (pedido de SESLUM): la pestaña de eléctricas dice
+  "Inst. eléctricas e infraestructura". Las pestañas van siempre en una sola
+  fila (decisión de SESLUM, sin dos renglones): con el texto completo faltaban
+  20 px y abreviado sobran 35 px a 1200 px. Desde 1200 px las seis se reparten
+  en el ancho con menos relleno; por debajo siguen en la tira deslizable. El
+  texto alternativo de la foto del encabezado también menciona infraestructura.
+- **19/oct/2026** — Proyectos pasa de sectores a líneas de servicio (pedido de
+  SESLUM, opción A de tres prototipos: pestañas con galería, frente a tarjetas
+  con ventana y mosaico con filtros). Así entran las fotos de obra, que están
+  organizadas por sistema y no muestran el sector. Se retiran las tarjetas por
+  sector, el destacado y las etiquetas de sistemas.
+- **19/oct/2026** — Alianzas: se suman Avigilon, Motorola Solutions y ADISES con
+  logo (pedido de SESLUM). Llegaron como JPG pequeños con artefactos; se limpiaron
+  sin redibujarlos, que es lo que permite la calidad de origen. Con nueve logos la
+  rejilla de escritorio queda en 3 × 3; en móvil (dos columnas) el último queda
+  solo.
+- **19/oct/2026** — Botón flotante de WhatsApp más visible (pedido de SESLUM),
+  propuesta 2 de Adrián: extendido con "¿Tiene dudas? Escríbanos por mensaje" al
+  entrar y solo ícono desde el primer scroll. Se descartaron el borde (seguía
+  confundiéndose con los demás elementos azules) y el verde de WhatsApp (fuera de
+  la paleta). Se quita el anillo que pulsaba: el texto cumple esa función. El
+  componente pasa a cliente solo para escribir `data-collapsed`; lee `scrollY` y
+  no fuerza layout.
+- **19/oct/2026** — Por qué SESLUM (observación de SESLUM): subtítulo nuevo,
+  "Un sistema mal diseñado puede terminar costando el doble…", que cambia la
+  invitación a ver la tabla por el compromiso de diseñar bien desde el inicio.
+- **19/oct/2026** — Mensaje del director (pedido de SESLUM): el botón dice
+  "Mensaje de nuestro director comercial" y la miniatura pasa de la cara de Carlos
+  al isotipo sobre navy (opción A; el logo horizontal quedaba ilegible a 104 px y
+  el botón de reproducir lo tapaba). Nombre nuevo por la caché de 30 días; el
+  póster dentro del video no cambia.
+- **19/oct/2026** — El fragmento de GTM espera además a tiempo ocioso
+  (`requestIdleCallback`, tope de 3 s). Solo con `load`, el PR de Por qué SESLUM
+  falló Lighthouse (LCP 2.55, 2.76 y 2.76 s): la página dispara `load` antes de
+  pintar la foto del encabezado, así que `gtm.js` empezaba antes del LCP observado
+  y la simulación de Lighthouse lo sumaba a él. Medido con Lighthouse y un
+  `gtm.js` de prueba de 95 KB: con `load` empezaba a los 151 ms con el LCP a los
+  262 ms; con tiempo ocioso, siempre después del LCP. Es el mismo momento en que
+  cargaba `TagManager` (LCP de 1.4–1.5 s); el fragmento de Google sigue sin cambios.
+- **18/oct/2026** — El fragmento de GTM corre en el evento `load` (opción A de
+  Adrián). Ejecutado desde el `<head>`, el push a `develop` falló Lighthouse: LCP
+  de 2.63 s (2.67, 2.63 y 2.93 en las tres corridas; con la carga diferida de
+  `TagManager` estaba en 1.4–1.5 s) y el trabajo del hilo principal en 0. El texto
+  de Google no cambia y sigue visible en el código fuente; el consentimiento por
+  defecto se declara de inmediato. Costo: no se cuentan las visitas que cierran
+  antes de que termine la carga.
+- **18/oct/2026** — GTM con los fragmentos oficiales de Google (decisión de
+  Adrián, para seguir el procedimiento de marketing). Se elimina `TagManager`.
+  Se insertan después del build, como el JSON-LD: desde React exigían
+  `dangerouslySetInnerHTML` (regla de Semgrep) y su texto viajaba dos veces en el
+  HTML (etiqueta y payload de hidratación). El
+  consentimiento por defecto pasa a un script en línea antes del fragmento: el
+  fragmento corre al leer el `<head>`, antes de React, y sin ese script GTM
+  arrancaría sin estado de consentimiento. El script elige entre los cuatro
+  estados que calcula `buildConsentDefault` en el build, así el mapeo a Consent
+  Mode sigue en un solo lugar; una prueba compara su lectura de `localStorage`
+  contra `parseStoredConsent`. Costo: `gtm.js` baja desde el inicio en lugar de en
+  tiempo ocioso; Lighthouse lo vigila en cada PR. Ganancia: se cuentan las visitas
+  que salen en el primer segundo.
+- **18/oct/2026** — Mensaje del director en el encabezado (pedido de SESLUM),
+  opción C de las tres propuestas: tarjeta con miniatura que abre el video en una
+  ventana. El cierre con clic fuera pasa a `src/lib/dialog.ts`, compartido con la
+  confirmación del formulario. Se probó un hook común para abrir las ventanas,
+  pero el React Compiler lo rechaza (trata como lectura de la ref cualquier uso
+  del objeto que la contiene) y el video necesita abrir y reproducir dentro del
+  clic, no en un efecto.
+- **16/oct/2026** — Las variantes de Bancario se renombran a
+  `bancario-cajero-*.webp`. Con el mismo nombre, el navegador seguía mostrando la
+  foto del monitor desde su caché de 30 días en `develop` (en el preview del PR se
+  veía bien porque es otro dominio). Queda como regla en Mantenimiento.
+- **16/oct/2026** — Sectores · Bancario (observación de SESLUM): la foto del
+  monitor se sustituye por la puerta de un cajero automático abierta, enviada por
+  el cliente. Mismo recorte 4:3 y mismas variantes (`--brand --quality=50`); el
+  JSON no cambia. La de 1200 px baja de 80 KB a 17 KB.
+- **16/oct/2026** — Logo del navbar en escritorio de 36 a 46 px de alto (166 px
+  de ancho; observación de SESLUM: se veía pequeño en PC). Cabe en el encabezado
+  compacto (57 px) y a 1180 px quedan 194 px libres hasta el primer enlace. En
+  celular no cambia.
+- **15/oct/2026** — La confirmación del formulario pasa de reemplazar la tarjeta
+  a una ventana emergente (pedido de marketing; diseño aprobado por Adrián con la
+  vista previa sobre el sitio). Como el formulario ya no se desmonta, Turnstile se
+  reinicia tras cada envío exitoso para que el siguiente lleve un token nuevo
+  (cada token sirve una vez). Verificado en navegador con Turnstile y el endpoint
+  simulados: foco, Esc, clic fuera, segundo envío con token nuevo, eventos una
+  vez por envío y axe sin violaciones dentro de la ventana.
+- **15/oct/2026** — Página vista virtual `/gracias` tras un envío exitoso del
+  formulario (pedido de marketing: medir el agradecimiento por URL sin contar
+  envíos incompletos). Se descartó cambiar la URL de verdad (`pushState`) o crear
+  una página `/gracias`: al recargar daría 404 o contaría el lead otra vez. El
+  formulario ya no envía datos incompletos (valida en navegador y servidor) y
+  `generate_lead` solo se publica con la confirmación del servidor.
 - **14/oct/2026** — Página "Sitio en construcción" para el dominio antes del
   lanzamiento, detrás de la variable `SITE_MODE` (opción elegida por Adrián frente
   a una página aparte en `main`, que habría chocado con `develop` el día del

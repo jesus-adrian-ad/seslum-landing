@@ -38,6 +38,9 @@
 /images/*
   Cache-Control: public, max-age=2592000
 
+/videos/*
+  Cache-Control: public, max-age=2592000
+
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
 

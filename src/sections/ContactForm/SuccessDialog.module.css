@@ -1,0 +1,121 @@
+/**
+ * Ventana de confirmación del formulario. El fondo se oscurece y se desenfoca
+ * para que la atención quede en el mensaje; el cuadro usa el marco biselado del
+ * sitio. El ícono se dibuja con stroke-dashoffset sobre pathLength="1": primero
+ * el círculo, luego la palomita y al final el círculo se rellena de azul tenue.
+ */
+
+.dialog {
+  width: 100%;
+  max-width: min(30rem, calc(100vw - 2 * var(--space-4)));
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+}
+
+.dialog::backdrop {
+  background-color: var(--color-backdrop, rgb(11 17 32 / 0.78));
+  backdrop-filter: blur(4px);
+}
+
+.box {
+  --frame-cut: var(--chamfer-md);
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-10) var(--space-8) var(--space-8);
+  background-color: var(--color-surface);
+  text-align: center;
+}
+
+.icon {
+  width: 4rem;
+  height: 4rem;
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ring,
+.check {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.ring {
+  animation:
+    success-draw var(--duration-enter) var(--ease-out) 150ms forwards,
+    success-fill var(--duration-base) var(--ease-out) 1150ms forwards;
+}
+
+.check {
+  animation: success-draw 400ms var(--ease-out) 750ms forwards;
+}
+
+@keyframes success-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes success-fill {
+  to {
+    fill: var(--color-accent-soft);
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+}
+
+.body {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+}
+
+.close {
+  composes: button primary from "../../components/ButtonLink/ButtonLink.module.css";
+  margin-top: var(--space-4);
+  padding-inline: var(--space-8);
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.dismiss {
+  position: absolute;
+  inset-block-start: var(--space-2);
+  inset-inline-end: var(--space-2);
+  display: grid;
+  place-items: center;
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  border: 0;
+  background: none;
+  color: var(--color-text-subtle);
+  cursor: pointer;
+}
+
+.dismiss:hover {
+  color: var(--color-text);
+}
+
+.dismiss svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}

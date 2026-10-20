@@ -128,6 +128,16 @@ export interface HeroMedia {
   readonly slides: readonly HeroSlide[];
 }
 
+export interface HeroVideo {
+  readonly label: string;
+  readonly meta: string;
+  readonly title: string;
+  readonly closeLabel: string;
+  readonly src: string;
+  readonly poster: ImageFile;
+  readonly thumbnail: ImageFile;
+}
+
 export interface HeroContent {
   readonly id: string;
   readonly eyebrow: string;
@@ -135,6 +145,7 @@ export interface HeroContent {
   readonly lead: readonly string[];
   readonly primaryCta: LinkAction;
   readonly secondaryCta: LinkAction;
+  readonly video: HeroVideo;
   readonly media: HeroMedia;
   readonly panel: {
     readonly title: string;
@@ -212,9 +223,25 @@ export interface SectorsContent<Icon extends string = SectorIconName> {
   readonly sectors: readonly SectorItem<Icon>[];
 }
 
-export interface ProjectSectorEntry {
-  readonly sector: string;
-  readonly systems: readonly string[];
+export interface ProjectPhotoSource {
+  readonly file: string;
+  readonly widths: readonly number[];
+  readonly width: number;
+  readonly height: number;
+  readonly caption: string;
+}
+
+export interface ProjectServiceSource {
+  readonly service: string;
+  readonly label: string;
+  readonly photos: readonly ProjectPhotoSource[];
+}
+
+export interface ProjectsLightboxLabels {
+  readonly previousLabel: string;
+  readonly nextLabel: string;
+  readonly closeLabel: string;
+  readonly counter: string;
 }
 
 export interface ProjectsSource {
@@ -222,16 +249,26 @@ export interface ProjectsSource {
   readonly eyebrow: string;
   readonly title: string;
   readonly lead: string;
-  readonly featuredLabel: string;
-  readonly systemsLabel: string;
-  readonly items: readonly ProjectSectorEntry[];
+  readonly tabsLabel: string;
+  readonly enlargeHint: string;
+  readonly lightbox: ProjectsLightboxLabels;
+  readonly services: readonly ProjectServiceSource[];
 }
 
-export interface ProjectCard {
-  readonly id: string;
-  readonly icon: SectorIconName;
+export interface ProjectPhoto {
+  readonly src: string;
+  readonly srcSet: string;
+  readonly width: number;
+  readonly height: number;
+  readonly caption: string;
+}
+
+export interface ProjectService {
+  readonly id: ServiceIconName;
+  readonly icon: ServiceIconName;
+  readonly label: string;
   readonly name: string;
-  readonly systems: readonly string[];
+  readonly photos: readonly ProjectPhoto[];
 }
 
 export interface ProjectsContent {
@@ -239,10 +276,10 @@ export interface ProjectsContent {
   readonly eyebrow: string;
   readonly title: string;
   readonly lead: string;
-  readonly featuredLabel: string;
-  readonly systemsLabel: string;
-  readonly featured: ProjectCard;
-  readonly others: readonly ProjectCard[];
+  readonly tabsLabel: string;
+  readonly enlargeHint: string;
+  readonly lightbox: ProjectsLightboxLabels;
+  readonly services: readonly ProjectService[];
 }
 
 export interface ComparisonRow {
@@ -298,6 +335,7 @@ export interface ContactContent<Kind extends string = ContactChannelKind> {
   readonly headquartersLabel: string;
   readonly officesLabel: string;
   readonly floatingLabel: string;
+  readonly floatingChannelHint: string;
   readonly newTabHint: string;
 }
 
@@ -405,7 +443,7 @@ export interface ContactFormContent {
   readonly success: {
     readonly title: string;
     readonly body: string;
-    readonly again: string;
+    readonly close: string;
   };
   readonly privacy: {
     readonly before: string;
