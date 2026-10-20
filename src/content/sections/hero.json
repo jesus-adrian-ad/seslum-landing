@@ -38,21 +38,21 @@
       {
         "id": "videovigilancia",
         "landscape": {
-          "src": "/images/hero/videovigilancia-horizontal-1280.webp",
-          "srcSet": "/images/hero/videovigilancia-horizontal-768.webp 768w, /images/hero/videovigilancia-horizontal-1280.webp 1280w, /images/hero/videovigilancia-horizontal-1920.webp 1920w",
-          "width": 1920,
-          "height": 1079
+          "src": "/images/hero/videovigilancia-camara-horizontal-1280.webp",
+          "srcSet": "/images/hero/videovigilancia-camara-horizontal-768.webp 768w, /images/hero/videovigilancia-camara-horizontal-1280.webp 1280w, /images/hero/videovigilancia-camara-horizontal-1523.webp 1523w",
+          "width": 1523,
+          "height": 1032
         },
         "portrait": {
           "phone": {
-            "src": "/images/hero/videovigilancia-vertical-430.webp",
+            "src": "/images/hero/videovigilancia-camara-vertical-430.webp",
             "width": 430,
-            "height": 932
+            "height": 930
           },
           "tablet": {
-            "src": "/images/hero/videovigilancia-vertical-900.webp",
-            "width": 900,
-            "height": 1950
+            "src": "/images/hero/videovigilancia-camara-tablet-774.webp",
+            "width": 774,
+            "height": 1032
           }
         }
       },
