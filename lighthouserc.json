@@ -1,5 +1,5 @@
 {
-  "_comment": "Copiar a la raíz del repo como lighthouserc.json. Umbral del método: >= 90 en las cuatro categorías, medido en móvil. Tres corridas y mediana, porque una sola tiene demasiada varianza y un falso rojo hace perder un ciclo de revisión.",
+  "_comment": "Copiar a la raíz del repo como lighthouserc.json. Umbral del método: >= 90 en las cuatro categorías, medido en móvil. Tres corridas y mediana, porque una sola tiene demasiada varianza y un falso rojo hace perder un ciclo de revisión. blockedUrlPatterns deja fuera GTM y Google: Lighthouse mide solo el código del repo; el contenedor de marketing se prueba con las cabeceras reales en el paso de consola y CSP (README, Decisiones 20/oct/2026).",
   "ci": {
     "collect": {
       "staticDistDir": "./out",
@@ -14,6 +14,14 @@
           "deviceScaleFactor": 1.75,
           "disabled": false
         },
+        "blockedUrlPatterns": [
+          "*googletagmanager.com*",
+          "*gstatic.com*",
+          "*googleadservices.com*",
+          "*googlesyndication.com*",
+          "*doubleclick.net*",
+          "*google-analytics.com*"
+        ],
         "skipAudits": [
           "uses-http2",
           "canonical",

@@ -1062,6 +1062,19 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   0.82; se omite en el CI como `uses-http2` y `canonical` (su aserción ya estaba
   en `off`). En producción el sitio va por HTTPS con HSTS y
   `upgrade-insecure-requests`.
+- **20/oct/2026** — Lighthouse CI mide solo el código del repo:
+  `blockedUrlPatterns` en `lighthouserc.json` bloquea GTM y los dominios de Google
+  (`googletagmanager.com`, `gstatic.com`, `googleadservices.com`,
+  `googlesyndication.com`, `doubleclick.net`, `google-analytics.com`). Decisión de
+  Adrián. Con la etiqueta de Google Ads que marketing activó en GTM, el TBT
+  pasó de 200 ms en todas las corridas, también en el código ya publicado: de
+  ~270 ms de bloqueo de terceros, 189 ms eran `gtag/js?id=AW-18509852761` y 82 ms
+  `gtm.js`. Esa etiqueta es la que mide sus conversiones y no depende del código,
+  así que un cambio en el contenedor ya no tumba un PR. Los umbrales no cambian.
+  GTM se sigue probando con las cabeceras reales en el paso «Consola y CSP», que
+  es donde aparecen los dominios bloqueados. Costo: el CI ya no mide cuánto pesa
+  el contenedor; si marketing agrega etiquetas, revisar a mano en PageSpeed
+  Insights sobre `seslum.com.mx`.
 
 ---
 
