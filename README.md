@@ -1068,7 +1068,9 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   por Google es la etiqueta "Google Ads: Llamadas desde el sitio web" en GTM, sin
   cambiar el código (`phoneConversion: null`). Con la conversión, la etiqueta de
   Google carga `www.gstatic.com/call-tracking/…` (agregado a `script-src` en
-  `_headers`). Lighthouse CI sirve `out/` por `http://localhost` sin las
+  `_headers`), y Google Ads manda sus avisos de consentimiento y vistas a
+  `pagead2.googlesyndication.com/ccm/collect` (agregado a `connect-src` e
+  `img-src`; lo detectó el gate de consola con las cabeceras reales). Lighthouse CI sirve `out/` por `http://localhost` sin las
   cabeceras reales, así que ese script viaja por HTTP y la auditoría
   `is-on-https` bajaba buenas prácticas a 0.82; se omite en el CI como
   `uses-http2` y `canonical` (su aserción ya estaba en `off`). En producción el
