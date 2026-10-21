@@ -592,10 +592,11 @@ para tarjetas con borde, `.chamfer-frame` (dibuja también la línea del bisel).
 
 ## Medición
 
-GTM es la única etiqueta de medición en el código. GA4 y Google Ads se configuran
-desde GTM, con las cuentas a nombre de Grupo SESLUM. Las etiquetas, activadores y
-eventos los administra marketing de SESLUM en GTM; el código solo publica los
-avisos del `dataLayer` de la tabla.
+GTM carga la medición, con las cuentas a nombre de Grupo SESLUM. El sitio sigue
+el procedimiento de marketing de SESLUM: cuando Google les entrega un fragmento
+para pegar en la página, se instala tal cual (con el ID validado) por el mismo
+manifiesto que GTM; lo demás lo configuran en su contenedor. El código publica
+además los avisos del `dataLayer` de la tabla.
 
 Instalación, igual que la indica GTM. Los fragmentos no pasan por React:
 `src/app/gtm.json/route.ts` genera el manifiesto (`src/lib/gtm-manifest.ts`) y
@@ -1046,6 +1047,34 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   (menú, pestañas, medición) llega unos milisegundos después del primer pintado.
   La foto va detrás de un velo oscuro y desaturada; a calidad 40 no se nota y
   pesa 11 KB en lugar de 15 KB en móvil (`optimize-image.mjs --quality`).
+- **20/oct/2026** — Conversión de llamadas de Google Ads ("Llamadas desde su
+  sitio web", `AW-18509852761/JD4QCOP-gqQdENngl_pE`): marketing la configuró en
+  su contenedor de GTM (etiqueta `__awcc`), así que no se pega su fragmento
+  `gtag('config', …, {'phone_conversion_number': …})` en el código: se contaría
+  cada llamada dos veces. El número que reemplaza Google es el visible,
+  `811 764 7400` (`contact.phone.display`); si cambia, avisar a marketing. Lo que
+  sí cambió en el código: la etiqueta carga `www.gstatic.com/call-tracking/…`
+  (agregado a `script-src`) y Google Ads manda sus avisos a
+  `pagead2.googlesyndication.com/ccm/collect` (agregado a `connect-src` e
+  `img-src`; lo detectó el gate de consola con las cabeceras reales). Lighthouse
+  CI sirve `out/` por `http://localhost` sin las cabeceras reales, así que ese
+  script viaja por HTTP y la auditoría `is-on-https` bajaba buenas prácticas a
+  0.82; se omite en el CI como `uses-http2` y `canonical` (su aserción ya estaba
+  en `off`). En producción el sitio va por HTTPS con HSTS y
+  `upgrade-insecure-requests`.
+- **20/oct/2026** — Lighthouse CI mide solo el código del repo:
+  `blockedUrlPatterns` en `lighthouserc.json` bloquea GTM y los dominios de Google
+  (`googletagmanager.com`, `gstatic.com`, `googleadservices.com`,
+  `googlesyndication.com`, `doubleclick.net`, `google-analytics.com`). Decisión de
+  Adrián. Con la etiqueta de Google Ads que marketing activó en GTM, el TBT
+  pasó de 200 ms en todas las corridas, también en el código ya publicado: de
+  ~270 ms de bloqueo de terceros, 189 ms eran `gtag/js?id=AW-18509852761` y 82 ms
+  `gtm.js`. Esa etiqueta es la que mide sus conversiones y no depende del código,
+  así que un cambio en el contenedor ya no tumba un PR. Los umbrales no cambian.
+  GTM se sigue probando con las cabeceras reales en el paso «Consola y CSP», que
+  es donde aparecen los dominios bloqueados. Costo: el CI ya no mide cuánto pesa
+  el contenedor; si marketing agrega etiquetas, revisar a mano en PageSpeed
+  Insights sobre `seslum.com.mx`.
 
 ---
 
