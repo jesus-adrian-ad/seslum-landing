@@ -592,10 +592,11 @@ para tarjetas con borde, `.chamfer-frame` (dibuja también la línea del bisel).
 
 ## Medición
 
-GTM es la única etiqueta de medición en el código. GA4 y Google Ads se configuran
-desde GTM, con las cuentas a nombre de Grupo SESLUM. Las etiquetas, activadores y
-eventos los administra marketing de SESLUM en GTM; el código solo publica los
-avisos del `dataLayer` de la tabla.
+GTM carga la medición, con las cuentas a nombre de Grupo SESLUM. El sitio sigue
+el procedimiento de marketing de SESLUM: cuando Google les entrega un fragmento
+para pegar en la página, se instala tal cual (con el ID validado) por el mismo
+manifiesto que GTM; lo demás lo configuran en su contenedor. El código publica
+además los avisos del `dataLayer` de la tabla.
 
 Instalación, igual que la indica GTM. Los fragmentos no pasan por React:
 `src/app/gtm.json/route.ts` genera el manifiesto (`src/lib/gtm-manifest.ts`) y
@@ -614,6 +615,18 @@ calcular los hashes de la CSP:
    donde no hay banner: va sin consentimiento (decisión de Adrián, a petición de
    marketing). El `style` en línea de Google se cambia por `hidden`, porque la CSP
    no permite estilos en línea.
+
+4. Al final del `<head>`, después de la etiqueta de Google, el fragmento de
+   Google Ads "Llamadas desde su sitio web" que entregó marketing
+   (`src/lib/google-ads.ts`): la función `gtag` estándar y
+   `gtag('config', 'AW-…/etiqueta', {'phone_conversion_number': '811 764 7400'})`.
+   La etiqueta de Google (`AW-18509852761`) ya la carga el contenedor de GTM, por
+   eso no se agrega `gtag.js` aparte (se contaría doble). La conversión vive en
+   `site.json` (`googleAds.phoneConversion`, `null` para quitarla) y el número sale
+   de `contact.phone.display`: Google lo busca tal cual en la página y lo cambia por
+   un número de desvío solo a quien llega de un anuncio. No se agrega `onclick` al
+   teléfono (la CSP bloquea atributos de evento); el clic ya se publica como
+   `click_phone`.
 
 Con el sitio en construcción o sin `NEXT_PUBLIC_GTM_ID` válido no se instala nada.
 
@@ -1046,6 +1059,14 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   (menú, pestañas, medición) llega unos milisegundos después del primer pintado.
   La foto va detrás de un velo oscuro y desaturada; a calidad 40 no se nota y
   pesa 11 KB en lugar de 15 KB en móvil (`optimize-image.mjs --quality`).
+- **20/oct/2026** — Conversión de llamadas de Google Ads con el fragmento que
+  entregó marketing, en lugar de la etiqueta equivalente de GTM. Decisión de
+  Adrián: adaptarse al procedimiento con el que marketing ya trabaja. El
+  contenedor ya trae la etiqueta de Google de `AW-18509852761`, así que solo se
+  agrega el `config` de la conversión después de ella. Si en una prueba con un
+  clic real en el anuncio el número no se reemplaza, la alternativa documentada
+  por Google es la etiqueta "Google Ads: Llamadas desde el sitio web" en GTM, sin
+  cambiar el código (`phoneConversion: null`).
 
 ---
 
