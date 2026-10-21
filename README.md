@@ -1066,7 +1066,13 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   agrega el `config` de la conversión después de ella. Si en una prueba con un
   clic real en el anuncio el número no se reemplaza, la alternativa documentada
   por Google es la etiqueta "Google Ads: Llamadas desde el sitio web" en GTM, sin
-  cambiar el código (`phoneConversion: null`).
+  cambiar el código (`phoneConversion: null`). Con la conversión, la etiqueta de
+  Google carga `www.gstatic.com/call-tracking/…` (agregado a `script-src` en
+  `_headers`). Lighthouse CI sirve `out/` por `http://localhost` sin las
+  cabeceras reales, así que ese script viaja por HTTP y la auditoría
+  `is-on-https` bajaba buenas prácticas a 0.82; se omite en el CI como
+  `uses-http2` y `canonical` (su aserción ya estaba en `off`). En producción el
+  sitio va por HTTPS con HSTS y `upgrade-insecure-requests`.
 
 ---
 

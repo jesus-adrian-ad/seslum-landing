@@ -16,7 +16,8 @@
         },
         "skipAudits": [
           "uses-http2",
-          "canonical"
+          "canonical",
+          "is-on-https"
         ]
       },
       "url": [
