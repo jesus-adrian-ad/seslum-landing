@@ -1061,7 +1061,10 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   script viaja por HTTP y la auditoría `is-on-https` bajaba buenas prácticas a
   0.82; se omite en el CI como `uses-http2` y `canonical` (su aserción ya estaba
   en `off`). En producción el sitio va por HTTPS con HSTS y
-  `upgrade-insecure-requests`.
+  `upgrade-insecure-requests`. El 21/oct el diagnóstico de Google Ads reportó
+  `https://ad.doubleclick.net` bloqueado en `connect-src` (no salió en el CI: lo
+  dispara la etiqueta de Ads con condiciones que la prueba no reproduce); se
+  agregó solo a esa directiva.
 - **20/oct/2026** — Lighthouse CI mide solo el código del repo:
   `blockedUrlPatterns` en `lighthouserc.json` bloquea GTM y los dominios de Google
   (`googletagmanager.com`, `gstatic.com`, `googleadservices.com`,
