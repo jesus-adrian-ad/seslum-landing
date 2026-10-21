@@ -60,7 +60,6 @@ export interface SiteContent {
   readonly contact: SiteContact;
   readonly location: SiteLocation;
   readonly social: { readonly linkedin: string | null };
-  readonly googleAds: { readonly phoneConversion: string | null };
 }
 
 export interface ImageAsset {

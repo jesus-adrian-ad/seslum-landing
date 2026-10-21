@@ -616,18 +616,6 @@ calcular los hashes de la CSP:
    marketing). El `style` en línea de Google se cambia por `hidden`, porque la CSP
    no permite estilos en línea.
 
-4. Al final del `<head>`, después de la etiqueta de Google, el fragmento de
-   Google Ads "Llamadas desde su sitio web" que entregó marketing
-   (`src/lib/google-ads.ts`): la función `gtag` estándar y
-   `gtag('config', 'AW-…/etiqueta', {'phone_conversion_number': '811 764 7400'})`.
-   La etiqueta de Google (`AW-18509852761`) ya la carga el contenedor de GTM, por
-   eso no se agrega `gtag.js` aparte (se contaría doble). La conversión vive en
-   `site.json` (`googleAds.phoneConversion`, `null` para quitarla) y el número sale
-   de `contact.phone.display`: Google lo busca tal cual en la página y lo cambia por
-   un número de desvío solo a quien llega de un anuncio. No se agrega `onclick` al
-   teléfono (la CSP bloquea atributos de evento); el clic ya se publica como
-   `click_phone`.
-
 Con el sitio en construcción o sin `NEXT_PUBLIC_GTM_ID` válido no se instala nada.
 
 Qué permite la CSP en GTM:
@@ -1059,22 +1047,21 @@ anterior desde el panel de Pages. Para volver a la página en construcción:
   (menú, pestañas, medición) llega unos milisegundos después del primer pintado.
   La foto va detrás de un velo oscuro y desaturada; a calidad 40 no se nota y
   pesa 11 KB en lugar de 15 KB en móvil (`optimize-image.mjs --quality`).
-- **20/oct/2026** — Conversión de llamadas de Google Ads con el fragmento que
-  entregó marketing, en lugar de la etiqueta equivalente de GTM. Decisión de
-  Adrián: adaptarse al procedimiento con el que marketing ya trabaja. El
-  contenedor ya trae la etiqueta de Google de `AW-18509852761`, así que solo se
-  agrega el `config` de la conversión después de ella. Si en una prueba con un
-  clic real en el anuncio el número no se reemplaza, la alternativa documentada
-  por Google es la etiqueta "Google Ads: Llamadas desde el sitio web" en GTM, sin
-  cambiar el código (`phoneConversion: null`). Con la conversión, la etiqueta de
-  Google carga `www.gstatic.com/call-tracking/…` (agregado a `script-src` en
-  `_headers`), y Google Ads manda sus avisos de consentimiento y vistas a
+- **20/oct/2026** — Conversión de llamadas de Google Ads ("Llamadas desde su
+  sitio web", `AW-18509852761/JD4QCOP-gqQdENngl_pE`): marketing la configuró en
+  su contenedor de GTM (etiqueta `__awcc`), así que no se pega su fragmento
+  `gtag('config', …, {'phone_conversion_number': …})` en el código: se contaría
+  cada llamada dos veces. El número que reemplaza Google es el visible,
+  `811 764 7400` (`contact.phone.display`); si cambia, avisar a marketing. Lo que
+  sí cambió en el código: la etiqueta carga `www.gstatic.com/call-tracking/…`
+  (agregado a `script-src`) y Google Ads manda sus avisos a
   `pagead2.googlesyndication.com/ccm/collect` (agregado a `connect-src` e
-  `img-src`; lo detectó el gate de consola con las cabeceras reales). Lighthouse CI sirve `out/` por `http://localhost` sin las
-  cabeceras reales, así que ese script viaja por HTTP y la auditoría
-  `is-on-https` bajaba buenas prácticas a 0.82; se omite en el CI como
-  `uses-http2` y `canonical` (su aserción ya estaba en `off`). En producción el
-  sitio va por HTTPS con HSTS y `upgrade-insecure-requests`.
+  `img-src`; lo detectó el gate de consola con las cabeceras reales). Lighthouse
+  CI sirve `out/` por `http://localhost` sin las cabeceras reales, así que ese
+  script viaja por HTTP y la auditoría `is-on-https` bajaba buenas prácticas a
+  0.82; se omite en el CI como `uses-http2` y `canonical` (su aserción ya estaba
+  en `off`). En producción el sitio va por HTTPS con HSTS y
+  `upgrade-insecure-requests`.
 
 ---
 
